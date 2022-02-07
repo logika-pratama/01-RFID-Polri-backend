@@ -23,7 +23,7 @@ const locationRouters = require('./routers/locations');
 const userRouters = require('./routers/user');
 const accountRouter = require('./routers/account');
 const trxTypeRouter = require('./routers/transactionType');
-
+const publicApiRouter = require('./routers/publicApi');
 
 const app = express();
 
@@ -57,7 +57,7 @@ app.use('/api/v1/locations', locationRouters);
 app.use('/api/v1', userRouters);
 app.use('/api/v1/account', accountRouter);
 app.use('/api/v1', trxTypeRouter);
-
+app.use('/api/v1/public',publicApiRouter);
 //var router = require('./router');
 //router(app);
 
