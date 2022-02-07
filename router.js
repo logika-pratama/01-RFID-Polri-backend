@@ -294,7 +294,7 @@ module.exports = function(app) {
 
     // =========================== Public API =============================== //
     app
-        .route("/api/v1/genkey/:id")
+        .route("/api/v1/public/genkey/:id")
         .post(user.genApiKey);
 
     // Master Items

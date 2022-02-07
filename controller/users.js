@@ -94,20 +94,17 @@ exports.adduser = function(req, res) {
             message: 'Silahkan Isi Password'
         }, res);
     }
-
-    return res.send("OK");
-
-    // koneksi.query('INSERT INTO users (id_user,name,description,telpon,email,username,password,id_account,role,Device_ID) VALUES(?,?,?,?,?,?,?,?,?,?)', [id_user, name, description, telpon, email, username, password, id_account, role, Device_ID],
-    //     function(error, rows, fields) {
-    //         if (error) {
-    //             console.log(error);
-    //         } else {
-    //             return response.ok({
-    //                 status: 'success',
-    //                 message: "Berhasil Menambahkan user baru!"
-    //             }, res);
-    //         }
-    //     });
+    koneksi.query('INSERT INTO users (id_user,name,description,telpon,email,username,password,id_account,role,Device_ID) VALUES(?,?,?,?,?,?,?,?,?,?)', [id_user, name, description, telpon, email, username, password, id_account, role, Device_ID],
+        function(error, rows, fields) {
+            if (error) {
+                console.log(error);
+            } else {
+                return response.ok({
+                    status: 'success',
+                    message: "Berhasil Menambahkan user baru!"
+                }, res);
+            }
+        });
 };
 
 

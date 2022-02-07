@@ -261,6 +261,7 @@ exports.registerItem = async (req, res) => {
     var Ref_Number = req.body.Ref_Number;
 
     const schema = {
+        Item_id: 'string|empty:false',
         Item_code: 'string|optional',
         Item_category: 'string|optional',
         Item_Type: 'string|optional',
