@@ -1,0 +1,7 @@
+{
+    "watch": "true",
+    "ignore_watch" : ["helper"],
+    "watch_options": {
+      "followSymlinks": false
+    }
+  }
