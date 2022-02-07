@@ -39,7 +39,7 @@ app.use(bodyParser.json());
 
 // call router
 app.use('/api/v1/login',loginRouters);
-app.use('/api/v1/item', itemsRouters);
+app.use('/api/v1', itemsRouters);
 app.use('/api/v1/pl', packingRouters);
 app.use('/api/v1/tr', recieveRouters); 
 app.use('/api/v1', grRouters);

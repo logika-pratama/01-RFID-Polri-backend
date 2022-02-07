@@ -5,7 +5,7 @@ const jwt = require('../helper/jwt');
 
 
 router.get('/all', jwt.verify, jwt.cekrole(["1"]), items.allitem);
-router.get('/null', jwt.verify, jwt.cekrole(["1", "2", "3"]), items.datanull);
+router.get('/itemnull', jwt.verify, jwt.cekrole(["1", "2", "3"]), items.datanull);
 router.get('/', jwt.verify, jwt.cekrole(["1", "2", "3"]), items.itemById);
 router.post('/', jwt.verify, jwt.cekrole(["1", "2", "3"]), items.additem);
 router.put('/:item_id', jwt.verify, jwt.cekrole(["1", "2", "3"]), items.edititem);
