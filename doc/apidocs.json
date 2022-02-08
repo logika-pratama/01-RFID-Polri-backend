@@ -1,0 +1,93 @@
+{
+    "openapi": "3.0.3",
+    "info": {
+        "title": "RFID-API-Documentation",
+        "version": "1",
+        "description": "OpenAPI for RFID ",
+        "termsOfService": "https://rfidsolutions.id/",
+        "contact": {
+            "name": "RFID-Solution",
+            "email": "info@logikapratama.com",
+            "url": "https://rfidsolutions.id/"
+        },
+        "license": {
+            "name": "APACHE 2.0",
+            "url": "https://www.apache.org/licenses/LICENSE-2.0"
+        }
+    },
+    "servers": [
+        {   "description": "RFID Solution API Public-Server",
+            "url" :"https://8192-110-138-83-46.ngrok.io"
+        },
+        {   "description": "RFID Solution API Local-Server",
+            "url" :"192.168.0.180"
+        }
+],
+    "paths": {
+        "/api/v1/public/item":{
+            "post":{
+                "summary": "create a new item",
+                "description": "create a new item to database",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json":{
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "Item_code":{
+                                        "type": "string",
+                                        "minLength": 1,
+                                        "required": false
+                                    },
+                                    "Item_category":{
+                                        "type": "string",
+                                        "required": false
+                                    },
+                                    "Item_Type":{
+                                        "type": "string",
+                                        "required": false
+                                    },
+                                    "SKU":{
+                                        "type": "string",
+                                        "required": true
+                                    },
+                                    "Name": {
+                                        "type": "string",
+                                        "required": false
+                                    },
+                                    "Description":{
+                                        "type": "string",
+                                        "required": false
+                                    },
+                                    "Uom": {
+                                        "type":"string",
+                                        "required": false
+                                    }, 
+                                    "Quantity":{
+                                        "type": "number",
+                                        "required": true
+                                    },
+                                    "tag_number":{
+                                        "required": true,
+                                        "type": "string"
+                                    },
+                                    "Ref_Number" :{
+                                        "required": true,
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "response":{
+                    "200": {
+                        "status": "success"   
+                    }
+                }
+                
+            }
+        }
+    }
+}

@@ -36,6 +36,10 @@ app.use(cors());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
+/// Swagger // 
+const swaggerUi = require('swagger-ui-express');
+const apiDocumenttation = require('./doc/apidocs.json');
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(apiDocumenttation));
 
 // call router
 app.use('/api/v1/login',loginRouters);
