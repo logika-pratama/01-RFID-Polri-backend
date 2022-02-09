@@ -1,7 +1,28 @@
 'use strict';
 const response = require('../res');
 const koneksi = require('../koneksi');
+const axios = require('axios');
 
+async function postOutbound(payload) {
+   const url = 'https://api.itam.dev.digiprimatera.co.id/api/gate_out';
+    
+    const config = {
+        headers: {
+            "Content-Type": "application/json",
+        },
+    };
+    axios.defaults.headers.common = {
+        "apikey" : "$pbkdf2-sha512$6000$2vs/x5iTEgJASKkVgjAmhA$G2JBx8f9EC9f8xdXCVcpwryTWeFu0stocMDx6MH6lAUSbb3HzFPB9Ly9nMHQGjUH.RYnprT7Hg30WVxipo8hUw"
+    }
+    
+    let response = await axios({
+        method: "post",
+        url: url,
+        data: payload,
+        config
+    });
+    console.log(response.status);
+}
 var deletemonitiring = (id) => {
     koneksi.query('DELETE FROM Transaction_Monitoring  WHERE item_id=?', [id],
         function(error, rows, fields) {

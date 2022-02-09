@@ -18,7 +18,7 @@ const axios = require('axios');
 
 
 async function makeGetRequest() {
-    const url = 'https://api.itam.dev.digiprimatera.co.id/api/gate_in';
+    const url = 'http://localhost:3000/users';
 
     let payload = {
         tipe: "gate_in",
@@ -31,17 +31,32 @@ async function makeGetRequest() {
                 "Content-Type": "application/json",
             },
         };
-        axios.defaults.headers.common = {
+        axios.default.headers.common = {
             "apikey" : "$pbkdf2-sha512$6000$2vs/x5iTEgJASKkVgjAmhA$G2JBx8f9EC9f8xdXCVcpwryTWeFu0stocMDx6MH6lAUSbb3HzFPB9Ly9nMHQGjUH.RYnprT7Hg30WVxipo8hUw"
         }
     let send = await axios({
         method: "post",
-        url: url,
-        data: payload,
-        config
     });
     console.log(send.data);
 
  
 }
 makeGetRequest();
+
+
+// async function inboundPost(){
+
+
+//     try{
+//         let payload = { name: 'John Doe', occupation: 'gardener' };
+//         const inbound = await axios.post('http://localhost:3000/users', payload);
+//         console.log(inbound.data);
+//     }catch(error){
+//         if(error.code === 'ECONNREFUSED'){
+//             console.log('Service unavailable');
+//         }
+
+//         const {status, data} = error.message;
+//     }
+// }
+
