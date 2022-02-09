@@ -39,7 +39,7 @@ app.use(bodyParser.json());
 /// Swagger // 
 const swaggerUi = require('swagger-ui-express');
 const apiDocumenttation = require('./doc/apidocs.json');
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(apiDocumenttation));
+
 
 // call router
 app.use('/api/v1/login',loginRouters);
@@ -62,6 +62,10 @@ app.use('/api/v1', userRouters);
 app.use('/api/v1/account', accountRouter);
 app.use('/api/v1', trxTypeRouter);
 app.use('/api/v1/public',publicApiRouter);
+
+// Swagger Router
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(apiDocumenttation));
+
 //var router = require('./router');
 //router(app);
 

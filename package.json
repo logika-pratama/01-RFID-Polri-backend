@@ -4,6 +4,7 @@
   "description": "",
   "main": "controller.js",
   "dependencies": {
+    "axios": "^0.25.0",
     "content-range": "^1.1.1",
     "cors": "^2.8.5",
     "csvtojson": "^2.0.10",
