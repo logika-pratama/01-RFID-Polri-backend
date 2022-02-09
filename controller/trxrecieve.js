@@ -192,7 +192,7 @@ exports.ctm = async function(req, res) {
     //console.log("item id= " + items);
     //console.log("akun= " + id_Account);
     //console.log("DV= " + Device_ID);
-    //console.log(req.body);
+    console.log(req.body);
 
     var isSKUNull = false;
     var isItemsNull = false;
