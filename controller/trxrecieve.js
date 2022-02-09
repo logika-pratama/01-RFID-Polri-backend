@@ -1,7 +1,28 @@
 'use strict';
 const response = require('../res');
 const koneksi = require('../koneksi');
+const axios = require('axios');
 
+async function postInbound(payload) {
+   const url = 'https://api.itam.dev.digiprimatera.co.id/api/gate_in';
+    
+    const config = {
+        headers: {
+            "Content-Type": "application/json",
+        },
+    };
+    axios.defaults.headers.common = {
+        "apikey" : "$pbkdf2-sha512$6000$2vs/x5iTEgJASKkVgjAmhA$G2JBx8f9EC9f8xdXCVcpwryTWeFu0stocMDx6MH6lAUSbb3HzFPB9Ly9nMHQGjUH.RYnprT7Hg30WVxipo8hUw"
+    }
+
+    let response = await axios({
+        method: "post",
+        url: url,
+        data: payload,
+        config
+    });
+    console.log(response.status);
+}
 
 //get by id
 const toMonitoring = (Device_ID, id_Account, item_id) => {
@@ -168,10 +189,10 @@ exports.ctm = async function(req, res) {
     var Device_ID = req.body.Device_ID;
     var id_Account = req.idaccount;
     var items = req.body.items;
-    console.log("item id= " + items);
-    console.log("akun= " + id_Account);
-    console.log("DV= " + Device_ID);
-    console.log(req.body);
+    //console.log("item id= " + items);
+    //console.log("akun= " + id_Account);
+    //console.log("DV= " + Device_ID);
+    //console.log(req.body);
 
     var isSKUNull = false;
     var isItemsNull = false;
@@ -212,6 +233,7 @@ exports.ctm = async function(req, res) {
         }, res)
 
     } else {
+        let arr = []
         for (var i = 0; i <= items.length - 1; i++) {
             console.log(Device_ID);
             console.log(id_Account);
@@ -226,7 +248,16 @@ exports.ctm = async function(req, res) {
             toMonitoring(Device_ID, id_Account, items[i].item_id);
             addNumber(items[i].item_id)
             deleteRecieve(items[i].item_id);
+            var payload = {
+                tipe: "gate_in",
+                rfid_code: items[i].tag_number,
+                tgl_masuk: "2022-02-07 11:11:11"
+            }
+            arr.push(payload);
+            // to post api ITAM
+            //let response = postInbound(payload);
         }
+        console.log(arr);
         return response.ok({
             status: 'success',
             message: "Berhasil memperbarui item"
