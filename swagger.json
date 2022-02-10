@@ -1,0 +1,34 @@
+{
+    "openapi": "3.0.3",
+    "info": {
+        "title" : "ITAT Public API",
+        "description": "OPEN API for ITAT Public API Integration",
+        "termsOfService": "http://swagger.io/terms/",
+        "varsion" : "1.0.0",
+        "contact": {
+            "name": "RFID Solution",
+            "email": "info@logikapratama.com",
+            "url": "https://rfidsolutions.id/"
+          },
+        "license": {
+            "name": "APACHE 2.0",
+            "url": "https://www.apache.org/licenses/LICENSE-2.0"
+        }
+    },
+    "servers": [
+        {
+            "url" : "http//:localhost:5000"
+        },
+        {
+            "url": "http//:localhost:3000"
+        }
+    ],
+    "paths": {
+        "/api/v1/public/item":{
+            "post":{
+                "summary" : "create a new item",
+                "description": "create a new item to database"
+            }
+        }
+    }
+}

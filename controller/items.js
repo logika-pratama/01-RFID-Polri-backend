@@ -260,6 +260,12 @@ exports.registerItem = async (req, res) => {
     var id_Account = req.idaccount;
     var Ref_Number = req.body.Ref_Number;
 
+    if(typeof(Quantity) === 'string'){
+        Quantity = parseInt(Quantity)
+    } 
+    console.log(typeof(Quantity));
+
+
     const schema = {
         Item_code: 'string|optional',
         Item_category: 'string|optional',
@@ -387,7 +393,11 @@ exports.search = function(req, res) {
                 console.log(error);
             } else {
                 // console.log("putway item id: " + item_id);
-                response.ok(rows, res);
+                //response.ok(rows, res);
+                return response.ok({
+                    status: 'success',
+                    data: rows
+                })
             }
         }
     );
