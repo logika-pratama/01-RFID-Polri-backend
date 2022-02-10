@@ -397,7 +397,7 @@ exports.search = function(req, res) {
                 return response.ok({
                     status: 'success',
                     data: rows
-                })
+                }, res)
             }
         }
     );
