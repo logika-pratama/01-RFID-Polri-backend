@@ -274,7 +274,6 @@ exports.registerItem = async (req, res) => {
         Name: 'string|optional',
         Description: 'string|optional',
         Uom: 'string|optional',
-        Quantity: 'number|empty:false|max:10|positive:true',
         tag_number: 'string|empty:false|max:100',
         Ref_Number: 'string|empty:false|max:10'
     }
