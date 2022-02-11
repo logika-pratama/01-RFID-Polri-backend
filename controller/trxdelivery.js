@@ -2,6 +2,7 @@
 const response = require('../res');
 const koneksi = require('../koneksi');
 const axios = require('axios');
+const moment = require('moment');
 
 async function postOutbound(payload) {
    const url = 'https://api.itam.dev.digiprimatera.co.id/api/gate_out';
@@ -169,31 +170,36 @@ exports.hapusTD = function(req, res) {
 
 exports.konfirm = function(req, res) {
 
-    var item_id = req.body.item_id;
-    console.log(item_id.length);
+    var items = req.body.items;
+    console.log(items.length);
     var i = 0;
-    if (item_id.length < 1) {
+    if (items.length < 1) {
         return response.warning({
             status: 'warning',
             message: "Harap pilih items untuk dipindahkan"
         }, res)
     }
-    for (i; i <= item_id.length - 1; i++) {
-        koneksi.query('DELETE FROM Transaction_Delivery WHERE item_id=?', [item_id[i]],
+    for (i; i <= items.length - 1; i++) {
+        let time = items[i].time_enter;
+        let localtime = moment(time).utc().format('YYYY-MM-DD h:mm:ss')
+        koneksi.query('DELETE FROM Transaction_Delivery WHERE item_id=?', [items[i].item_id],
             function(error, rows, fields) {
                 if (error) {
                     console.log(error);
-                } else {
-                    //response.ok("Berhasil Hapus Data", res)
-                    // deletcashier(id);
-                    // deletemonitiring(id);
                 }
             });
         // after delivery confirm, delete data from all table
-        deletcashier(item_id[i]);
-        deletemonitiring(item_id[i]);
-        deleteitem(item_id[i]);
-        updateHistory(item_id[i]);
+        //deletcashier(item_id[i]);
+        deletemonitiring(items[i].item_id);
+        deleteitem(items[i].item_id);
+        updateHistory(items[i].item_id);
+        var payload = {
+            tipe: "gate_out",
+            rfid_code: items[i].tag_number,
+            tgl_masuk: localtime
+        }
+        console.log(payload)
+
     }
     return response.ok({
         status: 'succes',

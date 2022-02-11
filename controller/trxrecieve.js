@@ -195,11 +195,12 @@ exports.ctm = async function(req, res) {
     //console.log("item id= " + items);
     //console.log("akun= " + id_Account);
     //console.log("DV= " + Device_ID);
-    console.log(req.body);
+    // console.log(req.body);
 
     var isSKUNull = false;
     var isItemsNull = false;
     console.log(items.length)
+    
     if (items.length < 1) {
         return response.warning({
             status: 'warning',
@@ -262,7 +263,7 @@ exports.ctm = async function(req, res) {
             }
             arr.push(payload);
             // to post api ITAM
-            //let response = postInbound(payload);
+            let response = postInbound(payload);
         }
         console.log(arr);
         return response.ok({
