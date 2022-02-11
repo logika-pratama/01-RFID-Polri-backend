@@ -2,6 +2,7 @@
 const response = require('../res');
 const koneksi = require('../koneksi');
 const axios = require('axios');
+const moment = require('moment')
 
 async function postInbound(payload) {
    const url = 'https://api.itam.dev.digiprimatera.co.id/api/gate_in';
@@ -80,8 +81,10 @@ const addNumber = (id) =>{
     let years = new Date().getFullYear();
     let month = new Date().getMonth() + 1;
     let date = new Date().getDate();
-    let idNumber = Math.floor(Math.random()*(999-100+1)+100);
-    let gr_number ="" +  years + month + date
+    let hours = new Date().getHours();
+    let minutes = new Date().getMinutes();
+//    let idNumber = Math.floor(Math.random()*(999-100+1)+100);
+    let gr_number ="" +  years + month + date + hours + minutes;
     let time = new Date()
     console.log(gr_number);
     koneksi.query('UPDATE history SET GR_Number=?, GR_Date= ? WHERE item_id=?', [gr_number,time,id], 
@@ -235,9 +238,13 @@ exports.ctm = async function(req, res) {
     } else {
         let arr = []
         for (var i = 0; i <= items.length - 1; i++) {
-            console.log(Device_ID);
-            console.log(id_Account);
+            //console.log(Device_ID);
+            //console.log(id_Account);
             console.log(items[i].item_id);
+            console.log(items[i].time_enter)
+            let time = items[i].time_enter
+            let localtime = moment(time).utc().format('YYYY-MM-DD h:mm:ss')
+
             // if in monitoring(id_account & tag) exist -> delete -> inesert new data
             var cekmonitor = await cekMonitoring(items[i].item_id, id_Account);
             console.log(cekmonitor.length);
@@ -251,7 +258,7 @@ exports.ctm = async function(req, res) {
             var payload = {
                 tipe: "gate_in",
                 rfid_code: items[i].tag_number,
-                tgl_masuk: "2022-02-07 11:11:11"
+                tgl_masuk: localtime
             }
             arr.push(payload);
             // to post api ITAM
