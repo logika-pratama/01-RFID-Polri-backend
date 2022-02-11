@@ -83,9 +83,8 @@ function geidlocation(id) {
 //get GR data
 exports.getGr = function(req, res) {
     let id = req.idaccount;
-
     koneksi.query(
-        'SELECT Ref_Number,SKU,SUM(Quantity) AS QTY FROM history WHERE Status_GR="no" AND  id_Account= ?  GROUP BY SKU,Ref_Number', [id],
+        'SELECT tag_number, Item_code, SKU, Name, Quantity, Uom, GR_Date, GR_Number FROM history WHERE Status_GR="no" AND  id_Account= ?', [id],
         function(error, rows, fields) {
             if (error) {
 
@@ -107,7 +106,12 @@ exports.getGr = function(req, res) {
                 //process all data 
                 if (rows.length >= 1) {
                     console.log(rows.length);
-                    response.ok({ fileName: tanggal + "-GR Document", rows }, res); // response with file name
+                    response.ok({
+                        status: 'success',
+                        message: 'success get GR Data', 
+                        fileName: tanggal + "-GR Document", 
+                        data: rows 
+                    }, res); // response with file name
                     var i = 0;
                     for (i; i <= rows.length - 1; i++) {
                         updategr(rows[i].Ref_Number); // update status GR to YES after download 
