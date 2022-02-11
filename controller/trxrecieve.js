@@ -263,7 +263,7 @@ exports.ctm = async function(req, res) {
             }
             arr.push(payload);
             // to post api ITAM
-            let response = postInbound(payload);
+            //let response = postInbound(payload);
         }
         console.log(arr);
         return response.ok({
