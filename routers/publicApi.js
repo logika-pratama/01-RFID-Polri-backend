@@ -11,6 +11,8 @@ router.post('/genkey/:id',user.genApiKey);
 // Master Items
 router.post('/item', apikey.validateKey, items.registerItem);
 router.put('/item/:item_id', apikey.validateKey, items.edititem);
+router.get('/item', apikey.validateKey, items.itemById);
+
 // Stock Take 
 router.get('./stocktakereport', apikey.validateKey, stocktake.report);
 

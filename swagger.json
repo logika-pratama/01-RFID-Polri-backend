@@ -135,6 +135,11 @@
             },
             "post":{
                 "tags": ["items"],
+                "security": [
+                    {
+                        "itemAuth": []
+                    }
+                ],
                 "summary" : "create a new item",
                 "description": "create a new item to database",
                 "requestBody":{
@@ -142,52 +147,7 @@
                     "content": {
                         "application/json":{
                             "schema":{
-                                "type": "object",
-                                "properties": {
-                                    "Item_code":{
-                                        "type": "string",
-                                        "minLength": 1,
-                                        "maxLength": 10,
-                                        "required": false,
-                                        "default": "A29201"
-                                    },  
-                                    "Item_category":{
-                                        "type": "string",
-                                        "required": false
-                                    },
-                                    "Item_Type":{
-                                        "type": "string",
-                                        "required": false
-                                    },
-                                    "SKU":{
-                                        "type": "string",
-                                        "required": true
-                                    },
-                                    "Name": {
-                                        "type": "string",
-                                        "required": false
-                                    },
-                                    "Description":{
-                                        "type": "string",
-                                        "required": false
-                                    },
-                                    "Uom": {
-                                        "type":"string",
-                                        "required": false
-                                    }, 
-                                    "Quantity":{
-                                        "type": "number",
-                                        "required": true
-                                    },
-                                    "tag_number":{
-                                        "required": true,
-                                        "type": "string"
-                                    },
-                                    "Ref_Number" :{
-                                        "required": true,
-                                        "type": "string"
-                                    }
-                                }
+                                "$ref": "#components/schemas/items" 
                             },
                             "examples":{
                                 "item 1":{
@@ -246,52 +206,7 @@
                         "content": {
                             "application/json":{
                                 "schema":{
-                                    "type": "object",
-                                    "properties": {
-                                        "Item_code":{
-                                            "type": "string",
-                                            "minLength": 1,
-                                            "maxLength": 10,
-                                            "required": false,
-                                            "default": "A29201"
-                                        },  
-                                        "Item_category":{
-                                            "type": "string",
-                                            "required": false
-                                        },
-                                        "Item_Type":{
-                                            "type": "string",
-                                            "required": false
-                                        },
-                                        "SKU":{
-                                            "type": "string",
-                                            "required": true
-                                        },
-                                        "Name": {
-                                            "type": "string",
-                                            "required": false
-                                        },
-                                        "Description":{
-                                            "type": "string",
-                                            "required": false
-                                        },
-                                        "Uom": {
-                                            "type":"string",
-                                            "required": false
-                                        }, 
-                                        "Quantity":{
-                                            "type": "number",
-                                            "required": true
-                                        },
-                                        "tag_number":{
-                                            "required": true,
-                                            "type": "string"
-                                        },
-                                        "Ref_Number" :{
-                                            "required": true,
-                                            "type": "string"
-                                        }
-                                }
+                                    "$ref": "#components/schemas/items" 
                             },
                             "examples":{
                                 "item 1":{
@@ -362,7 +277,7 @@
                     "content": {
                         "application/json":{
                             "schema":{
-                                
+                                "$ref": "#components/schemas/items" 
                             }
                         }
                     }
@@ -380,9 +295,18 @@
         }
     },
     "components": {
+        "securitySchemes": {
+            "itemAuth" : {
+                "description": "Authentication for REST full API Items",
+                "type": "apiKey",
+                "in": "header",
+                "name": "api_key"
+                
+            }
+        },
         "parameters": {
             "itemsId":{
-                "name": "item_id",
+                "name": "itemId",
                 "in": "path",
                 "required": true,
                 "description": "item id for update"
@@ -396,8 +320,7 @@
                         "type": "string",
                         "minLength": 1,
                         "maxLength": 10,
-                        "required": false,
-                        "default": "A29201"
+                        "required": false
                     },  
                     "Item_category":{
                         "type": "string",
