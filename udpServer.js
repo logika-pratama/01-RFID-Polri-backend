@@ -1,8 +1,12 @@
 "use strict";
+require('dotenv').config();
 var koneksi = require("./koneksi");
 var uniqid = require("uniqid");
 const dgram = require("dgram");
 const socket = dgram.createSocket("udp4");
+const {UDP_SERVER, UDP_PORT} = process.env;
+
+
 socket.on("listening", () => console.log("server jalan"));
 socket.on("message", (msg, rinfo) => {
     console.log(`server got: ${msg} from ${rinfo.address}:${rinfo.port}`);
@@ -16,7 +20,7 @@ socket.on("message", (msg, rinfo) => {
     }
 });
 
-socket.bind(8081, "192.168.0.180"); //Start UDP SErver at 151.106.112.34 on port 8081
+socket.bind(UDP_PORT, UDP_SERVER); //Start UDP SErver at 151.106.112.34 on port 8081
 
 /*  VENCH READER
 after recieved the data, next is check the tags type, there are 2 type of tags, tag with 72 & 56 data length,
