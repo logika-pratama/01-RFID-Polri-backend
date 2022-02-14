@@ -20,6 +20,6 @@ const koneksi = mysql.createConnection({
 koneksi.connect((err) => {
     if (err) throw err;
     console.log('db konek  bos!');
-    console.log(`DB NAME ${DB_NAME}`)
+    //console.log(`DB NAME ${DB_NAME}`)
 });
 module.exports = koneksi;
