@@ -74,6 +74,6 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(apiDocumenttation));
 
 
 
-app.listen(port, () => {
+app.listen(PORT, () => {
     console.log(`Server started on port:`, PORT);
 });
