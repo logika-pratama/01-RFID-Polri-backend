@@ -181,7 +181,7 @@ exports.konfirm = function(req, res) {
     }
     for (i; i <= items.length - 1; i++) {
         let time = items[i].time_enter;
-        let localtime = moment(time).utc().format('YYYY-MM-DD h:mm:ss')
+        let localtime = moment(time).utc().local().format('YYYY-MM-DD h:mm:ss')
         koneksi.query('DELETE FROM Transaction_Delivery WHERE item_id=?', [items[i].item_id],
             function(error, rows, fields) {
                 if (error) {
@@ -199,6 +199,7 @@ exports.konfirm = function(req, res) {
             tgl_masuk: localtime
         }
         console.log(payload)
+        //let response = postOutbound(payload);
 
     }
     return response.ok({

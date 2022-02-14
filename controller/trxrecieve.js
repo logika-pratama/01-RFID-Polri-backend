@@ -244,7 +244,7 @@ exports.ctm = async function(req, res) {
             console.log(items[i].item_id);
             console.log(items[i].time_enter)
             let time = items[i].time_enter
-            let localtime = moment(time).utc().format('YYYY-MM-DD h:mm:ss')
+            let localtime = moment(time).utc().local().format('YYYY-MM-DD h:mm:ss')
 
             // if in monitoring(id_account & tag) exist -> delete -> inesert new data
             var cekmonitor = await cekMonitoring(items[i].item_id, id_Account);
