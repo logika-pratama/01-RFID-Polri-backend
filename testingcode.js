@@ -40,6 +40,6 @@
 
 require('dotenv').config();
 
-const {DB_NAME} = process.env
+const {TIMEOUT} = process.env
 
-console.log(DB_NAME);
+console.log(process.env);
