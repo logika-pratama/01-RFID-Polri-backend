@@ -3,6 +3,8 @@ const bodyParser = require('body-parser');
 const express = require('express');
 const cors = require('cors');
 
+const {PORT} = process.env;
+
 // Router 
 const loginRouters = require('./routers/login');
 const itemsRouters = require('./routers/Master-Items'); // Master Items
@@ -73,5 +75,5 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(apiDocumenttation));
 
 
 app.listen(port, () => {
-    console.log(`Server started on port:`, port);
+    console.log(`Server started on port:`, PORT);
 });
