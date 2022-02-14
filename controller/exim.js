@@ -141,7 +141,11 @@ exports.getGi = function(req, res) {
                 // process all data
                 if (rows.length >= 1) {
                     console.log(rows.length);
-                    response.ok({ fileName: tanggal + "-GI Document", rows }, res);
+                    response.ok({ 
+                        fileName: tanggal + "-GI Document", 
+                        message: "success get GR Data",
+                        data: rows 
+                    }, res);
                     var i = 0;
                     for (i; i <= rows.length - 1; i++) {
                         updategi(rows[i].No_Order);
