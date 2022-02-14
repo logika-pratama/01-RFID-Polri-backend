@@ -16,11 +16,13 @@
         }
     },
     "servers": [
-        {
-            "url" : "http//:localhost:5000"
+        {   
+            "name" : "Public Server",
+            "url" : "http//:151.106.112.34:5000"
         },
         {
-            "url": "http//:localhost:3000"
+            "name": "Local Server",
+            "url": "http//:localhost:5000"
         }
     ],
     "paths": {
