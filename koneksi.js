@@ -4,7 +4,8 @@ const {
     DB_NAME,
     DB_USERNAME,
     DB_PASSWORD,
-    DB_HOST
+    DB_HOST,
+    DB_PORT
 } = process.env;
 
 
@@ -14,7 +15,7 @@ const koneksi = mysql.createConnection({
     user: DB_USERNAME,
     password: DB_PASSWORD,
     database: DB_NAME,
-    port: '3306'
+    port: DB_PORT
 });
 koneksi.connect((err) => {
     if (err) throw err;
