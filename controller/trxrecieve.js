@@ -22,7 +22,8 @@ async function postInbound(payload) {
         data: payload,
         config
     });
-    console.log(response.status);
+
+    console.log(response);
 }
 
 //get by id
