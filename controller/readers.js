@@ -141,7 +141,7 @@ exports.sendTag = function(req, res){
     }
     let data = tag + "," + deviceID
     console.log(data);
-    socket.send(data, 8081, '192.168.0.180', function(error){
+    socket.send(data, 8000, '151.106.112.34', function(error){
         if(error){
             socket.close();
             return response.warning({
