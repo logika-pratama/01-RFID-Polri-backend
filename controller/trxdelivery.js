@@ -13,7 +13,7 @@ async function postOutbound(payload) {
         },
     };
     axios.defaults.headers.common = {
-        "apikey" : "$pbkdf2-sha512$6000$2vs/x5iTEgJASKkVgjAmhA$G2JBx8f9EC9f8xdXCVcpwryTWeFu0stocMDx6MH6lAUSbb3HzFPB9Ly9nMHQGjUH.RYnprT7Hg30WVxipo8hUw"
+        "apikey" : "$pbkdf2-sha512$6000$R2ittdYao5RyDuE8B0BIyQ$fv3KP1KoRQFmT7VLKiXOhIhWZopdrogl7K1/bYw9WdtohgaW9PJ2p2I/HTJNAwXRyxBN6mP1qWDDIzy6w.k9uQ"
     }
     
     let response = await axios({
@@ -199,7 +199,7 @@ exports.konfirm = function(req, res) {
             tgl_masuk: localtime
         }
         console.log(payload)
-        //let response = postOutbound(payload);
+        let response = postOutbound(payload);
 
     }
     return response.ok({

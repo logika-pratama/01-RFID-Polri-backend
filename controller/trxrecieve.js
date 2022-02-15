@@ -262,9 +262,10 @@ exports.ctm = async function(req, res) {
                 tgl_masuk: localtime
             }
             arr.push(payload);
-            // to post api ITAM
             let response = postInbound(payload);
+            // to post api ITAM
         }
+
         console.log(arr);
         return response.ok({
             status: 'success',
