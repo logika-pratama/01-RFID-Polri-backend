@@ -22,12 +22,9 @@ async function postInbound(payload) {
         data: payload,
         config
     });
-<<<<<<< HEAD
 
-    console.log(response);
-=======
+
     console.log(response.data);
->>>>>>> 13d1f98ef3b587754b6496979baf94dc9c69e958
 }
 
 //get by id
