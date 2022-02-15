@@ -84,7 +84,7 @@ function geidlocation(id) {
 exports.getGr = function(req, res) {
     let id = req.idaccount;
     koneksi.query(
-        'SELECT tag_number, Item_code, SKU, Name, Quantity, Uom, GR_Date, GR_Number FROM history WHERE Status_GR="no" AND  id_Account= ?', [id],
+        'SELECT tag_number, Item_code, SKU, Name, Quantity, Uom, GR_Date, GR_Number FROM history WHERE (status IS NOT NULL AND status != "Receive") AND id_Account= ?', [id],
         function(error, rows, fields) {
             if (error) {
 
@@ -129,9 +129,8 @@ exports.getGr = function(req, res) {
 // get gi data
 exports.getGi = function(req, res) {
     let id = req.idaccount;
-
     koneksi.query(
-        'SELECT tag_number, Item_code, SKU, Name, Quantity, Uom, gi_date, gi_number FROM history WHERE (Status_GI="no" AND status= "Delivered") AND id_Account= ?', [id],
+        'SELECT tag_number, Item_code, SKU, Name, Quantity, Uom, gi_date, gi_number FROM history WHERE (id_Account= ? AND status= "Delivered") ORDER BY gi_date ASC ', [id],
         function(error, rows, fields) {
             if (error) {
 

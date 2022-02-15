@@ -169,7 +169,7 @@ exports.hapusTD = function(req, res) {
 
 
 exports.konfirm = function(req, res) {
-
+    let arr = []
     var items = req.body.items;
     console.log(items.length);
     var i = 0;
@@ -199,7 +199,9 @@ exports.konfirm = function(req, res) {
             tgl_masuk: localtime
         }
         console.log(payload)
+        arr.push(payload);
         let response = postOutbound(payload);
+
 
     }
     return response.ok({

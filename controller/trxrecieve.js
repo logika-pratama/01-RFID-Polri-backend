@@ -89,7 +89,7 @@ const addNumber = (id) =>{
     let gr_number ="" +  years + month + date + hours + minutes;
     let time = new Date()
     console.log(gr_number);
-    koneksi.query('UPDATE history SET gi_number=?, gi_date= ? WHERE item_id=?', [gr_number,time,id], 
+    koneksi.query('UPDATE history SET gi_number=?, gi_date= NOW() WHERE item_id=?', [gr_number,id], 
     function(error, rows, fields){
         if(error){
             console.log(error);
