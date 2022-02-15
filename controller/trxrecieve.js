@@ -22,7 +22,7 @@ async function postInbound(payload) {
         data: payload,
         config
     });
-    console.log(response.status);
+    console.log(response.data);
 }
 
 //get by id
@@ -262,7 +262,7 @@ exports.ctm = async function(req, res) {
                 tgl_masuk: localtime
             }
             arr.push(payload);
-            let response = postInbound(payload);
+            let response = postInbound(arr);
             // to post api ITAM
         }
 
