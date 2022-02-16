@@ -230,6 +230,13 @@ exports.additem = function(req, res) {
     koneksi.query('INSERT INTO items (item_id,Item_code,Item_category,Item_Type,SKU,Name,Description,Uom,Quantity,tag_number,Ref_Number,Print_Tag,id_Account) VALUES(?,?,?,?,?,?,?,?,?,?,?,"yes",?)', [item_id, Item_code, Item_category, Item_Type, SKU, Name, Description, Uom, Quantity, tag_number, Ref_Number, id_Account],
         function(error, rows, fields) {
             if (error) {
+                if(error.errno == 1062){
+                    response.warning({
+                        status: 'warning',
+                        message: 'Tag number sudah sudah digunakan'
+    
+                    }, res);
+                }    
                 console.log(error);
                 res.status(400).json({
                     status: 'error',
@@ -289,6 +296,13 @@ exports.registerItem = async (req, res) => {
     koneksi.query('INSERT INTO items (item_id,Item_code,Item_category,Item_Type,SKU,Name,Description,Uom,Quantity,tag_number,Ref_Number,Print_Tag,id_Account) VALUES(?,?,?,?,?,?,?,?,?,?,?,"yes",?)', [item_id, Item_code, Item_category, Item_Type, SKU, Name, Description, Uom, Quantity, tag_number, Ref_Number, id_Account],
     function(error, rows, fields) {
         if (error) {
+            if(error.errno == 1062){
+                response.warning({
+                    status: 'warning',
+                    message: 'tag number already existing'
+
+                }, res);
+            }
             console.log(error);
             res.status(500).json({
                 status: 'error',
@@ -301,7 +315,7 @@ exports.registerItem = async (req, res) => {
                 message: "successs add new item",
                 item_id: item_id
             }, res);
-        }400
+        }
     });
 
 }
@@ -350,10 +364,10 @@ exports.edititem = function(req, res) {
         function(error, rows, fields) {
             if (error) {
                 console.log(error);
-                if (error.errno === 1062) {
+                if (error.errno == 1062) {
                     return response.error({
                         status: "error",
-                        message: "Tag Number sudah digunakan",
+                        message: "tag number sudah digunakan",
                         error: error.sqlMessage
                     }, res);
 
