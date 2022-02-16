@@ -103,11 +103,11 @@ exports.gateOut = async (req, res) =>{
         */
 
         console.log(item);
+        //updateHistory(item);
+        deletemonitiring(item);
         deleteDelivery(item)
         addGINumber(item);
-        deletemonitiring(item);
-        updateHistory(item);
-        //deleteitem(item);
+        deleteitem(item);
         
         response.ok({
             status: 'success',
@@ -245,7 +245,7 @@ const addGINumber = (id) =>{
     let gi_number ="" +  years + month + date + hours + minutes;
     //console.log(gi_number);
 
-    koneksi.query('UPDATE history SET gi_number=?, gi_date= ? WHERE item_id IN  (?) ', [gi_number,time, id], 
+    koneksi.query('UPDATE history SET gi_number=?, gi_date= ?, status= "Delivered" WHERE item_id IN  (?) ', [gi_number,time, id], 
     function(error, rows, fields){
         if(error){
             console.log(error);
