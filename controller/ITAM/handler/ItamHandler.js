@@ -103,11 +103,11 @@ exports.gateOut = async (req, res) =>{
         */
 
         console.log(item);
-        //updateHistory(item);
-        deletemonitiring(item);
-        deleteDelivery(item)
-        addGINumber(item);
+        deleteDelivery(item);
+        updateHistory(item);
+        deleteMonitoring(item);
         deleteitem(item);
+        addGINumber(item);
         
         response.ok({
             status: 'success',
@@ -257,20 +257,9 @@ const addGINumber = (id) =>{
 }
 
 
-var deletemonitiring = (id) => {
-    var sql = "DELETE FROM Transaction_Monitoring  WHERE item_id IN (?)";
-    koneksi.query(sql, id, function(error, rows){
-        if(error){
-            console.log(error);
-        }else{
-            console.log(`Data dengan ${id} berhasil di delete dari monitoring`);
-        }
-    })
-}
-
 var deleteitem = (id) => {
     var sql = "DELETE FROM items  WHERE item_id IN (?)";
-    koneksi.query(sql, id, function(error, rows){
+    koneksi.query(sql, [id], function(error, rows){
         if(error){
             console.log(error);
         }else{
@@ -282,7 +271,7 @@ var deleteitem = (id) => {
 
 var updateHistory = (item_id) => {
     var sql = 'UPDATE history SET status= "Delivered" WHERE item_id IN (?)'
-    koneksi.query(sql, item_id, function(error, rows){
+    koneksi.query(sql, [item_id], function(error, rows){
         if(error){
             console.log(error);
         }else{
