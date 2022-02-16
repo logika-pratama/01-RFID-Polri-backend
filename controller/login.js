@@ -26,7 +26,7 @@ exports.login = function(req, res) {
             } else {
                 // response.ok({message:"email/password Salah!"},res)
                 console.log(rows)
-                res.status(401).json({ statusCode: "401", message: "email/password Salah!" })
+                res.status(401).json({ statusCode: "401", message: "surat elektronik/kata sandi Salah!" })
             }
         }
     })

@@ -1,14 +1,144 @@
+const path = require('path');
 const koneksi = require('../../../koneksi');
 const apiAdapter = require('../apiAddapter');
+const response = require('../../../res');
+const moment = require('moment');
+require('dotenv').config({path: path.resolve(__dirname, '../../../.env')});
 
-const url = 'https://api.itam.dev.digiprimatera.co.id';
-
-const api = apiAdapter(url);
+const {URL_SERVICE_ITAM} = process.env;
 
 
+//const api = apiAdapter(URL_SERVICE_ITAM);
 
-const toMonitoring = (Device_ID, id_Account, item_id) => {
-    koneksi.query('INSERT INTO Transaction_Monitoring (Device_ID,id_Account,item_id,Time_Monitoring) VALUES(?,?,?,NOW())', [Device_ID, id_Account, item_id],
+
+exports.gateIn = async(req, res) =>{
+    try{
+        const device_id = req.body.Device_ID;
+        const id_account = req.idaccount;
+        const items = req.body.items;
+        
+        if(items.length < 1){
+            return response.warning({
+                status: 'warning',
+                message: 'Silahkan pilih beberapa item untuk dipindahkan ke monitoring'
+            }, res);
+        }
+
+        let data = [];
+        let item = [];
+
+        for(let i = 0; i<= items.length - 1; i++){
+            //console.log(items[i].item_id);
+            //console.log(items[i].time_enter);
+            let time = items[i].time_enter;
+            let localtime = moment(time).utc().local().format('YYYY-MM-DD h:mm:ss');
+            let payload = {
+                tipe: "gate_in",
+                rfid_code: items[i].tag_number,
+                tgl_masuk: localtime,
+            }
+            data.push(payload);
+            item.push(items[i].item_id);
+        }
+        /*
+        const gatein = await api.post('/api/gate_in', data);
+        const status = gatein.data
+        console.log(status)
+        */
+
+        let cekmonitor = await cekMonitoring(item);
+        if(cekmonitor.length > 0){
+            console.log('Delete Monitoring');
+            deleteMonitoring(item);
+        }
+        
+        toMonitoring(item,device_id,id_account);
+        deleteRecieve(item)
+        addGRNumber(item);
+        console.log(data);
+        
+        response.ok({
+            status: 'success',
+            message: 'Sukes terima ' + items.length + 'items'
+        }, res);
+
+
+    }catch(error){
+        console.log(error);
+    }
+}
+
+exports.gateOut = async (req, res) =>{
+    try{
+        const device_id = req.body.Device_ID;
+        const id_account = req.idaccount;
+        const items = req.body.items;
+
+        if(items.length < 1){
+            return response.warning({
+                status: 'warning',
+                message: 'Silahkan pilih beberapa item untuk dipindahkan !'
+            }, res);
+        }
+        let data = [];
+        let item = [];
+
+        let i = 0;
+        for(i; i<= items.length - 1; i++){
+            let time = items[i].time_enter;
+            let localtime = moment(time).utc().local().format('YYYY-MM-DD h:mm:ss');
+            let payload = {
+                tipe: "gate_in",
+                rfid_code: items[i].tag_number,
+                tgl_masuk: localtime
+            }
+            data.push(payload);
+            item.push(items[i].item_id)
+            // after delivery confirm, delete data from all table    
+        }
+        /*
+        const gateout = await api.post('/api/gate_out', data);
+        const status = gateout.data
+        console.log(status)
+        */
+
+        console.log(item);
+        deleteDelivery(item)
+        addGINumber(item);
+        deletemonitiring(item);
+        deleteitem(item);
+        updateHistory(item);
+        response.ok({
+            status: 'success',
+            message: 'Sukes terima ' + items.length + 'items'
+        }, res);
+
+ 
+    }catch(error){
+        if(error.code === 'ECONNREFUSED'){
+            return res.status(500).json({status: 'error', message: 'service unavailable'});
+        }
+        
+
+        const {status, data} = error.message;
+        return res.status(status).json(data);
+    }
+}
+
+
+const toMonitoring = (item, device_id, id_account) => {
+
+    let records = [];
+    for(let i =0; i <= item.length -1; i++){
+        let value = []
+        value.push( device_id, id_account,item[i]);
+        records.push(value);
+        
+    }
+    console.log(records);
+
+    let sql = "INSERT INTO Transaction_Monitoring (Device_ID,id_Account,item_id) VALUES ?"
+    koneksi.query(sql, [records],
         function(error, rows, fields) {
             if (error) {
                 console.log(error);
@@ -19,16 +149,19 @@ const toMonitoring = (Device_ID, id_Account, item_id) => {
         });
 }
 
-function cekMonitoring(item_id, id_Account) {
+function cekMonitoring(item_id) {
     return new Promise(function(resolve, reject) {
+        let values = item_id.toString()
+        console.log(values);
         koneksi.query(
-            "SELECT * FROM Transaction_Monitoring WHERE item_id= ? AND id_Account = ? ", [item_id, id_Account],
+            `SELECT * FROM Transaction_Monitoring WHERE item_id IN (?) `, [item_id ],
             function(error, rows, fields) {
                 if (error) {
                     reject(error.sqlMessage);
                 } else {
                     var a = JSON.stringify(rows);
                     var b = JSON.parse(a);
+                    //console.log(b);
                     resolve(b);
                 }
             }
@@ -38,7 +171,7 @@ function cekMonitoring(item_id, id_Account) {
 
 
 const deleteMonitoring = (id) => {
-    koneksi.query('DELETE FROM Transaction_Monitoring WHERE item_id=?', [id],
+    koneksi.query('DELETE FROM Transaction_Monitoring WHERE item_id IN (?)', [id],
         function(error, rows, fields) {
             if (error) {
                 console.log(error);
@@ -49,7 +182,7 @@ const deleteMonitoring = (id) => {
 
 }
 const deleteRecieve = (id) => {
-    koneksi.query('DELETE FROM Transaction_Receive WHERE item_id=?', [id],
+    koneksi.query('DELETE FROM Transaction_Receive WHERE item_id IN (?)', [id],
         function(error, rows, fields) {
             if (error) {
                 console.log(error);
@@ -58,22 +191,65 @@ const deleteRecieve = (id) => {
             }
         });
 }
-const addNumber = (id) =>{
-    let years = new Date().getFullYear();
-    let month = new Date().getMonth() + 1;
-    let date = new Date().getDate();
-    let hours = new Date().getHours();
-    let minutes = new Date().getMinutes();
+
+const deleteDelivery = (id) => {
+    koneksi.query('DELETE FROM Transaction_Receive WHERE item_id IN (?)', [id],
+        function(error, rows, fields) {
+            if (error) {
+                console.log(error);
+            } else {
+                console.log("data dengan" + id + "berhasil di hapus dari delivery ")
+            }
+        });
+}
+
+function convertTZ(date, tzString) {
+    return new Date((typeof date === "string" ? new Date(date) : date).toLocaleString("en-US", {timeZone: tzString}));   
+}
+
+
+const addGRNumber = (id) =>{
+    let time = new Date()
+    convertTZ(time);
+    let years = time.getFullYear();
+    let month = time.getMonth() + 1;
+    let date = time.getDate();
+    let hours = time.getHours();
+    let minutes = time.getMinutes();
 //    let idNumber = Math.floor(Math.random()*(999-100+1)+100);
     let gr_number ="" +  years + month + date + hours + minutes;
-    let time = new Date()
     console.log(gr_number);
-    koneksi.query('UPDATE history SET gi_number=?, gi_date= ? WHERE item_id=?', [gr_number,time,id], 
+
+
+    koneksi.query('UPDATE history SET GR_Number=?, GR_Date= ? WHERE item_id IN  (?) ', [gr_number,time,id], 
     function(error, rows, fields){
         if(error){
             console.log(error);
         }else{
-            console.log("data dengan " + id + "berhasil di update GR_Number dan Date");
+            console.log("data dengan " + id + " berhasil di update GR_Number dan Date : " + time);
+        }
+    })
+    
+}
+
+const addGINumber = (id) =>{
+    let time = new Date()
+    convertTZ(time);
+    let years = time.getFullYear();
+    let month = time.getMonth() + 1;
+    let date = time.getDate();
+    let hours = time.getHours();
+    let minutes = time.getMinutes();
+//    let idNumber = Math.floor(Math.random()*(999-100+1)+100);
+    let gi_number ="" +  years + month + date + hours + minutes;
+    //console.log(gi_number);
+
+    koneksi.query('UPDATE history SET gi_number=?, gi_date= ? WHERE item_id IN  (?) ', [gi_number,time, id], 
+    function(error, rows, fields){
+        if(error){
+            console.log(error);
+        }else{
+            console.log("data dengan " + id + " berhasil di update gi_number dan Date : " + time);
         }
     })
     
@@ -81,66 +257,35 @@ const addNumber = (id) =>{
 
 
 var deletemonitiring = (id) => {
-    var sql = "DELETE FROM Transaction_Monitoring  WHERE item_id=?";
-    koneksi.query(sql, id, function(err, rows){
+    var sql = "DELETE FROM Transaction_Monitoring  WHERE item_id IN (?)";
+    koneksi.query(sql, id, function(error, rows){
         if(error){
             console.log(error);
         }else{
-            console.log(`Data dengan ${id} berhasil di delete`);
+            console.log(`Data dengan ${id} berhasil di delete dari monitoring`);
         }
     })
 }
 
 var deleteitem = (id) => {
-    var sql = "DELETE FROM items  WHERE item_id=?";
-    koneksi.query(sql, id, function(err, rows){
+    var sql = "DELETE FROM items  WHERE item_id IN (?)";
+    koneksi.query(sql, id, function(error, rows){
         if(error){
             console.log(error);
         }else{
-            console.log(`Data dengan ${id} berhasil di hapus`);
+            console.log(`Data dengan ${id} berhasil di hapus dari master item`);
         }
     })
  
 }
 
 var updateHistory = (item_id) => {
-    var sql = 'UPDATE history SET status= "Delivered" WHERE item_id=?'
-    koneksi.query(sql, id, function(err, rows){
+    var sql = 'UPDATE history SET status= "Delivered" WHERE item_id IN (?)'
+    koneksi.query(sql, item_id, function(error, rows){
         if(error){
-            console.log(eror);
+            console.log(error);
         }else{
-            console.log(`Data dengan ${id} berhasil di update`);
+            console.log(`Data dengan ${item_id} berhasil di update`);
         }
     })
-}
-
-
-
-exports.gateIn = async(req, res) =>{
-    try{
-
-        console.log(api);
-        const gatein = await api.post('/api/gate_in', req.body);
-        apiData = gatein.data;
-
-    }catch(error){
-        console.log(error);
-    }
-}
-
-exports.gateOut = async (req, res) =>{
-    try{
-        let data = [];
-        var items = req.body.items;
-        for(items; i<= items.length - 1; i++){
-            let time = items[i].time_enter;
-            let localtime = moment(time).utc().local().format('YYYY-MM-DD h:mm:ss');
-            
-        }
-        console.log(api);
-        const gateout = await api.post('/api/gate_out', req.body);
-        return res.json(gateout.data);
-    }catch(error){
-        console.log(error)
-    }
 }

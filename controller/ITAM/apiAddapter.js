@@ -1,7 +1,12 @@
+const path = require('path');
 const axios = require('axios');
+require('dotenv').config({path: path.resolve(__dirname, '../../.env')})
+
+const {API_KEY} = process.env
+
 
 module.exports = (baseUrl) =>{
-    apikey = "$pbkdf2-sha512$6000$R2ittdYao5RyDuE8B0BIyQ$fv3KP1KoRQFmT7VLKiXOhIhWZopdrogl7K1/bYw9WdtohgaW9PJ2p2I/HTJNAwXRyxBN6mP1qWDDIzy6w.k9uQ"
+    apikey = API_KEY;
     return axios.create({
         baseURL: baseUrl,
         timeout: 5000,

@@ -1,415 +1,364 @@
 {
-    "openapi": "3.0.3",
-    "info": {
-        "title" : "ITAT Public API",
-        "description": "OPEN API for ITAT Public API Integration",
-        "termsOfService": "http://swagger.io/terms/",
-        "varsion" : "1.0.0",
-        "contact": {
-            "name": "RFID Solution",
-            "email": "info@logikapratama.com",
-            "url": "https://rfidsolutions.id/"
-        },
-        "license": {
-            "name": "APACHE 2.0",
-            "url": "https://www.apache.org/licenses/LICENSE-2.0"
-        }
+  "openapi": "3.0.3",
+  "info": {
+    "title": "ITAT Public API",
+    "description": "OPEN API for ITAT Public API Integration",
+    "termsOfService": "http://swagger.io/terms/",
+    "varsion": "1.0.0",
+    "contact": {
+      "name": "RFID Solution",
+      "email": "info@logikapratama.com",
+      "url": "https://rfidsolutions.id/"
     },
-    "servers": [
-        {   
-            "name" : "Public Server",
-            "url" : "http//:151.106.112.34:5000"
-        },
-        {
-            "name": "Local Server",
-            "url": "http//:localhost:5000"
-        }
-    ],
-    "paths": {
-        "/api/v1/public/item":{
-            "get": {
-                "tags": ["items"],
-                "summary": "get a items",
-                "description": "get items from databases",
-                "parameters":[
-                    {
-                        "name": "tags",
-                        "in": "query",
-                        "required": false,
-                        "description": "Include tags ",
-                        "schema":{
-                            "type": "string",
-                            "default": "A1222332EER2123"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200":{
-                        "description": "Success Get All Items",
-                        "content": {
-                            "application/json":{
-                                "schema":{
-                                    "type": "array",
-                                    "items":{
-                                        "type": "object",
-                                        "properties": {
-                                            "Item_code":{
-                                                "type": "string",
-                                                "minLength": 1,
-                                                "maxLength": 10,
-                                                "required": false,
-                                                "default": "A29201"
-                                            },  
-                                            "Item_category":{
-                                                "type": "string",
-                                                "required": false
-                                            },
-                                            "Item_Type":{
-                                                "type": "string",
-                                                "required": false
-                                            },
-                                            "SKU":{
-                                                "type": "string",
-                                                "required": true
-                                            },
-                                            "Name": {
-                                                "type": "string",
-                                                "required": false
-                                            },
-                                            "Description":{
-                                                "type": "string",
-                                                "required": false
-                                            },
-                                            "Uom": {
-                                                "type":"string",
-                                                "required": false
-                                            }, 
-                                            "Quantity":{
-                                                "type": "number",
-                                                "required": true
-                                            },
-                                            "tag_number":{
-                                                "required": true,
-                                                "type": "string"
-                                            },
-                                            "Ref_Number" :{
-                                                "required": true,
-                                                "type": "string"
-                                            }
-                                        }
-                                    }
-                                },
-                                "examples": {
-                                    "success":{
-                                        "description": "success get all items",
-                                        "value":[
-                                            {
-                                                "Item_code": "A2920",
-                                                "Item_category": "Persediaan",
-                                                "Item_Type": "Elektronik",
-                                                "SKU": "AKHUO9212",
-                                                "Name": "TV",
-                                                "Description": "TV description",
-                                                "Uom": "pcs",
-                                                "Quantity": 1,
-                                                "tag_number": "A112333222112",
-                                                "Ref_Number": "111213212"
-                                            },
-                                            {
-                                                "Item_code": "A2921",
-                                                "Item_category": "Persediaan",
-                                                "Item_Type": "Elektronik",
-                                                "SKU": "AKHUO9212",
-                                                "Name": "Monitor",
-                                                "Description": "Monitor description",
-                                                "Uom": "pcs",
-                                                "Quantity": 1,
-                                                "tag_number": "A112333222113",
-                                                "Ref_Number": "9022AKA"
-                                            }
-                                        ]
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            },
-            "post":{
-                "tags": ["items"],
-                "security": [
-                    {
-                        "itemAuth": []
-                    }
-                ],
-                "summary" : "create a new item",
-                "description": "create a new item to database",
-                "requestBody":{
-                    "required": true,
-                    "content": {
-                        "application/json":{
-                            "schema":{
-                                "$ref": "#components/schemas/items" 
-                            },
-                            "examples":{
-                                "item 1":{
-                                    "description": "example items 1",
-                                    "value":{
-                                        "Item_code": "A2920",
-                                        "Item_category": "Persediaan",
-                                        "Item_Type": "Elektronik",
-                                        "SKU": "AKHUO9212",
-                                        "Name": "TV",
-                                        "Description": "TV description",
-                                        "Uom": "pcs",
-                                        "Quantity": 1,
-                                        "tag_number": "A112333222112",
-                                        "Ref_Number": "111213212"
-                                    }
-                                },
-                                "item 2":{
-                                    "description": "example items 3",
-                                    "value":{
-                                        "Item_code": "A2921",
-                                        "Item_category": "Persediaan",
-                                        "Item_Type": "Elektronik",
-                                        "SKU": "AKHUO9212",
-                                        "Name": "Monitor",
-                                        "Description": "Monitor description",
-                                        "Uom": "pcs",
-                                        "Quantity": 1,
-                                        "tag_number": "A112333222113",
-                                        "Ref_Number": "9022AKA"
-                                    }
-                                },
-                                "item 3":{
-                                    "description": "example items 3",
-                                    "value":{
-                                        "Item_code": "A2925",
-                                        "Item_category": "Persediaan",
-                                        "Item_Type": "Elektronik",
-                                        "SKU": "AKHUO9212",
-                                        "Name": "Kabel",
-                                        "Description": "Kabel description",
-                                        "Uom": "meters",
-                                        "Quantity": 1,
-                                        "tag_number": "A1123332221142",
-                                        "Ref_Number": "9022AKP"
-                                    }
-                                }
-                            }
-                        }
-                    }
-                },
-                
-                "responses": {
-                    "200": {
-                        "description": "success create items",
-                        "content": {
-                            "application/json":{
-                                "schema":{
-                                    "$ref": "#components/schemas/items" 
-                            },
-                            "examples":{
-                                "item 1":{
-                                    "description": "example items 1",
-                                    "value":{
-                                        "Item_code": "A2920",
-                                        "Item_category": "Persediaan",
-                                        "Item_Type": "Elektronik",
-                                        "SKU": "AKHUO9212",
-                                        "Name": "TV",
-                                        "Description": "TV description",
-                                        "Uom": "pcs",
-                                        "Quantity": 1,
-                                        "tag_number": "A112333222112",
-                                        "Ref_Number": "111213212"
-                                    }
-                                },
-                                "item 2":{
-                                    "description": "example items 3",
-                                    "value":{
-                                        "Item_code": "A2921",
-                                        "Item_category": "Persediaan",
-                                        "Item_Type": "Elektronik",
-                                        "SKU": "AKHUO9212",
-                                        "Name": "Monitor",
-                                        "Description": "Monitor description",
-                                        "Uom": "pcs",
-                                        "Quantity": 1,
-                                        "tag_number": "A112333222113",
-                                        "Ref_Number": "9022AKA"
-                                    }
-                                },
-                                "item 3":{
-                                    "description": "example items 3",
-                                    "value":{
-                                        "Item_code": "A2925",
-                                        "Item_category": "Persediaan",
-                                        "Item_Type": "Elektronik",
-                                        "SKU": "AKHUO9212",
-                                        "Name": "Kabel",
-                                        "Description": "Kabel description",
-                                        "Uom": "meters",
-                                        "Quantity": 1,
-                                        "tag_number": "A1123332221142",
-                                        "Ref_Number": "9022AKP"
-                                    }
-                                }
-                            }
-                            }
-                        }
-
-                    }
-                }
-            } 
-        },
-        "/api/v1/public/item{id}":{
-            "put":{
-                "tags": ["items"],
-                "summary": "edit a item",
-                "description": "Edit item to database",
-                "parameters": [
-                    {
-                        "$ref": "#components/parameters/itemsId"
-                    }
-                ],
-                "requestBody":{
-                    "required": true,
-                    "content": {
-                        "application/json":{
-                            "schema":{
-                                "$ref": "#components/schemas/items" 
-                            }
-                        }
-                    }
-                },
-                "responses":{}
-
-            },
-            "delete":{
-                "tags": ["items"],
-                "summary": "delete item",
-                "description": "Delete existing file from database",
-                "responses": {}
-
-            }
-        }
+    "license": {
+      "name": "APACHE 2.0",
+      "url": "https://www.apache.org/licenses/LICENSE-2.0"
+    }
+  },
+  "servers": [
+    {
+      "name": "Public Server",
+      "url": "http//:151.106.112.34:5000"
     },
-    "components": {
-        "securitySchemes": {
-            "itemAuth" : {
-                "description": "Authentication for REST full API Items",
-                "type": "apiKey",
-                "in": "header",
-                "name": "api_key"
-                
+    {
+      "name": "Local Server",
+      "url": "http//:localhost:5000"
+    }
+  ],
+  "paths": {
+    "/api/v1/public/item": {
+      "get": {
+        "tags": ["items"],
+        "summary": "get a items",
+        "description": "get items from databases",
+        "parameters": [
+          {
+            "name": "tags",
+            "in": "query",
+            "required": false,
+            "description": "Include tags ",
+            "schema": {
+              "type": "string",
+              "default": "A1222332EER2123"
             }
-        },
-        "parameters": {
-            "itemsId":{
-                "name": "itemId",
-                "in": "path",
-                "required": true,
-                "description": "item id for update"
-            }
-        },
-        "schemas": {
-            "items":{
-                "type": "object",
-                "properties": {
-                    "Item_code":{
-                        "type": "string",
-                        "minLength": 1,
-                        "maxLength": 10,
-                        "required": false
-                    },  
-                    "Item_category":{
-                        "type": "string",
-                        "required": false
-                    },
-                    "Item_Type":{
-                        "type": "string",
-                        "required": false
-                    },
-                    "SKU":{
-                        "type": "string",
-                        "required": true
-                    },
-                    "Name": {
-                        "type": "string",
-                        "required": false
-                    },
-                    "Description":{
-                        "type": "string",
-                        "required": false
-                    },
-                    "Uom": {
-                        "type":"string",
-                        "required": false
-                    }, 
-                    "Quantity":{
-                        "type": "number",
-                        "required": true
-                    },
-                    "tag_number":{
-                        "required": true,
-                        "type": "string"
-                    },
-                    "Ref_Number" :{
-                        "required": true,
-                        "type": "string"
-                    }
-                }
-            },
-            "arrayItems":{
-                "type": "array",
-                "properties": {
-                    "Item_code":{
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success Get All Items",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "Item_code": {
                         "type": "string",
                         "minLength": 1,
                         "maxLength": 10,
                         "required": false,
                         "default": "A29201"
-                    },  
-                    "Item_category":{
+                      },
+                      "Item_category": {
                         "type": "string",
                         "required": false
-                    },
-                    "Item_Type":{
+                      },
+                      "Item_Type": {
                         "type": "string",
                         "required": false
-                    },
-                    "SKU":{
+                      },
+                      "SKU": {
                         "type": "string",
                         "required": true
-                    },
-                    "Name": {
+                      },
+                      "Name": {
                         "type": "string",
                         "required": false
-                    },
-                    "Description":{
+                      },
+                      "Description": {
                         "type": "string",
                         "required": false
-                    },
-                    "Uom": {
-                        "type":"string",
+                      },
+                      "Uom": {
+                        "type": "string",
                         "required": false
-                    }, 
-                    "Quantity":{
+                      },
+                      "Quantity": {
                         "type": "number",
                         "required": true
-                    },
-                    "tag_number":{
+                      },
+                      "tag_number": {
                         "required": true,
                         "type": "string"
-                    },
-                    "Ref_Number" :{
+                      },
+                      "Ref_Number": {
                         "required": true,
                         "type": "string"
+                      }
                     }
+                  }
+                },
+                "examples": {
+                  "success": {
+                    "description": "success get all items",
+                    "value": [
+                      {
+                        "Item_code": "A2920",
+                        "Item_category": "Persediaan",
+                        "Item_Type": "Elektronik",
+                        "SKU": "AKHUO9212",
+                        "Name": "TV",
+                        "Description": "TV description",
+                        "Uom": "pcs",
+                        "Quantity": 1,
+                        "tag_number": "A112333222112",
+                        "Ref_Number": "111213212"
+                      },
+                      {
+                        "Item_code": "A2921",
+                        "Item_category": "Persediaan",
+                        "Item_Type": "Elektronik",
+                        "SKU": "AKHUO9212",
+                        "Name": "Monitor",
+                        "Description": "Monitor description",
+                        "Uom": "pcs",
+                        "Quantity": 1,
+                        "tag_number": "A112333222113",
+                        "Ref_Number": "9022AKA"
+                      }
+                    ]
+                  }
                 }
+              }
             }
+          }
         }
+      },
+      "post": {
+        "tags": ["items"],
+        "security": [
+          {
+            "itemAuth": []
+          }
+        ],
+        "summary": "create a new item",
+        "description": "create a new item to database",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#components/schemas/items"
+              },
+              "examples": {
+                "item 1": {
+                  "description": "example items 1",
+                  "value": {
+                    "Item_code": "A2920",
+                    "Item_category": "Persediaan",
+                    "Item_Type": "Elektronik",
+                    "SKU": "AKHUO9212",
+                    "Name": "TV",
+                    "Description": "TV description",
+                    "Uom": "pcs",
+                    "Quantity": 1,
+                    "tag_number": "A112333222112",
+                    "Ref_Number": "111213212"
+                  }
+                },
+                "item 2": {
+                  "description": "example items 3",
+                  "value": {
+                    "Item_code": "A2921",
+                    "Item_category": "Persediaan",
+                    "Item_Type": "Elektronik",
+                    "SKU": "AKHUO9212",
+                    "Name": "Monitor",
+                    "Description": "Monitor description",
+                    "Uom": "pcs",
+                    "Quantity": 1,
+                    "tag_number": "A112333222113",
+                    "Ref_Number": "9022AKA"
+                  }
+                },
+                "item 3": {
+                  "description": "example items 3",
+                  "value": {
+                    "Item_code": "A2925",
+                    "Item_category": "Persediaan",
+                    "Item_Type": "Elektronik",
+                    "SKU": "AKHUO9212",
+                    "Name": "Kabel",
+                    "Description": "Kabel description",
+                    "Uom": "meters",
+                    "Quantity": 1,
+                    "tag_number": "A1123332221142",
+                    "Ref_Number": "9022AKP"
+                  }
+                }
+              }
+            }
+          }
+        },
+
+        "responses": {
+          "200": {
+            "description": "success create items",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#components/schemas/items"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/public/item{id}": {
+      "put": {
+        "tags": ["items"],
+        "summary": "edit a item",
+        "description": "Edit item to database",
+        "parameters": [
+          {
+            "$ref": "#components/parameters/itemsId"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#components/schemas/items"
+              }
+            }
+          }
+        },
+        "responses": {}
+      },
+      "delete": {
+        "tags": ["items"],
+        "summary": "delete item",
+        "description": "Delete existing file from database",
+        "responses": {}
+      }
     }
+  },
+  "components": {
+    "securitySchemes": {
+      "itemAuth": {
+        "description": "Authentication for REST full API Items",
+        "type": "apiKey",
+        "in": "header",
+        "name": "api_key"
+      }
+    },
+    "parameters": {
+      "itemsId": {
+        "name": "itemId",
+        "in": "path",
+        "required": true,
+        "description": "item id for update"
+      }
+    },
+    "schemas": {
+      "items": {
+        "type": "object",
+        "properties": {
+          "Item_code": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 10,
+            "required": false
+          },
+          "Item_category": {
+            "type": "string",
+            "required": false
+          },
+          "Item_Type": {
+            "type": "string",
+            "required": false
+          },
+          "SKU": {
+            "type": "string",
+            "required": true
+          },
+          "Name": {
+            "type": "string",
+            "required": false
+          },
+          "Description": {
+            "type": "string",
+            "required": false
+          },
+          "Uom": {
+            "type": "string",
+            "required": false
+          },
+          "Quantity": {
+            "type": "number",
+            "required": true
+          },
+          "tag_number": {
+            "required": true,
+            "type": "string"
+          },
+          "Ref_Number": {
+            "required": true,
+            "type": "string"
+          }
+        }
+      },
+      "arrayItems": {
+        "type": "array",
+        "properties": {
+          "Item_code": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 10,
+            "required": false,
+            "default": "A29201"
+          },
+          "Item_category": {
+            "type": "string",
+            "required": false
+          },
+          "Item_Type": {
+            "type": "string",
+            "required": false
+          },
+          "SKU": {
+            "type": "string",
+            "required": true
+          },
+          "Name": {
+            "type": "string",
+            "required": false
+          },
+          "Description": {
+            "type": "string",
+            "required": false
+          },
+          "Uom": {
+            "type": "string",
+            "required": false
+          },
+          "Quantity": {
+            "type": "number",
+            "required": true
+          },
+          "tag_number": {
+            "required": true,
+            "type": "string"
+          },
+          "Ref_Number": {
+            "required": true,
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
 }
