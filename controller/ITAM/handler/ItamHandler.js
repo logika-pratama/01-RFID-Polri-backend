@@ -106,14 +106,15 @@ exports.gateOut = async (req, res) =>{
         deleteDelivery(item)
         addGINumber(item);
         deletemonitiring(item);
-        deleteitem(item);
         updateHistory(item);
+        //deleteitem(item);
+        
         response.ok({
             status: 'success',
             message: 'Sukes terima ' + items.length + 'items'
         }, res);
 
- 
+
     }catch(error){
         if(error.code === 'ECONNREFUSED'){
             return res.status(500).json({status: 'error', message: 'service unavailable'});
@@ -187,18 +188,18 @@ const deleteRecieve = (id) => {
             if (error) {
                 console.log(error);
             } else {
-                console.log("data dengan" + id + "telah di pindah ke monitoring")
+                console.log("data dengan" + id + " telah di pindah ke monitoring")
             }
         });
 }
 
 const deleteDelivery = (id) => {
-    koneksi.query('DELETE FROM Transaction_Receive WHERE item_id IN (?)', [id],
+    koneksi.query('DELETE FROM Transaction_Delivery WHERE item_id IN (?)', [id],
         function(error, rows, fields) {
             if (error) {
                 console.log(error);
             } else {
-                console.log("data dengan" + id + "berhasil di hapus dari delivery ")
+                console.log("data dengan" + id + " berhasil di hapus dari delivery ")
             }
         });
 }
