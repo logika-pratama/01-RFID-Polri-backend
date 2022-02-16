@@ -111,7 +111,7 @@ exports.gateOut = async (req, res) =>{
         
         response.ok({
             status: 'success',
-            message: 'Sukes terima ' + items.length + 'items'
+            message: 'Sukes terima ' + items.length + ' items'
         }, res);
 
 
