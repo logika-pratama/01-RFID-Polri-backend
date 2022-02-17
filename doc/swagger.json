@@ -195,8 +195,6 @@
             "description": "success create items",
             "content": {
               "application/json": {
-                "schema": {
-                }
               }
             }
           }
