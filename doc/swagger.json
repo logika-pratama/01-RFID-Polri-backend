@@ -29,8 +29,26 @@
     "/api/v1/public/item": {
       "get": {
         "tags": ["items"],
+        "security": [
+          {
+            "itemAuth": []
+          }
+          
+        ],
         "summary": "get a items",
-        "description": "get items from databases ITAT",
+        "description": "get items from databases",
+        "parameters": [
+          {
+            "name": "tags",
+            "in": "query",
+            "required": false,
+            "description": "Include tags ",
+            "schema": {
+              "type": "string",
+              "default": "A1222332EER2123"
+            }
+          }
+        ],
         "responses": {
           "200": {
             "description": "Success Get All Items",
@@ -195,12 +213,16 @@
             "description": "success create items",
             "content": {
               "application/json": {
+                "schema": {
+                  "$ref": "#components/schemas/items"
+                }
               }
             }
           }
         }
       }
-    },
+    }
+  },
   "components": {
     "securitySchemes": {
       "itemAuth": {
@@ -316,5 +338,4 @@
       }
     }
   }
-}
 }
