@@ -30,19 +30,7 @@
       "get": {
         "tags": ["items"],
         "summary": "get a items",
-        "description": "get items from databases",
-        "parameters": [
-          {
-            "name": "tags",
-            "in": "query",
-            "required": false,
-            "description": "Include tags ",
-            "schema": {
-              "type": "string",
-              "default": "A1222332EER2123"
-            }
-          }
-        ],
+        "description": "get items from databases ITAT",
         "responses": {
           "200": {
             "description": "Success Get All Items",
@@ -216,36 +204,6 @@
         }
       }
     },
-    "/api/v1/public/item{id}": {
-      "put": {
-        "tags": ["items"],
-        "summary": "edit a item",
-        "description": "Edit item to database",
-        "parameters": [
-          {
-            "$ref": "#components/parameters/itemsId"
-          }
-        ],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#components/schemas/items"
-              }
-            }
-          }
-        },
-        "responses": {}
-      },
-      "delete": {
-        "tags": ["items"],
-        "summary": "delete item",
-        "description": "Delete existing file from database",
-        "responses": {}
-      }
-    }
-  },
   "components": {
     "securitySchemes": {
       "itemAuth": {
@@ -361,4 +319,5 @@
       }
     }
   }
+}
 }
