@@ -37,18 +37,6 @@
         ],
         "summary": "get a items",
         "description": "get items from databases",
-        "parameters": [
-          {
-            "name": "tags",
-            "in": "query",
-            "required": false,
-            "description": "Include tags ",
-            "schema": {
-              "type": "string",
-              "default": "A1222332EER2123"
-            }
-          }
-        ],
         "responses": {
           "200": {
             "description": "Success Get All Items",
@@ -214,7 +202,43 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#components/schemas/items"
+                  "type": "object",
+                  "properties": {
+                    "status":{
+                      "type": "string",
+                      "example": "success"
+                    },
+                    "message":{
+                      "type": "string",
+                      "example": "successs add new item"
+                    },
+                    "item_id":{
+                      "type": "string",
+                      "example": "gr8kzruti0v"
+                    } 
+                  }
+                  
+                }
+              }
+            }
+          },
+          "409":{
+            "description": "duplicat entry tag number",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status":{
+                      "type": "string",
+                      "example": "warning"
+                    },
+                    "message":{
+                      "type": "string",
+                      "example": "tag number already existing"
+                    }
+                  }
+                  
                 }
               }
             }

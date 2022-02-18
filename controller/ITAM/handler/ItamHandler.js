@@ -95,7 +95,7 @@ exports.gateOut = async (req, res) =>{
             let time = items[i].time_enter;
             let localtime = moment(time).utc().local().format('YYYY-MM-DD h:mm:ss');
             let payload = {
-                tipe: "gate_in",
+                tipe: "gate_out",
                 rfid_code: items[i].tag_number,
                 tgl_masuk: localtime
             }
