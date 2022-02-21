@@ -43,8 +43,8 @@ exports.gateIn = async(req, res) =>{
         
         const gatein = await api.post('/api/gate_in', data);
         const status = gatein.data
-	console.log(status);
-	console.log(data);
+	    console.log(status);
+	    console.log(data);
 
         if (status.status == 1){
             let cekmonitor = await cekMonitoring(item);

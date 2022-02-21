@@ -223,7 +223,7 @@ exports.additem = function(req, res) {
             message: 'Silahkan isi Tag Number !'
         }, res);
     }
-    // if (Item_code.length > 20){return response.warning({status: 'warning', message: 'Panjang Karakter melebihi batas !'}, res)}
+    
     if (tag_number.length > 100){return response.warning({status: 'warning', message: 'Panjang Karakter melebihi batas !'}, res)}
     if (Ref_Number.length > 20){return response.warning({status: 'warning', message: 'Panjang Karakter melebihi batas !'}, res)}
     
@@ -245,7 +245,7 @@ exports.additem = function(req, res) {
 
             } else {
                 response.ok({
-                    status: 'success',
+                    status: req.t('success'),
                     message: "behasil menambahkan item baru",
                     item_id: item_id
                 }, res);

@@ -2,12 +2,33 @@ require('dotenv').config();
 const bodyParser = require('body-parser');
 const express = require('express');
 const cors = require('cors');
+const i18next = require('i18next');
+const Backend = require('i18next-node-fs-backend');
+const i18nextMiddleware = require('i18next-express-middleware');
+
+
+
+const app = express();
+
+i18next
+    .use(Backend)
+    .use(i18nextMiddleware.LanguageDetector)
+    .init({
+        backend: {
+            loadPath: __dirname + '/resources/locales/{{lng}}/{{ns}}.json'
+        },
+        fallbackLng: 'id', // default language
+        preload: ['en', 'id'] // language mode 
+    });
+
+app.use(i18nextMiddleware.handle(i18next));
+
 
 const {PORT} = process.env;
 
 // Router 
 const loginRouters = require('./routers/login');
-const itemsRouters = require('./routers/Master-Items'); // Master Items
+const itemsRouters = require('./routers/MasterItems'); // Master Items
 const packingRouters = require('./routers/packing');
 const recieveRouters = require('./routers/TransactionRecieve'); // inbound
 const grRouters = require('./routers/GoodRecieve'); // Good Recieve
@@ -27,10 +48,8 @@ const accountRouter = require('./routers/account');
 const trxTypeRouter = require('./routers/transactionType');
 const publicApiRouter = require('./routers/publicApi');
 
-const app = express();
 
 global.__basedir = __dirname + "/..";
-var port = 5000;
 
 
 // create a Server
