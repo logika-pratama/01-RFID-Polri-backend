@@ -245,7 +245,7 @@ exports.additem = function(req, res) {
 
             } else {
                 response.ok({
-                    status: 'success',
+                    status: req.t('success'),
                     message: req.t('item.success_create_item'),
                     item_id: item_id
                 }, res);
