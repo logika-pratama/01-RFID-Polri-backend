@@ -205,37 +205,37 @@ exports.additem = function(req, res) {
     if (SKU.length < 1 || SKU.trim() == "") {
         return response.warning({
             status: 'warning',
-            message: 'Silahkan isi SKU !'
+            message: req.t('item.sku_required')
         }, res);
     } else if (Quantity.length < 1 ) {
         return response.warning({
             status: 'warning',
-            message: 'Silahkan isi Qauantity !'
+            message: req.t('item.quantity_required')
         }, res);
     } else if (Ref_Number.length < 1 || Ref_Number.trim() == "") {
         return response.warning({
             status: 'warning',
-            message: 'Silahkan isi Ref Number !'
+            message: req.t('item.ref_required')
         }, res);
     } else if (tag_number.length < 1 || tag_number.trim() == "") {
-        return response.warning({
+        return res.json({
             status: 'warning',
-            message: 'Silahkan isi Tag Number !'
+            message: req.t('item.tag_required')
         }, res);
     }
-    
-    if (tag_number.length > 100){return response.warning({status: 'warning', message: 'Panjang Karakter melebihi batas !'}, res)}
-    if (Ref_Number.length > 20){return response.warning({status: 'warning', message: 'Panjang Karakter melebihi batas !'}, res)}
+    // if (Item_code.length > 20){return response.warning({status: 'warning', message: 'Panjang Karakter melebihi batas !'}, res)}
+    if (tag_number.length > 100){return response.warning({status: 'warning', message: req.t('item.max_tag_number')}, res)}
+    if (Ref_Number.length > 20){return response.warning({status: 'warning', message: req.t('item.max_ref_number')}, res)}
     
     koneksi.query('INSERT INTO items (item_id,Item_code,Item_category,Item_Type,SKU,Name,Description,Uom,Quantity,tag_number,Ref_Number,Print_Tag,id_Account) VALUES(?,?,?,?,?,?,?,?,?,?,?,"yes",?)', [item_id, Item_code, Item_category, Item_Type, SKU, Name, Description, Uom, Quantity, tag_number, Ref_Number, id_Account],
         function(error, rows, fields) {
             if (error) {
                 if(error.errno == 1062){
-                    response.warning({
+                    res.json({
                         status: 'warning',
-                        message: 'Tag number sudah sudah digunakan'
+                        message: req.t('tag_exist')
     
-                    }, res);
+                    });
                 }    
                 console.log(error);
                 res.status(400).json({
@@ -245,8 +245,8 @@ exports.additem = function(req, res) {
 
             } else {
                 response.ok({
-                    status: req.t('success'),
-                    message: "behasil menambahkan item baru",
+                    status: 'success',
+                    message: req.t('item.success_create_item'),
                     item_id: item_id
                 }, res);
             }

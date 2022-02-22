@@ -1,4 +1,97 @@
 {
     "greeting": "Hello World !",
-    "success" : "sukses"
+    "success" : "sukses",
+    "success_add_data": "berhasil menambahkan data",
+    "success_get_data": "berhasil mendapatkan data",
+    "success_update_data": "berhasil memperbarui data",
+    "success_delete_data": "berhasil menghapus data",
+    "success_get_tag_number": "berhasil mendapatkan nomor RFID",
+    "tag_number_not_found": "nomor RFID tidak ditemukan",
+    "all_data_downloaded": "seluruh data telah diuduh",
+    "success download data": "berhasil download data",
+    "item":{
+        "success_create_item": "sukses menambahkan data barang",
+        "success_update_item": "sukses memperbarui data barang",
+        "success_delete_item": "sukses menghapus data barang",
+        "success_get_item" : "sukses mendapatkan data barang",
+        "sku_required": "SKU wajib diisi !",
+        "tag_required": "nomor RFID wajib diisi !",
+        "quantity_required": "kuantitas wajib diisi !",
+        "ref_required": "nomor referensi wajib diisi !",
+        "max_tag_number": "nomor rfid melebihi batas",
+        "max_ref_number": "nomor referensi melebihi batas",
+        "tag_exist": "nomor RFID sudah digunakan"
+    },
+    "account":{
+        "success_get_account": "berhasil mendapatkan akun",
+        "success_add_account" : "berhasil mendapatkan akun",
+        "success_update_account": "berhasil memperbarui akun",
+        "succes_delete_account" : "berhasil menghapus akun"
+    },
+    "goodIssue":{
+        "success_get_gi" : "berhasil mendapatkan data good issue ",
+        "all_data_in_gi" : "semua data telah di good issue",
+        "data_already_printing": "seluruh data telah di print"
+    },
+    "goodRecieve":{
+        "success_get_gr": "berhasil mendapatkan data good recieve",
+        "all_data_in_gi": "semua data telah di good issue",
+        "data_already_printing": "seluruh data telah di print"
+    },
+    "history":{
+        "success_get_tag_number": "berhasil mendapatkan nomor RFID"
+    },
+    "location":{
+        "success_add_location": "berhasil menambahkan lokasi",
+        "id_location_exist": "id lokasi sudah digunakan di akun lain",
+        "id_location_required": "id lokasi wajib diisi !",
+        "success_get_location": "berhasil mendapatkan data lokasi",
+        "success_delete_location": "berhasil menghapus lokasi",
+        "success_update_location": "berhasil memperbarui lokasi",
+        "success_add_location": "berhasil menambahkan data lokasi"
+    },
+    "login":{
+        "fail_login": "surat elektronik atau password salah "
+    },
+    "monitoring":{
+        "auto_putway": "berhasil memperbarui data",
+        "add_monitoring": "berhasil menambahkan data ke monitoring "
+    },
+    "orderList":{
+        "data_not_found": "data tidak ditemukan"
+    },
+    "outbound":{
+        "please_select_item": "please select item"
+    },
+    "packing":{
+        "packet_confirmed": "packet telah dikonfirmasi"
+    },
+    "QC":{
+        "sku_confirmed": "SKU telah dikonfirmasi !"
+    },
+    "reader":{
+        "success_add_reader": "berhasil menambahkan pembaca RFID",
+        "max_length_of_name": "nama terlalu panjang",
+        "success_update_reader": "berhasil memperbarui pembaca RFID",
+        "max_length_of_reader": "id reader terlalu panjang",
+        "server_not_found": "server tidak ditemukan",
+        "account_dont_have_reader": "akun tidak memiliki id pembaca RFID"
+    },
+    "stockTake":{
+        "all_data_reported": "seluruh data telah di rekap"
+    },
+    "inbound":{
+        "success_recieve_items": "berhasil menerima data barang",
+        "please_select_item_to_move": "silahakan pilih beberapa data untuk"
+    },
+    "upload":{
+        "please_use_excel_format": "harap gunakan file excel",
+        "sku_required": "SKU tidak boleh ada yang kosong",
+        "item_code_required": "kode item tidak boleh ada yang kosong",
+        "ref_number_required": "Nomor referensi tidak boleh ada yang kosong",
+        "tag_number_required": "nomor RFID tidak boleh ada yang kosong",
+        "format_does_not_match": "format tidak sesuai , gunakan yang sudah disediakan !",
+        "cant_upload": "tidak dapat mengunggah filename"
+    }
+
 }
