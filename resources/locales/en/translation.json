@@ -83,5 +83,14 @@
     "inbound":{
         "success_recieve_items": "succes recieve items",
         "please_select_item_to_move": "please select items to move"
+    },
+    "upload":{
+        "please_use_excel_format": "please use excel format",
+        "sku_required": "SKU is required",
+        "item_code_required": "item code is required",
+        "ref_number_required": "ref number is requirerd",
+        "tag_number_required": "tag number is required",
+        "format_does_not_match": "format does not match",
+        "cant_upload": "can't upload filename"
     }
 }

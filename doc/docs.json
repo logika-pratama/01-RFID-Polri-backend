@@ -1,0 +1,91 @@
+{
+    "openapi": "3.0.3",
+    "info": {
+        "title": "RFID-API-Documentation",
+        "version": "1",
+        "description": "OpenAPI for RFID ",
+        "termsOfService": "https://rfidsolutions.id/",
+        "contact": {
+            "name": "RFID-Solution",
+            "email": "info@logikapratama.com",
+            "url": "https://rfidsolutions.id/"
+        },
+        "license": {
+            "name": "APACHE 2.0",
+            "url": "https://www.apache.org/licenses/LICENSE-2.0"
+        }
+    },
+    "servers": [
+        {   "description": "RFID Solution API Public-Server",
+            "url" :"http://151.106.112.34/"
+        },
+        {   "description": "RFID Solution API Local-Server",
+            "url" :"localhost:8080"
+        }
+    ],
+    "paths": {
+        "/api/v1/item/all":{
+            "get":{
+                "tags": ["Master item"]
+
+            }
+
+        },
+        "/api/v1/item":{
+            "get":{
+                "tags": ["Master item"]
+
+            },
+            "post":{
+                "tags": ["Master item"]
+                
+            }
+
+        },
+        "/api/v1/itemnull":{
+            "get":{
+                "tags": ["Master item"]
+                
+            }
+
+        },
+        "/api/v1/item/:id":{
+            "delete":{
+                "tags": ["Master item"]
+
+            },
+            "get":{
+                "tags": ["Master item"]
+
+            }
+
+        },
+        "/api/v1/item/:item_id":{
+            "put":{
+                "tags": ["Master item"]
+
+            }
+
+        },
+        "/api/v1/item/search/:tag":{
+            "get":{
+                "tags": ["Master item"]
+                
+            }
+        }
+    },
+    "components": {
+        "parameters": {
+        },
+        "schemas": {
+            "items":{
+                "type": "object",
+                "properties": {
+                    "Item_code":{
+                        "type":"string"
+                    }
+                }
+            }
+        }
+    }
+}
