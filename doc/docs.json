@@ -16,73 +16,165 @@
         }
     },
     "servers": [
-        {   "description": "RFID Solution API Public-Server",
-            "url" :"http://151.106.112.34/"
+        {
+            "description": "RFID Solution API Public-Server",
+            "url": "http://151.106.112.34/"
         },
-        {   "description": "RFID Solution API Local-Server",
-            "url" :"localhost:8080"
+        {
+            "description": "RFID Solution API Local-Server",
+            "url": "localhost:8080"
         }
     ],
     "paths": {
-        "/api/v1/item/all":{
-            "get":{
-                "tags": ["Master item"]
+        "/api/v1/item/all": {
+            "get": {
+                "tags": ["Master item"],
+                "summarry": "get a items data",
+                "description": "get all items from database",
+                "responses": {
+                    "200":{
+                        "description": "success get all items",
+                        "schema":{
+                            "application/json":{
 
+                            }
+                        },
+                        "examples":{
+                            "application/json":{
+                                "status":"success",
+                                "message": "success messsage(IN/ID)",
+                                "data":[
+                                    {
+                                        "item_id": "ce8kzxss9zp",
+                                        "Item_code": "11223344556600d",
+                                        "Item_category": "Bahan Setenagh Jadi",
+                                        "Item_Type": "A",
+                                        "SKU": "LGK-M1",
+                                        "Name": "Baju",
+                                        "Description": "Baju",
+                                        "Uom": "pcs",
+                                        "Quantity": 1,
+                                        "tag_number": "11223344556600d",
+                                        "id_Account": "0002",
+                                        "id_location": null,
+                                        "Ref_Number": "1",
+                                        "Print_Tag": "yes" 
+                                    },{
+
+                                    },
+                                    {
+                                        
+                                    }
+                                ]
+                            }
+                        }
+                    },
+                    "400":{
+                        "description": "wrong parameter",
+                        "examples":{
+                            "status": "warning",
+                            "messsage": "wrong parameter"
+                        }
+                    }
+                }
             }
-
         },
-        "/api/v1/item":{
-            "get":{
-                "tags": ["Master item"]
-
+        "/api/v1/item": {
+            "get": {
+                "tags": [
+                    "Master item"
+                ]
             },
-            "post":{
-                "tags": ["Master item"]
-                
+            "post": {
+                "tags": [
+                    "Master item"
+                ]
             }
-
         },
-        "/api/v1/itemnull":{
-            "get":{
-                "tags": ["Master item"]
-                
+        "/api/v1/itemnull": {
+            "get": {
+                "tags": [
+                    "Master item"
+                ]
             }
-
         },
-        "/api/v1/item/:id":{
-            "delete":{
-                "tags": ["Master item"]
-
+        "/api/v1/item/:id": {
+            "delete": {
+                "tags": [
+                    "Master item"
+                ]
             },
-            "get":{
-                "tags": ["Master item"]
-
+            "get": {
+                "tags": [
+                    "Master item"
+                ]
             }
-
         },
-        "/api/v1/item/:item_id":{
-            "put":{
-                "tags": ["Master item"]
-
+        "/api/v1/item/:item_id": {
+            "put": {
+                "tags": [
+                    "Master item"
+                ]
             }
-
         },
-        "/api/v1/item/search/:tag":{
-            "get":{
-                "tags": ["Master item"]
-                
+        "/api/v1/item/search/:tag": {
+            "get": {
+                "tags": [
+                    "Master item"
+                ]
             }
         }
     },
     "components": {
-        "parameters": {
-        },
+        "parameters": {},
         "schemas": {
-            "items":{
+            "items": {
                 "type": "object",
                 "properties": {
-                    "Item_code":{
-                        "type":"string"
+                    "Item_code": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 10,
+                        "required": false
+                    },
+                    "Item_category": {
+                        "type": "string",
+                        "required": false
+                    },
+                    "Item_Type": {
+                        "type": "string",
+                        "required": false
+                    },
+                    "SKU": {
+                        "type": "string",
+                        "required": true,
+                        "maxLength": 50
+                    },
+                    "Name": {
+                        "type": "string",
+                        "required": false
+                    },
+                    "Description": {
+                        "type": "string",
+                        "required": false
+                    },
+                    "Uom": {
+                        "type": "string",
+                        "required": false
+                    },
+                    "Quantity": {
+                        "type": "number",
+                        "required": true,
+                        "maxLength": 10
+                    },
+                    "tag_number": {
+                        "required": true,
+                        "type": "string",
+                        "maxLength": 100
+                    },
+                    "Ref_Number": {
+                        "required": true,
+                        "type": "string"
                     }
                 }
             }

@@ -111,7 +111,7 @@ exports.gateOut = async (req, res) =>{
             deleteDelivery(item);
             updateHistory(item);
             deleteMonitoring(item);
-            deleteitem(item);
+           // deleteitem(item); // Khusus POLRI Delete ITEM tidak digunakan 
             addGINumber(item);
             return response.ok({
                 status: 'success',
