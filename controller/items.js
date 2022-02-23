@@ -13,11 +13,11 @@ exports.itemById = function(req, res) {
         if (error) {
             console.log(error);
         } else {
-            response.ok({
+            res.send({
                 status: "success",
                 message: req.t("success_get_data"),
                 data: rows
-            }, res);
+            });
         }
 
     });
@@ -157,11 +157,11 @@ exports.datanull = function(req, res) {
         if (error) {
             console.log(error);
         } else {
-            response.ok({
+            res.send({
                 status: "success",
                 message: req.t("success_get_data"),
                 data: rows
-            }, res);
+            });
         }
 
     });
@@ -176,9 +176,12 @@ exports.itemByitemId = function(req, res) {
         if (error) {
             console.log(error);
         } else {
-            response.ok(rows, res);
+            res.send({
+                status: "success",
+                message: req.t("success_get_data"),
+                data: rows 
+            });
         }
-
     });
 };
 
@@ -189,7 +192,11 @@ exports.allitem = function(req, res) {
         if (error) {
             console.log(error);
         } else {
-            response.ok(rows, res);
+            res.send({
+                status: "success",
+                message: req.t("success_get_data"),
+                data: rows
+            });
         }
 
     });
@@ -214,8 +221,8 @@ exports.additem = function(req, res) {
         function(error, rows, fields) {
             if (error) {
                 if(error.errno == 1062){
-                    res.json({
-                        status: 'warning',
+                    res.status(400).json({
+                        status: 'error',
                         message: req.t('tag_exist')
     
                     });
@@ -227,11 +234,11 @@ exports.additem = function(req, res) {
                 })
 
             } else {
-                response.ok({
-                    status: req.t('success'),
+                res.send({
+                    status: 'success',
                     message: req.t('item.success_create_item'),
                     item_id: item_id
-                }, res);
+                });
             }
         });
 };
@@ -302,6 +309,7 @@ exports.registerItem = async (req, res) => {
     });
 
 }
+
 // edit 
 exports.edititem = function(req, res) {
     const item_id = req.params.item_id;
@@ -326,18 +334,18 @@ exports.edititem = function(req, res) {
             if (error) {
                 console.log(error);
                 if (error.errno == 1062) {
-                    return response.error({
+                    return res.status(500).json({
                         status: "error",
-                        message: "tag number sudah digunakan",
+                        message: req.t("tag_required"),
                         error: error.sqlMessage
-                    }, res);
+                    });
 
                 }
             } else {
-                return response.ok({
-                    status: "succes",
+                return res.send({
+                    status: "success",
                     message: req.t("success_update_item")
-                }, res);
+                });
             }
         });
 };
@@ -350,7 +358,10 @@ exports.hapusitem = function(req, res) {
             if (error) {
                 console.log(error);
             } else {
-                response.ok("Berhasil Hapus Data", res)
+                res.send({
+                    status: "success",
+                    message: req.t("item.success_delete_item")
+                    })
             }
         });
 }
@@ -389,17 +400,17 @@ exports.cekItem = function(req, res) {
             } else {
                 console.log(rows.length);
                 if (rows.length < 1) {
-                    return response.ok({
-                        status: 'not found',
-                        message: 'data tidak ditemukan',
+                    return res.status(400).json({
+                        status: 'error',
+                        message: req.t("tag_number_not_found"),
                         data: rows
-                    }, res);
+                    });
                 } else {
-                    return response.ok({
+                    return res.send({
                         status: 'success',
-                        message: 'data berhasil didapatkan',
+                        message: req.t("success_get_tag_number"),
                         data: rows
-                    }, res);
+                    });
                 }
             }
         });
