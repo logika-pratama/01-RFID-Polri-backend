@@ -13,7 +13,11 @@ exports.itemById = function(req, res) {
         if (error) {
             console.log(error);
         } else {
-            response.ok(rows, res);
+            response.ok({
+                status: "success",
+                message: req.t("success_get_data"),
+                data: rows
+            }, res);
         }
 
     });
@@ -153,7 +157,11 @@ exports.datanull = function(req, res) {
         if (error) {
             console.log(error);
         } else {
-            response.ok(rows, res);
+            response.ok({
+                status: "success",
+                message: req.t("success_get_data"),
+                data: rows
+            }, res);
         }
 
     });
@@ -201,32 +209,7 @@ exports.additem = function(req, res) {
     var id_Account = req.idaccount;
     var Ref_Number = req.body.Ref_Number;
 
-    console.log(req.body)
-    if (SKU.length < 1 || SKU.trim() == "") {
-        return response.warning({
-            status: 'warning',
-            message: req.t('item.sku_required')
-        }, res);
-    } else if (Quantity.length < 1 ) {
-        return response.warning({
-            status: 'warning',
-            message: req.t('item.quantity_required')
-        }, res);
-    } else if (Ref_Number.length < 1 || Ref_Number.trim() == "") {
-        return response.warning({
-            status: 'warning',
-            message: req.t('item.ref_required')
-        }, res);
-    } else if (tag_number.length < 1 || tag_number.trim() == "") {
-        return res.json({
-            status: 'warning',
-            message: req.t('item.tag_required')
-        }, res);
-    }
-    // if (Item_code.length > 20){return response.warning({status: 'warning', message: 'Panjang Karakter melebihi batas !'}, res)}
-    if (tag_number.length > 100){return response.warning({status: 'warning', message: req.t('item.max_tag_number')}, res)}
-    if (Ref_Number.length > 20){return response.warning({status: 'warning', message: req.t('item.max_ref_number')}, res)}
-    
+    console.log(req.body);
     koneksi.query('INSERT INTO items (item_id,Item_code,Item_category,Item_Type,SKU,Name,Description,Uom,Quantity,tag_number,Ref_Number,Print_Tag,id_Account) VALUES(?,?,?,?,?,?,?,?,?,?,?,"yes",?)', [item_id, Item_code, Item_category, Item_Type, SKU, Name, Description, Uom, Quantity, tag_number, Ref_Number, id_Account],
         function(error, rows, fields) {
             if (error) {
@@ -274,7 +257,7 @@ exports.registerItem = async (req, res) => {
 
 
     const schema = {
-        Item_code: 'string|optional',
+        Item_code: 'string|optional|max:20',
         Item_category: 'string|optional',
         Item_Type: 'string|optional',
         SKU: 'string|empty:false',
@@ -333,33 +316,11 @@ exports.edititem = function(req, res) {
     const tag_number = req.body.tag_number;
     const Ref_Number = req.body.Ref_Number;
     const id_Account = req.idaccount;
+    
+
     console.log(`item_id : ${item_id}, id_Account: ${id_Account}`);
     console.log(req.body)
-    if (SKU.length < 1 || SKU.trim() == "") {
-        return response.warning({
-            status: 'warning',
-            message: 'Silahkan isi SKU !'
-        }, res);
-    } else if (Quantity.length < 1 ) {
-        return response.warning({
-            status: 'warning',
-            message: 'Silahkan isi Qauantity !'
-        }, res);
-    } else if (Ref_Number.length < 1 || Ref_Number.trim() == "") {
-        return response.warning({
-            status: 'warning',
-            message: 'Silahkan isi Ref Number !'
-        }, res);
-    } else if (tag_number.length < 1 || tag_number.trim() == "") {
-        return response.warning({
-            status: 'warning',
-            message: 'Silahkan isi Tag Number !'
-        }, res);
-    }    
-    if (Item_code.length > 20){return response.warning({status: 'warning', message: 'Panjang Karakter melebihi batas !'}, res)}
-    if (Quantity.length > 10){return response.warning({status: 'warning', message: 'Panjang Karakter melebihi batas !'}, res)}
-    if (tag_number.length > 100){return response.warning({status: 'warning', message: 'Panjang Karakter melebihi batas !'}, res)}
-    if (Ref_Number.length > 20){return response.warning({status: 'warning', message: 'Panjang Karakter melebihi batas !'}, res)}    
+
     koneksi.query('UPDATE items SET Item_code=?,Item_category=?,Item_Type=?,SKU=?,Name=?,Description=?,Uom=?,Quantity=?,tag_number=?,Ref_Number=? WHERE item_id=? AND id_Account=?', [Item_code, Item_category, Item_Type, SKU, Name, Description, Uom, Quantity, tag_number, Ref_Number, item_id, id_Account],
         function(error, rows, fields) {
             if (error) {
@@ -375,7 +336,7 @@ exports.edititem = function(req, res) {
             } else {
                 return response.ok({
                     status: "succes",
-                    message: "Berhasil mengubah data"
+                    message: req.t("success_update_item")
                 }, res);
             }
         });

@@ -18,8 +18,10 @@
         "tag_required": "nomor RFID wajib diisi !",
         "quantity_required": "kuantitas wajib diisi !",
         "ref_required": "nomor referensi wajib diisi !",
-        "max_tag_number": "nomor rfid melebihi batas",
-        "max_ref_number": "nomor referensi melebihi batas",
+        "max_tag_number": "nomor rfid terlalu panjang",
+        "max_ref_number": "nomor referensi terlalu panjang",
+        "max_qty": "kuantitas terlalu panjang",
+        "max_item_code": "kode item terlalu panjang",
         "tag_exist": "nomor RFID sudah digunakan"
     },
     "account":{

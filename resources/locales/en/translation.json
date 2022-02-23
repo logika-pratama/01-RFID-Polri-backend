@@ -20,6 +20,8 @@
         "ref_required": "ref number required",
         "max_tag_number": "max length of tag number",
         "max_ref_number": "max length of ref number",
+        "max_qty": "max length of quantity",
+        "max_item_code": "max length of item code",
         "tag_exist": "tag number already exist"
     },
     "account":{
