@@ -18,10 +18,10 @@
         "tag_required": "tag number required",
         "quantity_required": "quantity required",
         "ref_required": "ref number required",
-        "max_tag_number": "max length of tag number",
-        "max_ref_number": "max length of ref number",
-        "max_qty": "max length of quantity",
-        "max_item_code": "max length of item code",
+        "max_tag_number": "tag number too long ",
+        "max_ref_number": "tag number too long ",
+        "max_qty": "quantity too long ",
+        "max_item_code": "item code too long ",
         "tag_exist": "tag number already exist"
     },
     "account":{
@@ -73,9 +73,9 @@
     },
     "reader":{
         "success_add_reader": "success add reader",
-        "max_length_of_name": "max length of name",
+        "max_length_name": "name too long",
         "success_update_reader": "success update reader",
-        "max_length_of_reader": "max length of reader",
+        "max_length_reader": "reader too long ",
         "server_not_found": "server not found",
         "account_dont_have_reader": "account don't have reader"
     },
@@ -86,6 +86,9 @@
         "success_recieve_items": "succes recieve items",
         "please_select_item_to_move": "please select items to move"
     },
+    "user":{
+
+    },
     "upload":{
         "please_use_excel_format": "please use excel format",
         "sku_required": "SKU is required",
@@ -94,5 +97,31 @@
         "tag_number_required": "tag number is required",
         "format_does_not_match": "format does not match",
         "cant_upload": "can't upload filename"
+    },
+    "user":{
+        "success_create_user": "success create user",
+        "success_update_user": "success update user",
+        "success_delete_user": "success delete user",
+        "succes_get_user": "success get user",
+        "user_id_is_rerquired": "user id is rerquired",
+        "user_max_length": "user id too long ",
+        "user_min_length": "user id too short ",
+        "name_max_length": "name too long ",
+        "name_min_length": "name too short ",
+        "description_max_lenght": "description too long ",
+        "phone_number_max_length": "phone number too long",
+        "email_is_required": "email is required",
+        "email_max_length": "email too long",
+        "username_max_length": "username too long ",
+        "username_min_length": "username is too short ",
+        "password_is_required": "password is required",
+        "password_max_length": "password is too long",
+        "password_min_length": "password is too short",
+        "id_account_max_length": "id account is too long",
+        "id_account_min_length": "id account is too short",
+        "id_account_required": "id account is required",
+        "role_required": "role is required",
+        "device_id_max_lenght": "device id is too loong",
+        "device_id_min_length": "device id too short"
     }
 }

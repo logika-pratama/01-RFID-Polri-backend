@@ -1,5 +1,5 @@
 const Validator = require('fastest-validator');
-const v = new Validator()
+const v = new Validator();
 
 exports.validateItem = (req, res, next)=>{
 

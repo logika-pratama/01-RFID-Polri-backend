@@ -94,5 +94,31 @@
         "tag_number_required": "nomor RFID tidak boleh ada yang kosong",
         "format_does_not_match": "format tidak sesuai , gunakan yang sudah disediakan !",
         "cant_upload": "tidak dapat mengunggah filename"
+    },
+    "user":{
+        "success_create_user": "berhasil membuat pengguna",
+        "success_update_user": "berhasil memperbarui pengguna",
+        "success_delete_user": "berhasil menghapus pengguna",
+        "succes_get_user": "berhasil mendapatkan data pengguna",
+        "user_id_is_rerquired": "ID pengguna tidak boleh kosong",
+        "user_max_length": "ID pengguna terlalu panjang ",
+        "user_min_length": "ID pengguna terlalu pendek ",
+        "name_max_length": "nama terlalu panjang",
+        "name_min_length": "nama terlalu pendek",
+        "description_max_lenght": "deskripsi terlalu panjang",
+        "phone_number_max_length": "nomor telepon terlalu panjang",
+        "email_is_required": "email tidak boleh kosong ",
+        "email_max_length": "email terlalu panjang",
+        "username_max_length": "nama pengguna terlalu panjang",
+        "username_min_length": "nama pengguna terlalu panjang",
+        "password_is_required": "kata sandi harus diisi",
+        "password_max_length": "kata sandi terlalu panjang",
+        "password_min_length": "kata sandi terlalu pendek",
+        "id_account_max_length": "id akun terlalu panjang",
+        "id_account_min_length": "id akun terlalu pendek",
+        "id_account_required": "id akun harus diisi",
+        "role_required": "role harus diisi",
+        "device_id_max_lenght": "id perangkat terlalu panjang",
+        "device_id_min_length": "id perangkat terlalu pendek"
     }
 }
