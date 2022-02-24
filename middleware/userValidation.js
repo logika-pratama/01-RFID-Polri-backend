@@ -18,11 +18,9 @@ exports.validateUser = (req, res, next) =>{
         name:{
             type: "string",
             max: 30,
-            min: 3,
             optional: true,
             messages:{
                 stringMax: req.t("user.name_max_length"),
-                stringMin: req.t("user.name_min_length")
             }
         },
         description:{
@@ -54,10 +52,8 @@ exports.validateUser = (req, res, next) =>{
         username:{
             type: "string",
             max: 20,
-            min: 30,
             messages:{
-                stringMax: req.t("user.username_max_length"),
-                stringMin: req.t("user.username_min_length")
+                stringMax: req.t("user.username_max_length")
             }
         },
         password:{
