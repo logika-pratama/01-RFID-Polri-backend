@@ -1,364 +1,171 @@
 {
   "openapi": "3.0.3",
   "info": {
-    "title": "ITAT Public API",
-    "description": "OPEN API for ITAT Public API Integration",
-    "termsOfService": "http://swagger.io/terms/",
-    "varsion": "1.0.0",
-    "contact": {
-      "name": "RFID Solution",
-      "email": "info@logikapratama.com",
-      "url": "https://rfidsolutions.id/"
-    },
-    "license": {
-      "name": "APACHE 2.0",
-      "url": "https://www.apache.org/licenses/LICENSE-2.0"
-    }
+      "title": "RFID-API-Documentation",
+      "version": "1",
+      "description": "OpenAPI for RFID ",
+      "termsOfService": "https://rfidsolutions.id/",
+      "contact": {
+          "name": "RFID-Solution",
+          "email": "info@logikapratama.com",
+          "url": "https://rfidsolutions.id/"
+      },
+      "license": {
+          "name": "APACHE 2.0",
+          "url": "https://www.apache.org/licenses/LICENSE-2.0"
+      }
   },
   "servers": [
-    {
-      "name": "Public Server",
-      "url": "http//:151.106.112.34:8080"
-    },
-    {
-      "name": "Local Server",
-      "url": "http//:localhost:8080"
-    }
+      {
+          "description": "RFID Solution API Public-Server",
+          "url": "http://151.106.112.34/"
+      },
+      {
+          "description": "RFID Solution API Local-Server",
+          "url": "localhost:8080"
+      }
   ],
   "paths": {
-    "/api/v1/public/item": {
-      "get": {
-        "tags": ["items"],
-        "security": [
-          {
-            "itemAuth": []
-          }
-          
-        ],
-        "summary": "get a items",
-        "description": "get items from databases",
-        "responses": {
-          "200": {
-            "description": "Success Get All Items",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "type": "object",
-                    "properties": {
-                      "Item_code": {
-                        "type": "string",
-                        "minLength": 1,
-                        "maxLength": 10,
-                        "required": false
-                      },
-                      "Item_category": {
-                        "type": "string",
-                        "required": false
-                      },
-                      "Item_Type": {
-                        "type": "string",
-                        "required": false
-                      },
-                      "SKU": {
-                        "type": "string",
-                        "required": true
-                      },
-                      "Name": {
-                        "type": "string",
-                        "required": false
-                      },
-                      "Description": {
-                        "type": "string",
-                        "required": false
-                      },
-                      "Uom": {
-                        "type": "string",
-                        "required": false
-                      },
-                      "Quantity": {
-                        "type": "number",
-                        "required": true
-                      },
-                      "tag_number": {
-                        "required": true,
-                        "type": "string"
-                      },
-                      "Ref_Number": {
-                        "required": true,
-                        "type": "string"
+      "/api/v1/item/all": {
+          "get":{
+            "tags": ["Master item"],
+            "description": "get all master item data from database",
+            "responses": {
+              "200":{
+                "description": "success get all items",
+                "content": {
+                  "application/json":{
+                    "schema":{
+                      "$ref": "#/components/schemas/items"
+                    },
+                    "examples": {
+                      "success":{
+                        "description": "example success get all data",
+                        "value":[
+                          {
+                            "id": "1",
+                          "name": "Java",
+                          "priority": 3,
+                          "tags": [
+                            "Java",
+                            "Programming"]
+                          }
+                        ]
                       }
                     }
-                  }
-                },
-                "examples": {
-                  "success": {
-                    "description": "success get all items",
-                    "value": [
-                      {
-                        "Item_code": "A2920",
-                        "Item_category": "Persediaan",
-                        "Item_Type": "Elektronik",
-                        "SKU": "AKHUO9212",
-                        "Name": "TV",
-                        "Description": "TV description",
-                        "Uom": "pcs",
-                        "Quantity": 1,
-                        "tag_number": "A112333222112",
-                        "Ref_Number": "111213212"
-                      },
-                      {
-                        "Item_code": "A2921",
-                        "Item_category": "Persediaan",
-                        "Item_Type": "Elektronik",
-                        "SKU": "AKHUO9212",
-                        "Name": "Monitor",
-                        "Description": "Monitor description",
-                        "Uom": "pcs",
-                        "Quantity": 1,
-                        "tag_number": "A112333222113",
-                        "Ref_Number": "9022AKA"
-                      }
-                    ]
                   }
                 }
               }
             }
           }
-        }
       },
-      "post": {
-        "tags": ["items"],
-        "security": [
-          {
-            "itemAuth": []
-          }
-        ],
-        "summary": "create a new item",
-        "description": "create a new item to database",
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#components/schemas/items"
-              },
-              "examples": {
-                "item 1": {
-                  "description": "example items 1",
-                  "value": {
-                    "Item_code": "A2920",
-                    "Item_category": "Persediaan",
-                    "Item_Type": "Elektronik",
-                    "SKU": "AKHUO9212",
-                    "Name": "TV",
-                    "Description": "TV description",
-                    "Uom": "pcs",
-                    "Quantity": 1,
-                    "tag_number": "A112333222112",
-                    "Ref_Number": "111213212"
-                  }
-                },
-                "item 2": {
-                  "description": "example items 3",
-                  "value": {
-                    "Item_code": "A2921",
-                    "Item_category": "Persediaan",
-                    "Item_Type": "Elektronik",
-                    "SKU": "AKHUO9212",
-                    "Name": "Monitor",
-                    "Description": "Monitor description",
-                    "Uom": "pcs",
-                    "Quantity": 1,
-                    "tag_number": "A112333222113",
-                    "Ref_Number": "9022AKA"
-                  }
-                },
-                "item 3": {
-                  "description": "example items 3",
-                  "value": {
-                    "Item_code": "A2925",
-                    "Item_category": "Persediaan",
-                    "Item_Type": "Elektronik",
-                    "SKU": "AKHUO9212",
-                    "Name": "Kabel",
-                    "Description": "Kabel description",
-                    "Uom": "meters",
-                    "Quantity": 1,
-                    "tag_number": "A1123332221142",
-                    "Ref_Number": "9022AKP"
-                  }
-                }
-              }
-            }
-          }
-        },
-
-        "responses": {
-          "200": {
-            "description": "success create items",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "status":{
-                      "type": "string",
-                      "example": "success"
-                    },
-                    "message":{
-                      "type": "string",
-                      "example": "successs add new item"
-                    },
-                    "item_id":{
-                      "type": "string",
-                      "example": "gr8kzruti0v"
-                    } 
-                  }
-                  
-                }
-              }
-            }
+      "/api/v1/item": {
+          "get": {
+              "tags": [
+                  "Master item"
+              ]
           },
-          "409":{
-            "description": "duplicat entry tag number",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "status":{
-                      "type": "string",
-                      "example": "warning"
-                    },
-                    "message":{
-                      "type": "string",
-                      "example": "tag number already existing"
-                    }
-                  }
-                  
-                }
-              }
-            }
+          "post": {
+              "tags": [
+                  "Master item"
+              ]
           }
-        }
+      },
+      "/api/v1/itemnull": {
+          "get": {
+              "tags": [
+                  "Master item"
+              ]
+          }
+      },
+      "/api/v1/item/:id": {
+          "delete": {
+              "tags": [
+                  "Master item"
+              ]
+          },
+          "get": {
+              "tags": [
+                  "Master item"
+              ]
+          }
+      },
+      "/api/v1/item/:item_id": {
+          "put": {
+              "tags": [
+                  "Master item"
+              ],
+              "description": "Update Master Item in database"
+          }
+      },
+      "/api/v1/item/search/:tag": {
+          "get": {
+              "tags": [
+                  "Master item"
+              ]
+          }
       }
-    }
   },
   "components": {
-    "securitySchemes": {
-      "itemAuth": {
-        "description": "Authentication for REST full API Items",
-        "type": "apiKey",
-        "in": "header",
-        "name": "api_key"
-      }
-    },
-    "parameters": {
-      "itemsId": {
-        "name": "itemId",
-        "in": "path",
-        "required": true,
-        "description": "item id for update"
-      }
-    },
-    "schemas": {
-      "items": {
-        "type": "object",
-        "properties": {
-          "Item_code": {
-            "type": "string",
-            "minLength": 1,
-            "maxLength": 10,
-            "required": false
+      "parameters": {},
+      "schemas": {
+          "messages":{
+            "type": "object",
+            "properties": {
+              "status": "success | warning | error",
+              "message": "message from server"
+            }
           },
-          "Item_category": {
-            "type": "string",
-            "required": false
-          },
-          "Item_Type": {
-            "type": "string",
-            "required": false
-          },
-          "SKU": {
-            "type": "string",
-            "required": true
-          },
-          "Name": {
-            "type": "string",
-            "required": false
-          },
-          "Description": {
-            "type": "string",
-            "required": false
-          },
-          "Uom": {
-            "type": "string",
-            "required": false
-          },
-          "Quantity": {
-            "type": "number",
-            "required": true
-          },
-          "tag_number": {
-            "required": true,
-            "type": "string"
-          },
-          "Ref_Number": {
-            "required": true,
-            "type": "string"
+          "items": {
+              "type": "object",
+              "properties": {
+                  "Item_code": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 10,
+                      "required": false
+                  },
+                  "Item_category": {
+                      "type": "string",
+                      "required": false
+                  },
+                  "Item_Type": {
+                      "type": "string",
+                      "required": false
+                  },
+                  "SKU": {
+                      "type": "string",
+                      "required": true,
+                      "maxLength": 50
+                  },
+                  "Name": {
+                      "type": "string",
+                      "required": false
+                  },
+                  "Description": {
+                      "type": "string",
+                      "required": false
+                  },
+                  "Uom": {
+                      "type": "string",
+                      "required": false
+                  },
+                  "Quantity": {
+                      "type": "number",
+                      "required": true,
+                      "maxLength": 10
+                  },
+                  "tag_number": {
+                      "required": true,
+                      "type": "string",
+                      "maxLength": 100
+                  },
+                  "Ref_Number": {
+                      "required": true,
+                      "type": "string"
+                  }
+              }
           }
-        }
-      },
-      "arrayItems": {
-        "type": "array",
-        "properties": {
-          "Item_code": {
-            "type": "string",
-            "minLength": 1,
-            "maxLength": 10,
-            "required": false,
-            "default": "A29201"
-          },
-          "Item_category": {
-            "type": "string",
-            "required": false
-          },
-          "Item_Type": {
-            "type": "string",
-            "required": false
-          },
-          "SKU": {
-            "type": "string",
-            "required": true
-          },
-          "Name": {
-            "type": "string",
-            "required": false
-          },
-          "Description": {
-            "type": "string",
-            "required": false
-          },
-          "Uom": {
-            "type": "string",
-            "required": false
-          },
-          "Quantity": {
-            "type": "number",
-            "required": true
-          },
-          "tag_number": {
-            "required": true,
-            "type": "string"
-          },
-          "Ref_Number": {
-            "required": true,
-            "type": "string"
-          }
-        }
       }
-    }
   }
 }
