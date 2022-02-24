@@ -11,7 +11,11 @@ exports.userById = function(req, res) {
         if (error) {
             console.log(error);
         } else {
-            response.ok(rows, res);
+            res.send({
+                status: 'success',
+                message: req.t('user.succes_get_user'),
+                data: rows
+            });
         }
     });
 };
@@ -23,7 +27,11 @@ exports.akun = function(req, res) {
         if (error) {
             console.log(error);
         } else {
-            response.ok(rows, res);
+            res.send({
+                status:'success',
+                message: req.t('uer.success_get_user'),
+                data: rows
+            });
         }
     });
 };
@@ -34,7 +42,11 @@ exports.alluser = function(req, res) {
         if (error) {
             console.log(error);
         } else {
-            response.ok(rows, res);
+            res.send({
+                status: 'success',
+                message: req.t('user.succes_get_user'),
+                data: rows
+            });
         }
     });
 };
@@ -57,52 +69,15 @@ exports.adduser = function(req, res) {
         Device_ID = "";
         console.log("Device ID harus 0 ")
     }
-
-    if (id_user.length < 1 || id_user.trim() == "") {
-        return response.warning({
-            status: 'warning',
-            message: 'Silahkan isi id user !'
-        }, res);
-    } else if (email.length < 1) {
-        return response.warning({
-            status: 'warning',
-            message: 'Silahkan isi  email !'
-        }, res);
-    } else if (username.length < 1) {
-        return response.warning({
-            status: 'warning',
-            message: 'Silahkan isi  username !'
-        }, res);
-    } else if (id_account.length < 0) {
-        return response.warning({
-            status: 'warning',
-            message: 'Silahkan isi id account !'
-        }, res);
-    } else if (id_user.length >= 20) {
-        return response.warning({
-            status: 'warning',
-            message: 'id user terlalu panjang'
-        }, res);
-    } else if (Device_ID.length >= 7) {
-        return response.warning({
-            status: 'warning',
-            message: 'Device ID terlalu panjang'
-        }, res);
-    } else if (password.length < 1 || password.trim() == "") {
-        return response.warning({
-            status: 'warning',
-            message: 'Silahkan Isi Password'
-        }, res);
-    }
     koneksi.query('INSERT INTO users (id_user,name,description,telpon,email,username,password,id_account,role,Device_ID) VALUES(?,?,?,?,?,?,?,?,?,?)', [id_user, name, description, telpon, email, username, password, id_account, role, Device_ID],
         function(error, rows, fields) {
             if (error) {
                 console.log(error);
             } else {
-                return response.ok({
+                return res.send({
                     status: 'success',
-                    message: "Berhasil Menambahkan user baru!"
-                }, res);
+                    message: req.t("success_create_user")
+                });
             }
         });
 };
@@ -121,37 +96,16 @@ exports.edituser = function(req, res) {
     var role = req.body.role;
     var Device_ID = req.body.Device_ID;
 
-    if (email.length < 1) {
-        return response.warning({
-            status: 'warning',
-            message: 'Silahkan isi  email !'
-        }, res);
-    } else if (username.length < 1) {
-        return response.warning({
-            status: 'warning',
-            message: 'Silahkan isi  username !'
-        }, res);
-    } else if (Device_ID.length >= 7) {
-        return response.warning({
-            status: 'warning',
-            message: 'Device ID terlalu panjang'
-        }, res);
-    } else if (password.length < 1 || password.trim() == "") {
-        return response.warning({
-            status: 'warning',
-            message: 'Silahkan Isi Password'
-        }, res);
-    }
 
     koneksi.query('UPDATE users SET name=?,description=?,telpon=?,email=?,username=?,password=?,role=?,Device_ID=? WHERE id_user=?', [name, description, telpon, email, username, password, role, Device_ID, id_user],
         function(error, rows, fields) {
             if (error) {
                 console.log(error);
             } else {
-                return response.ok({
+                return res.send({
                     status: "succes",
-                    message: "Berhasil mengubah data"
-                }, res);
+                    message: req.t("success_update_user")
+                });
             }
         });
 };
@@ -164,7 +118,10 @@ exports.hapususer = function(req, res) {
             if (error) {
                 console.log(error);
             } else {
-                response.ok("Berhasil Hapus Data", res)
+                res.send({
+                    status: 'success',
+                    message: req.t("success_delete_user")
+                })
             }
         });
 }

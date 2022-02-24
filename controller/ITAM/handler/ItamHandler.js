@@ -55,11 +55,13 @@ exports.gateIn = async(req, res) =>{
             toMonitoring(item,device_id,id_account);
             deleteRecieve(item)
             addGRNumber(item);
-            
+            data = [];
+            item = [];
             return response.ok({
                 status: 'success',
                 message: 'Sukes terima ' + items.length + ' items'
-            }, res);    
+            }, res);
+
         }else{
             return res.json(status);
         }
