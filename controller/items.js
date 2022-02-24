@@ -35,6 +35,22 @@ const itemCount = function(id, result) {
         })
 }
 
+function cektag(tag) {
+    return new Promise(function(resolve, reject) {
+        koneksi.query(
+            "SELECT * FROM items WHERE tag_number= ? ", [tag],
+            function(error, rows, fields) {
+                if (error) {
+                    reject(error.sqlMessage);
+                } else {
+                    var a = JSON.stringify(rows);
+                    var b = JSON.parse(a);
+                    resolve(b);
+                }
+            }
+        );
+    });
+}
 // Pagination Get Items by ID
 exports.getItems = async function(req, res) {
     let sort_by = `tag_number`
@@ -202,7 +218,7 @@ exports.allitem = function(req, res) {
     });
 };
 // add 
-exports.additem = function(req, res) {
+exports.additem = async function(req, res) {
     var item_id = uniqid.process();
     var Item_code = req.body.Item_code;
     var Item_category = req.body.Item_category;
@@ -216,31 +232,31 @@ exports.additem = function(req, res) {
     var id_Account = req.idaccount;
     var Ref_Number = req.body.Ref_Number;
 
-    console.log(req.body);
+    const tag = await cektag(tag_number);
+    console.log(tag);
+    if(tag.length > 0){
+        return res.status(400).json({
+            status: 'error',
+            message: req.t('item.tag_exist')
+
+        });
+    }
+
     koneksi.query('INSERT INTO items (item_id,Item_code,Item_category,Item_Type,SKU,Name,Description,Uom,Quantity,tag_number,Ref_Number,Print_Tag,id_Account) VALUES(?,?,?,?,?,?,?,?,?,?,?,"yes",?)', [item_id, Item_code, Item_category, Item_Type, SKU, Name, Description, Uom, Quantity, tag_number, Ref_Number, id_Account],
         function(error, rows, fields) {
             if (error) {
-                if(error.errno == 1062){
-                    res.status(400).json({
-                        status: 'error',
-                        message: req.t('tag_exist')
-    
-                    });
-                }    
-                console.log(error);
-                res.status(400).json({
+                return res.status(400).json({
                     status: 'error',
                     message: error.sqlMessage
                 })
 
-            } else {
-                res.send({
-                    status: 'success',
-                    message: req.t('item.success_create_item'),
-                    item_id: item_id
-                });
             }
         });
+    return res.send({
+        status: 'success',
+        message: req.t('item.success_create_item'),
+        item_id: item_id
+    });
 };
 
 exports.registerItem = async (req, res) => {
