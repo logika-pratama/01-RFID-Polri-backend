@@ -38,14 +38,14 @@ const verify = async(req, res, next) => {
     console.log("headers: " + cektoken)
     if (!cektoken) {
 
-        return res.status(403).json({ message: "Token not found!" });
+        return res.status(401).json({ message: "Token not found!" });
     }
 
     var decodetoken = decodejwt(cektoken)
     console.log(decodetoken)
     if (!decodetoken) {
 
-        return res.status(403).json({ message: "invalid tokken!" });
+        return res.status(401).json({ message: "invalid tokken!" });
     }
 
     var datatoken = decodetoken;

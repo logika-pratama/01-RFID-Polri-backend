@@ -41,6 +41,7 @@ exports.gateIn = async(req, res) =>{
             item.push(items[i].item_id);
         }
         
+        //
         const gatein = await api.post('/api/gate_in', data);
         const status = gatein.data
 	    console.log(status);
@@ -51,12 +52,11 @@ exports.gateIn = async(req, res) =>{
             if(cekmonitor.length > 0){
                 console.log('Delete Monitoring');
                 deleteMonitoring(item);
-            }            
-            toMonitoring(item,device_id,id_account);
-            deleteRecieve(item)
-            addGRNumber(item);
-            data = [];
-            item = [];
+            }
+            
+            toMonitoring(item,device_id,id_account); // add async
+            deleteRecieve(item) // add async
+            addGRNumber(item); // add async
             return response.ok({
                 status: 'success',
                 message: 'Sukes terima ' + items.length + ' items'
@@ -65,9 +65,6 @@ exports.gateIn = async(req, res) =>{
         }else{
             return res.json(status);
         }
-
-
-
     }catch(error){
         if(error.code === 'ECONNREFUSED'){
             return res.status(500).json({status: 'error', message: 'service unavailable'});

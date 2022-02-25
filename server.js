@@ -10,6 +10,7 @@ const i18nextMiddleware = require('i18next-express-middleware');
 
 const app = express();
 
+// initial 2 language
 i18next
     .use(Backend)
     .use(i18nextMiddleware.LanguageDetector)
