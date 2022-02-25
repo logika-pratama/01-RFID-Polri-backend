@@ -26,9 +26,18 @@
     },
     "account":{
         "success_get_account": "berhasil mendapatkan akun",
-        "success_add_account" : "berhasil mendapatkan akun",
+        "success_add_account" : "berhasil membuat akun",
         "success_update_account": "berhasil memperbarui akun",
-        "succes_delete_account" : "berhasil menghapus akun"
+        "succes_delete_account" : "berhasil menghapus akun",
+        "id_account_max_length": "id pengguna terlalu panjang ",
+        "id_account_min_length": "id pengguna terlalu pendek ",
+        "id_account_is_required": "id pengguna wajib diisi ",
+        "name_max_length": "nama terlalu panjang",
+        "email_is_required": "email wajib diisi",
+        "email_max_length": "email terlalu panjang",
+        "status_max_length": "status terlalu panjang",
+        "clean_data_max_length": "clean data terlalu panjang",
+        "modul_name_max_length": "nama modul terlalu panjang"
     },
     "goodIssue":{
         "success_get_gi" : "berhasil mendapatkan data good issue ",

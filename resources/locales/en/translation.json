@@ -28,7 +28,16 @@
         "success_get_account": "success get account",
         "success_add_account": "success add account",
         "success_update_account": "succcess update account",
-        "success_delete_account": "success delete account"
+        "success_delete_account": "success delete account",
+        "id_account_max_length": "id account is too long",
+        "id_account_min_length": "id account is too short",
+        "id_account_is_required": "id account is required",
+        "name_max_length": "name is too long",
+        "email_is_required": "email is required",
+        "email_max_length": "email is too long ",
+        "status_max_length": "status is too long",
+        "clean_data_max_length": "clean data is too long",
+        "modul_name_max_length": "modul is too long"
     },
     "goodIssue":{
         "success_get_gi" : "success get good issue data",

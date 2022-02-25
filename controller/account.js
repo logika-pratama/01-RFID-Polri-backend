@@ -8,9 +8,11 @@ exports.allAccount = function(req, res) {
         if (error) {
             console.log(error);
         } else {
-
-            response.ok(rows, res);
-            console.log("dari controller akun");
+            return res.send({
+                status: 'success',
+                message: req.t("account.success_get_account"),
+                data: rows
+            })
         }
     });
 
@@ -19,7 +21,7 @@ exports.allAccount = function(req, res) {
 
 //edit account
 exports.editAccount = function(req, res) {
-    var id_account = req.body.id_account,
+    let id_account = req.body.id_account,
         description = req.body.description,
         email = req.body.email,
         addresss = req.body.addresss,
@@ -32,7 +34,10 @@ exports.editAccount = function(req, res) {
         if (error) {
             console.log(error);
         } else {
-            response.ok("Success update data", res);
+            return res.send({
+                status: 'success',
+                message: req.t('account.success_update_account')
+            })
         }
 
     });
@@ -45,7 +50,11 @@ exports.accountById = function(req, res) {
         if (error) {
             console.log(error);
         } else {
-            response.ok(rows, res);
+            return res.send({
+                status: 'success',
+                message: req.t('account.success_get_account'),
+                data: rows
+            })
         }
 
     });
@@ -64,13 +73,7 @@ exports.addaccount = function(req, res) {
         expiredDate = req.body.expiredDate,
         cleanData = req.body.cleanData,
         modul_name = req.body.modul_name;
-    console.log(name.length);
-    if (id_account.length < 1) {
-        return res.send({
-            status: 'warning',
-            message: 'Harap isi semua data !'
-        });
-    } else {
+
         koneksi.query('INSERT INTO account (id_account,name,description,email,address,telpon,status,register_date,expired_date,clean_data, modul_name) VALUES(?,?,?,?,?,?,?,?,?,?,?)', [id_account, name, description, email, address, telpon, status, registerDate, expiredDate, cleanData, modul_name],
             function(error, rows, fields) {
                 if (error) {
@@ -79,10 +82,12 @@ exports.addaccount = function(req, res) {
                         return response.ok({ "messeage": "Akun Sudah ada, Coba Gunakan ID" }, res)
                     }
                 } else {
-                    return response.ok("Berhasil Menambahkan Data account!", res);
+                    return res.send({
+                        status: 'success',
+                        message: req.t('account.success_add_account')
+                    })
                 }
             });
-    }
 };
 
 
@@ -94,7 +99,10 @@ exports.hapusaccount = function(req, res) {
             if (error) {
                 console.log(error);
             } else {
-                response.ok("Berhasil Hapus Data", res)
+                res.send({
+                    status: 'success',
+                    message: req.t('account.succes_delete_account')
+                })
             }
         });
 }
