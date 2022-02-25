@@ -1,171 +1,221 @@
 {
-  "openapi": "3.0.3",
-  "info": {
-      "title": "RFID-API-Documentation",
-      "version": "1",
-      "description": "OpenAPI for RFID ",
-      "termsOfService": "https://rfidsolutions.id/",
-      "contact": {
-          "name": "RFID-Solution",
-          "email": "info@logikapratama.com",
-          "url": "https://rfidsolutions.id/"
-      },
-      "license": {
-          "name": "APACHE 2.0",
-          "url": "https://www.apache.org/licenses/LICENSE-2.0"
-      }
-  },
-  "servers": [
-      {
-          "description": "RFID Solution API Public-Server",
-          "url": "http://151.106.112.34/"
-      },
-      {
-          "description": "RFID Solution API Local-Server",
-          "url": "localhost:8080"
-      }
-  ],
-  "paths": {
-      "/api/v1/item/all": {
-          "get":{
-            "tags": ["Master item"],
-            "description": "get all master item data from database",
-            "responses": {
-              "200":{
-                "description": "success get all items",
-                "content": {
-                  "application/json":{
-                    "schema":{
-                      "$ref": "#/components/schemas/items"
-                    },
-                    "examples": {
-                      "success":{
-                        "description": "example success get all data",
-                        "value":[
-                          {
-                            "id": "1",
-                          "name": "Java",
-                          "priority": 3,
-                          "tags": [
-                            "Java",
-                            "Programming"]
-                          }
-                        ]
-                      }
+    "openapi": "3.0.3",
+    "info": {
+        "title": "RFID-API-Documentation",
+        "version": "1",
+        "description": "OpenAPI for RFID ",
+        "termsOfService": "https://rfidsolutions.id/",
+        "contact": {
+            "name": "RFID-Solution",
+            "email": "info@logikapratama.com",
+            "url": "https://rfidsolutions.id/"
+        },
+        "license": {
+            "name": "APACHE 2.0",
+            "url": "https://www.apache.org/licenses/LICENSE-2.0"
+        }
+    },
+    "servers": [
+        {
+            "description": "RFID Solution API Public-Server",
+            "url": "http://151.106.112.34/"
+        },
+        {
+            "description": "RFID Solution API Local-Server",
+            "url": "localhost:8080"
+        }
+    ],
+    "paths": {
+        "/api/v1/item/all": {
+            "get": {
+                "tags": [
+                    "Master item"
+                ],
+                "security": [
+                    {
+                        "bearerAuth": []
                     }
-                  }
+                ],
+                "description": "get all master item data from database",
+                "responses": {
+                    "200": {
+                        "description": "success get all items",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/messages"
+                                }
+                            }
+                        }
+                    }
                 }
-              }
             }
-          }
-      },
-      "/api/v1/item": {
-          "get": {
-              "tags": [
-                  "Master item"
-              ]
-          },
-          "post": {
-              "tags": [
-                  "Master item"
-              ]
-          }
-      },
-      "/api/v1/itemnull": {
-          "get": {
-              "tags": [
-                  "Master item"
-              ]
-          }
-      },
-      "/api/v1/item/:id": {
-          "delete": {
-              "tags": [
-                  "Master item"
-              ]
-          },
-          "get": {
-              "tags": [
-                  "Master item"
-              ]
-          }
-      },
-      "/api/v1/item/:item_id": {
-          "put": {
-              "tags": [
-                  "Master item"
-              ],
-              "description": "Update Master Item in database"
-          }
-      },
-      "/api/v1/item/search/:tag": {
-          "get": {
-              "tags": [
-                  "Master item"
-              ]
-          }
-      }
-  },
-  "components": {
-      "parameters": {},
-      "schemas": {
-          "messages":{
-            "type": "object",
-            "properties": {
-              "status": "success | warning | error",
-              "message": "message from server"
+        },
+        "/api/v1/item": {
+            "get": {
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "tags": [
+                    "Master item"
+                ],
+                "summary": "get all items by ID"
+            },
+            "post": {
+                "tags": [
+                    "Master item"
+                ],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
             }
-          },
-          "items": {
-              "type": "object",
-              "properties": {
-                  "Item_code": {
-                      "type": "string",
-                      "minLength": 1,
-                      "maxLength": 10,
-                      "required": false
-                  },
-                  "Item_category": {
-                      "type": "string",
-                      "required": false
-                  },
-                  "Item_Type": {
-                      "type": "string",
-                      "required": false
-                  },
-                  "SKU": {
-                      "type": "string",
-                      "required": true,
-                      "maxLength": 50
-                  },
-                  "Name": {
-                      "type": "string",
-                      "required": false
-                  },
-                  "Description": {
-                      "type": "string",
-                      "required": false
-                  },
-                  "Uom": {
-                      "type": "string",
-                      "required": false
-                  },
-                  "Quantity": {
-                      "type": "number",
-                      "required": true,
-                      "maxLength": 10
-                  },
-                  "tag_number": {
-                      "required": true,
-                      "type": "string",
-                      "maxLength": 100
-                  },
-                  "Ref_Number": {
-                      "required": true,
-                      "type": "string"
-                  }
-              }
-          }
-      }
-  }
+        },
+        "/api/v1/itemnull": {
+            "get": {
+                "tags": [
+                    "Master item"
+                ],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/item/:id": {
+            "delete": {
+                "tags": [
+                    "Master item"
+                ],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "get": {
+                "tags": [
+                    "Master item"
+                ],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/item/:item_id": {
+            "put": {
+                "tags": [
+                    "Master item"
+                ],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "description": "Update Master Item in database"
+            }
+        },
+        "/api/v1/item/search/:tag": {
+            "get": {
+                "tags": [
+                    "Master item"
+                ],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        }
+    },
+    "components": {
+        "parameters": {},
+        "securitySchemes": {
+            "bearerAuth": {
+                "type": "http",
+                "scheme": "bearer",
+                "bearerFormat": "JWT"
+            }
+        },
+        "schemas": {
+            "messages": {
+                "type": "object",
+                "properties": {
+                    "status": {
+                        "type": "string"
+                    },
+                    "message":{
+                        "type": "string"
+                    }
+                },
+                "required": ["message"],
+                "example":{
+                    "status": "success | warning | error",
+                    "message": "success CRUD "
+                }
+            },
+            "items": {
+                "type": "object",
+                "properties": {
+                    "Item_code": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 10,
+                        "required": false
+                    },
+                    "Item_category": {
+                        "type": "string",
+                        "required": false
+                    },
+                    "Item_Type": {
+                        "type": "string",
+                        "required": false
+                    },
+                    "SKU": {
+                        "type": "string",
+                        "required": true,
+                        "maxLength": 50
+                    },
+                    "Name": {
+                        "type": "string",
+                        "required": false
+                    },
+                    "Description": {
+                        "type": "string",
+                        "required": false
+                    },
+                    "Uom": {
+                        "type": "string",
+                        "required": false
+                    },
+                    "Quantity": {
+                        "type": "number",
+                        "required": true,
+                        "maxLength": 10
+                    },
+                    "tag_number": {
+                        "required": true,
+                        "type": "string",
+                        "maxLength": 100
+                    },
+                    "Ref_Number": {
+                        "required": true,
+                        "type": "string"
+                    }
+                }
+            },
+            "arrayItems": {
+                "type": "array",
+                "items": {
+                    "$ref": "#/components/schemas/items"
+                }
+            }
+        }
+    }
 }
