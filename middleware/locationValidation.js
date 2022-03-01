@@ -35,4 +35,12 @@ exports.validateLocation = (req, res, next) => {
 
         }
     }
+
+    const validate = v.validate(req.body, schema);
+    if(validate.length){
+        return res.status(400).json({
+            status: 'error',
+            message: validate[0].message
+        })
+    }
 }
