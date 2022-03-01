@@ -104,7 +104,10 @@ exports.TRById = function(req, res) {
         if (error) {
             console.log(error);
         } else {
-            response.ok(rows, res);
+            return res.send({
+                status: 'success',
+                message: req.t('success_get_data')
+            })
         }
 
     });
@@ -118,7 +121,10 @@ exports.TRByIdjoin = function(req, res) {
         if (error) {
             console.log(error);
         } else {
-            response.ok(rows, res);
+            return res.send({
+                status: 'success',
+                message: req.t('success_get_data')
+            })
         }
 
     });
@@ -144,7 +150,10 @@ exports.addTR = function(req, res) {
             if (error) {
                 console.log(error);
             } else {
-                response.ok("Berhasil Menambahkan employee baru!", res);
+                res.send({
+                    status: 'success',
+                    message: req.t('success_add_data')
+                })
             }
         });
 };
@@ -169,7 +178,10 @@ exports.editTR = function(req, res) {
             if (error) {
                 console.log(error);
             } else {
-                response.ok("Berhasil mengubah data", res);
+                return res.send({
+                    status: 'success',
+                    message: req.t('success_update_data')
+                })
             }
         });
 };
@@ -182,7 +194,10 @@ exports.hapusTR = function(req, res) {
             if (error) {
                 console.log(error);
             } else {
-                response.ok("Berhasil Hapus Data", res)
+                return res.send({
+                    status: 'success',
+                    message: req.t('success_delete_data')
+                })
             }
         });
 }
