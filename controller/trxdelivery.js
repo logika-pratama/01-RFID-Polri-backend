@@ -74,12 +74,11 @@ exports.TDById = function(req, res) {
         if (error) {
             console.log(error);
         } else {
-            response.ok({
+            return res.send({
                 status: 'success',
-                message: 'berhasil mendapatkan data',
+                message: req.t('success_get_data'),
                 data: rows
-            }, res);
-            console.log("TD");
+            })
         }
     });
 };
@@ -91,6 +90,11 @@ exports.allTD = function(req, res) {
         if (error) {
             console.log(error);
         } else {
+            res.send({
+                status: 'success',
+                message: req.t('success_get_data'),
+                data: rows
+            })
             response.ok(rows, res);
             console.log("TD");
         }
@@ -147,7 +151,10 @@ exports.editTD = function(req, res) {
             if (error) {
                 console.log(error);
             } else {
-                response.ok("Berhasil mengubah data", res);
+                return res.send({
+                    status: 'success',
+                    message: req.t('success_update_data')
+                })
             }
         });
 };
@@ -160,6 +167,10 @@ exports.hapusTD = function(req, res) {
             if (error) {
                 console.log(error);
             } else {
+                res.send({
+                    status: 'success',
+                    message: req.t('success_delete_data')
+                })
                 response.ok("Berhasil Hapus Data", res)
                     // deletcashier(id);
                     // deletemonitiring(id);

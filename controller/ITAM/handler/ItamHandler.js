@@ -57,11 +57,10 @@ exports.gateIn = async(req, res) =>{
             toMonitoring(item,device_id,id_account); // add async
             deleteRecieve(item) // add async
             addGRNumber(item); // add async
-            return response.ok({
+            return res.send({
                 status: 'success',
-                message: 'Sukes terima ' + items.length + ' items'
-            }, res);
-
+                message: req.t('success_recieve')
+            })
         }else{
             return res.json(status);
         }
@@ -80,12 +79,12 @@ exports.gateOut = async (req, res) =>{
         const id_account = req.idaccount;
         const items = req.body.items;
 
-        if(items.length < 1){
-            return response.warning({
-                status: 'warning',
-                message: 'Silahkan pilih beberapa item untuk dipindahkan !'
-            }, res);
-        }
+        // if(items.length < 1){
+        //     return response.warning({
+        //         status: 'warning',
+        //         message: 'Silahkan pilih beberapa item untuk dipindahkan !'
+        //    }, res);
+        // }
         let data = [];
         let item = [];
 
@@ -112,10 +111,10 @@ exports.gateOut = async (req, res) =>{
             deleteMonitoring(item);
            // deleteitem(item); // Khusus POLRI Delete ITEM tidak digunakan 
             addGINumber(item);
-            return response.ok({
+            return res.send({
                 status: 'success',
-                message: 'Sukes terima ' + items.length + ' items'
-            }, res);    
+                message: req.t('success_recieve')
+            })
         }else{
             return res.json(status);
         }

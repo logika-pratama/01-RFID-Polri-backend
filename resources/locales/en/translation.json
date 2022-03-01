@@ -10,6 +10,7 @@
     "all_data_downloaded": "all data downloaded",
     "success_download_data": "success download data",
     "data_not_found": "data not found",
+    "success_recieve": "success recieve items",
     "item":{
         "success_create_item": "success create item",
         "success_update_item": "success update item",

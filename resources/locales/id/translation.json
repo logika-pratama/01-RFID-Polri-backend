@@ -10,6 +10,7 @@
     "all_data_downloaded": "seluruh data telah diuduh",
     "success download data": "berhasil download data",
     "data_not_found": "data tidak ditemukan",
+    "success_recieve": "success terima data barang",
     "item":{
         "success_create_item": "sukses menambahkan data barang",
         "success_update_item": "sukses memperbarui data barang",
