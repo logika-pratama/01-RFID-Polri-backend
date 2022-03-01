@@ -8,11 +8,11 @@ exports.getTrx = function(req, res) {
         if (error) {
             console.log(error);
         } else {
-            response.ok({
+            res.send({
                 status: 'succes',
-                message: 'berhasil mendapatkan data',
+                message: req.t('success_get_data'),
                 data: rows
-            }, res);
+            });
         }
     });
 }
@@ -29,10 +29,10 @@ exports.addTrx = function(req, res) {
                     message: error.sqlMessage,
                 }, res)
             } else {
-                response.ok({
+                res.send({
                     status: 'succes',
-                    message: 'berhasil menambahkan type transaksi'
-                }, res);
+                    message:  req.t('success_get_data')
+                });
             }
         }
     );
