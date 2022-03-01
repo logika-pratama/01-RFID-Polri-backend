@@ -42,7 +42,11 @@ exports.track = function(req, res) {
         if (error) {
             console.log(error);
         } else {
-            response.ok(rows, res);
+            return res.send({
+                status: 'success',
+                message: req.t('success_get_data'),
+                data: rows
+            })
         }
 
     });
@@ -55,7 +59,11 @@ exports.trackGate = function(req, res) {
         if (error) {
             console.log(error);
         } else {
-            response.ok(rows, res);
+            return res.send({
+                status: 'success',
+                message: req.t('success_get_data'),
+                data: rows
+            })
         }
 
     });
