@@ -64,7 +64,7 @@
         "success_add_location": "berhasil menambahkan data lokasi"
     },
     "login":{
-        "fail_login": "surat elektronik atau password salah "
+        "fail_login": "email atau password salah "
     },
     "monitoring":{
         "auto_putway": "berhasil memperbarui data",
