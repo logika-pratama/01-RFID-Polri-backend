@@ -22,7 +22,8 @@
         "max_ref_number": "tag number too long ",
         "max_qty": "quantity too long ",
         "max_item_code": "item code too long ",
-        "tag_exist": "tag number already exist"
+        "tag_exist": "tag number already exist",
+        "please_check_item": "please choose items to move"
     },
     "account":{
         "success_get_account": "success get account",
@@ -53,6 +54,7 @@
         "success_get_tag_number": "success get tag number"
     },
     "location":{
+        "id_account_is_required": "id account is required",
         "success_add_location": "success add location",
         "id_location_exist": "id location already exist",
         "id_location_required": "id location is required",

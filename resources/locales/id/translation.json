@@ -54,6 +54,7 @@
         "success_get_tag_number": "berhasil mendapatkan nomor RFID"
     },
     "location":{
+        "id_account_is_required": "id akun harus diisi",
         "success_add_location": "berhasil menambahkan lokasi",
         "id_location_exist": "id lokasi sudah digunakan di akun lain",
         "id_location_required": "id lokasi wajib diisi !",
