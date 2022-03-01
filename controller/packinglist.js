@@ -80,8 +80,8 @@ exports.createpacking = function(req, res) {
         }
     }
     confirmOerder(No_Order, id);
-    response.ok({
+    res.send({
         status: 'success',
-        message: "Packet sudah diKonfirmasi"
-    }, res);
+        message: req.t("packing.packet_confirmed")
+    })
 };
