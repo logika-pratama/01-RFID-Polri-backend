@@ -91,35 +91,24 @@ exports.getGr = function(req, res) {
                 console.log(error);
             } else {
                 console.log(rows.length);
-                // // console.log(rows);
-                // var exceloutput = tanggal + "-GR-Document.xlsx"
-                //     var xls = json2xls(rows);
-                //     fs.writeFileSync(exceloutput, xls, 'binary');
-                //     res.download(exceloutput,(err) => {
-                //         if(err){
-                //             fs.unlinkSync(exceloutput)
-                //             response.ok("Unable to download the excel file")
-                //         }
-                //         fs.unlinkSync(exceloutput)
-                //     })
-
-                //process all data 
                 if (rows.length >= 1) {
                     console.log(rows.length);
-                    response.ok({
+                    res.send({
                         status: 'success',
-                        message: 'success get GR Data', 
-                        fileName: tanggal + "-GR Document", 
-                        data: rows 
-                    }, res); // response with file name
+                        message: req.t('goodRecieve.success_get_gr'),
+                        fileName: tanggal + "-GR Doc",
+                        data: rows
+                    })
                     var i = 0;
                     for (i; i <= rows.length - 1; i++) {
                         updategr(rows[i].Ref_Number); // update status GR to YES after download 
                     }
                 }
                 if (rows.length < 1) {
-
-                    response.ok("seluruh data telah di GI", res);
+                    return res.send({
+                        status: 'success',
+                        message: req.t('goodRecieve.data_already_printing')
+                    })
                 }
             }
         }
@@ -540,12 +529,17 @@ exports.konfirmGr = function(req, res) {
                 if (rows.length >= 1) {
 
                     updategr(id); // update status gr to yes
-
-                    response.ok("gr sukses!", res);
+                    res.send({
+                        status: 'success',
+                        message: req.t('goodRecieve.success_get_gr')
+                    })
                 }
                 if (rows.length < 1) {
                     // response.ok("seluruh data telah di GR!",res);
-                    response.ok({ status: "seluruh data telah di GR" }), res;
+                    return res.send({
+                        status: 'success',
+                        message: req.t('goodRecieve.data_already_printing')
+                    })
                 }
             }
         }

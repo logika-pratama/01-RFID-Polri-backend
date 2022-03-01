@@ -9,13 +9,10 @@ exports.THById = function(req, res) {
         if (error) {
             console.log(error);
         } else {
-            response.ok({
-                    status: 'succeess',
-                    message: 'berhasil mendapatkan data',
-                    data: rows
-                },
-                res);
-
+            res.send({
+                status: 'success',
+                message: req.t('success_get_data')
+            })
         }
 
     });
@@ -33,18 +30,15 @@ exports.search = function(req, res) {
                 console.log(error);
             } else {
                 if (rows.length < 1) {
-                    return response.ok({
+                    res.send({
                         status: 'success',
-                        message: 'Tag Number tidak ditemukan',
-                        data: rows
-                    }, res);
-
+                        message: req.t('tag_number_not_found')
+                    })
                 }
-                return response.ok({
-                    status: 'success',
-                    message: 'berhasil mendapatkan Tag Number',
-                    data: rows
-                }, res);
+                return res.send({
+                    status: "success",
+                    message: req.t("success_get_tag_number")
+                })
             }
         }
     );
@@ -177,7 +171,7 @@ exports.getHistory = async function(req, res) {
                     let page_count = Math.ceil(total_page / limit);
                     return response.ok({
                         status: 'success',
-                        messsage: 'Berhasil mendapatkan Data',
+                        messsage: req.t('success_get_data'),
                         per_page: limit,
                         page_count: page_count,
                         first_page: 1,
