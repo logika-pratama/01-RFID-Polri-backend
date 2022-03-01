@@ -48,10 +48,10 @@
                             }
                         }
                     },
-                    "400":{
+                    "400": {
                         "$ref": "#/components/responses/400"
                     },
-                    "401":{
+                    "401": {
                         "$ref": "#/components/responses/401"
                     }
                 }
@@ -67,7 +67,25 @@
                 "tags": [
                     "Master item"
                 ],
-                "summary": "get all items by ID"
+                "summary": "get all items by ID",
+                "responses": {
+                    "200": {
+                        "description": "success get all items",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/messages"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "$ref": "#/components/responses/400"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/401"
+                    }
+                }
             },
             "post": {
                 "tags": [
@@ -80,13 +98,13 @@
                 ],
                 "description": "add data to database master item",
                 "responses": {
-                    "200":{
+                    "200": {
                         "$ref": "#/components/responses/200"
                     },
-                    "400":{
+                    "400": {
                         "$ref": "#/components/responses/400"
                     },
-                    "401":{
+                    "401": {
                         "$ref": "#/components/responses/401"
                     }
                 }
@@ -101,10 +119,28 @@
                     {
                         "bearerAuth": []
                     }
-                ]
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success get all items",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/messages"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "$ref": "#/components/responses/400"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/401"
+                    }
+                }
             }
         },
-        "/api/v1/item/:id": {
+        "/api/v1/item/{id}": {
             "delete": {
                 "tags": [
                     "Master item"
@@ -114,15 +150,21 @@
                         "bearerAuth": []
                     }
                 ],
+                
                 "description": "delete item from database",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/id"
+                    }
+                ],
                 "responses": {
-                    "200":{
+                    "200": {
                         "$ref": "#/components/responses/200"
                     },
-                    "400":{
+                    "400": {
                         "$ref": "#/components/responses/400"
                     },
-                    "401":{
+                    "401": {
                         "$ref": "#/components/responses/401"
                     }
                 }
@@ -135,10 +177,33 @@
                     {
                         "bearerAuth": []
                     }
-                ]
+                ],
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/tag"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success get all items",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/messages"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "$ref": "#/components/responses/400"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/401"
+                    }
+                }
             }
         },
-        "/api/v1/item/:item_id": {
+        "/api/v1/item/{item_id}": {
             "put": {
                 "tags": [
                     "Master item"
@@ -149,20 +214,25 @@
                     }
                 ],
                 "description": "Update Master Item in database",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/item_id"
+                    }
+                ],
                 "responses": {
-                    "200":{
+                    "200": {
                         "$ref": "#/components/responses/200"
                     },
-                    "400":{
+                    "400": {
                         "$ref": "#/components/responses/400"
                     },
-                    "401":{
+                    "401": {
                         "$ref": "#/components/responses/401"
                     }
                 }
             }
         },
-        "/api/v1/item/search/:tag": {
+        "/api/v1/item/search/{tag}": {
             "get": {
                 "tags": [
                     "Master item"
@@ -171,23 +241,82 @@
                     {
                         "bearerAuth": []
                     }
-                ]
+                ],
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/tag"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success get all items",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/messages"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "$ref": "#/components/responses/400"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/401"
+                    }
+                }
             }
         }
     },
     "components": {
-        "responses":{
-            "200":{
+        "parameters": {
+            "item_id": {
+                "name": "item_id",
+                "in": "path",
+                "required": true,
+                "description": "item id for updated",
+                "schema": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 10
+                },
+                "example": "zplikshs"
+            },
+            "id": {
+                "name": "id",
+                "in": "path",
+                "required": true,
+                "schema": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 10
+                },
+                "example": "zasypk"
+            },
+            "tag": {
+                "name": "tag",
+                "in": "path",
+                "required": true,
+                "schema": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 20
+                },
+                "example": "112223344556600AB"
+            }
+        },
+        "responses": {
+            "200": {
                 "description": "Success",
                 "content": {
-                    "application/json":{
-                        "schema":{
-                            "$ref":"#/components/schemas/successResponse"
+                    "application/json": {
+                        "schema": {
+                            "$ref": "#/components/schemas/successResponse"
                         }
                     }
                 }
             },
-            "401":{
+            "401": {
                 "description": "Authentication information is misssing or invalid",
                 "content": {
                     "application/json": {
@@ -197,18 +326,17 @@
                     }
                 }
             },
-            "400":{
+            "400": {
                 "description": "Invalid input",
                 "content": {
-                    "application/json":{
-                        "schema":{
+                    "application/json": {
+                        "schema": {
                             "$ref": "#/components/schemas/InvailidInput"
                         }
                     }
                 }
             }
         },
-        "parameters": {},
         "securitySchemes": {
             "bearerAuth": {
                 "type": "http",
@@ -217,45 +345,45 @@
             }
         },
         "schemas": {
-            "UnauthorizedError":{
+            "UnauthorizedError": {
                 "type": "object",
                 "properties": {
                     "message": {
                         "type": "string"
                     }
                 },
-                "example":{
+                "example": {
                     "message": "Unauthorize"
                 }
             },
-            "successResponse":{
+            "successResponse": {
                 "type": "object",
-                "properties":{
-                    "status":{
+                "properties": {
+                    "status": {
                         "type": "string"
                     },
-                    "message":{
+                    "message": {
                         "type": "string"
                     }
                 },
-                "example":{
+                "example": {
                     "status": "success",
                     "message": "success message from server"
                 }
             },
-            "InvailidInput":{
-                "type":"object",
-                "properties":{
-                    "status":{
+            "InvailidInput": {
+                "type": "object",
+                "properties": {
+                    "status": {
                         "type": "string"
                     },
-                    "message":{
+                    "message": {
                         "type": "string"
                     }
                 },
-                "example":{
+                "example": {
                     "status": "error",
-                    "message" : "message error"
+                    "message": "message error"
                 }
             },
             "messages": {
@@ -264,14 +392,25 @@
                     "status": {
                         "type": "string"
                     },
-                    "message":{
+                    "message": {
                         "type": "string"
+                    },
+                    "data": {
+                        "type": "array",
+                        "properties": {
+                            "value": {
+                                "type": "object"
+                            }
+                        }
                     }
                 },
-                "required": ["message"],
-                "example":{
+                "required": [
+                    "message"
+                ],
+                "example": {
                     "status": "success",
-                    "message": "success messages from server "
+                    "message": "success messages from server ",
+                    "data": "[{}]"
                 }
             },
             "items": {

@@ -22,7 +22,8 @@
         "max_ref_number": "nomor referensi terlalu panjang",
         "max_qty": "kuantitas terlalu panjang",
         "max_item_code": "kode item terlalu panjang",
-        "tag_exist": "nomor RFID sudah digunakan"
+        "tag_exist": "nomor RFID sudah digunakan",
+        "please_check_item": "please choose items to move"
     },
     "account":{
         "success_get_account": "berhasil mendapatkan akun",
