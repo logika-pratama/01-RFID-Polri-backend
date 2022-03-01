@@ -140,19 +140,21 @@ exports.getGi = function(req, res) {
                 // process all data
                 if (rows.length >= 1) {
                     console.log(rows.length);
-                    response.ok({ 
-                        fileName: tanggal + "-GI Document", 
-                        message: "success get GR Data",
-                        data: rows 
-                    }, res);
+                     res.send({
+                        fileName: tanggal + "GI Doc",
+                        message: req.t('goodIssue.success_get_gi'),
+                        data: rows
+                    })
                     var i = 0;
                     for (i; i <= rows.length - 1; i++) {
                         updategi(rows[i].No_Order);
                     }
                 }
                 if (rows.length < 1) {
-                    // response.ok("seluruh data telah di GR!",res);
-                    response.ok({ status: "seluruh data telah di GI" }, res);
+                    return res.send({
+                        status: 'succes',
+                        message: req.t('goodIssue.all_data_in_gi')
+                    })
                 }
             }
         }
@@ -204,27 +206,6 @@ exports.printTag = function(req, res) {
                 console.log(error);
             } else {
                 console.log(rows.length);
-                // if(rows.length >=1){
-                // console.log("tagnya "+rows.length);
-                // var exceloutput = tanggal + "-SKU-"+SKU+".xlsx"
-                //     var xls = json2xls(rows);
-                //     fs.writeFileSync(exceloutput, xls, 'binary');
-                //     res.download(exceloutput,(err) => {
-                //         if(err){
-                //             fs.unlinkSync(exceloutput)
-                //             response.ok("Unable to download the excel file")
-                //         }
-                //         fs.unlinkSync(exceloutput)
-                //     })
-
-                //     var i=0;
-                //     for(i; i<= rows.length-1 ;i++){
-                //             updateprint(rows[i].tag_number);
-                //     }
-                // } else{
-                //     response.ok("Data tidak di temukan/ tagsudah di print!!",res)
-                // }
-
                 if (rows.length >= 1) {
                     response.ok({ fileName: tanggal + "-" + SKU, rows }, res);
                     var i = 0;
@@ -232,8 +213,10 @@ exports.printTag = function(req, res) {
                         updateprint(rows[i].tag_number); // after send data update print_tag status of all dsended data to "yes"
                     }
                 } else {
-                    //response.ok("seluruh data telah di print!",res)
-                    response.ok({ status: "seluruh data telah di print!" }, res);
+                    return res.send({
+                        status: 'success',
+                        message: req.t('goodIssue.data_already_printing')
+                    })
                 }
             }
         }
@@ -602,12 +585,17 @@ exports.konfirmGi = function(req, res) {
                 if (rows.length >= 1) {
 
                     updategi(id); // update all items status_GI to yes
-
+                    res.send({
+                        status: 'success',
+                        message: req.t('success_get_data')
+                    })
                     response.ok("GI sukses!", res);
                 }
                 if (rows.length < 1) {
-                    // response.ok("seluruh data telah di GI!",res);
-                    response.ok({ status: "seluruh data telah di GI" }, res);
+                    res.send({
+                        status: 'success',
+                        message: req.t('goodIssue.all_data_in_gi')
+                    })
                 }
             }
         }
