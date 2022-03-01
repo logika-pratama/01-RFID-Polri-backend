@@ -9,6 +9,7 @@
     "tag_number_not_found": "tag number not found",
     "all_data_downloaded": "all data downloaded",
     "success_download_data": "success download data",
+    "data_not_found": "data not found",
     "item":{
         "success_create_item": "success create item",
         "success_update_item": "success update item",

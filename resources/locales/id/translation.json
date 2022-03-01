@@ -9,6 +9,7 @@
     "tag_number_not_found": "nomor RFID tidak ditemukan",
     "all_data_downloaded": "seluruh data telah diuduh",
     "success download data": "berhasil download data",
+    "data_not_found": "data tidak ditemukan",
     "item":{
         "success_create_item": "sukses menambahkan data barang",
         "success_update_item": "sukses memperbarui data barang",

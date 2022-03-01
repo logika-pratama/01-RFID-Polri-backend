@@ -427,10 +427,10 @@ exports.importOrders = async function(req, res) {
     let isNull = false
     try {
         if (req.file === undefined) {
-            return response.warning({
-                status: 'Warning',
-                message: "Harap masukan File Dengan Format Excel"
-            }, res);
+            return res.send({
+                status: 'error',
+                message: req.t('upload.please_use_excel_format')
+            })
         }
         let path = __basedir + "/01-PORLI-rfid-backend/helper/" + req.file.filename;
 
@@ -475,23 +475,22 @@ exports.importOrders = async function(req, res) {
                             message: error.sqlMessage
                         });
                     } else {
-                        response.ok({
-                            status: "success",
-                            message: "behasil menambahkan item baru",
-                            data: orders
-                        }, res);
                         console.log("import data excel berhasil");
                         fs.unlinkSync(__basedir + "/01-PORLI-rfid-backend/helper/" + req.file.filename);
+                        return res.send({
+                            status: 'success',
+                            message: req.t("success_add_data")
+                        })
                     }
                 }
             );
         });
     } catch (error) {
         console.log(error);
-        response.error({
+        res.status(400).json({
             status: 'error',
-            message: 'Tidak dapat mengupload file ' + req.file.fileName
-        }, res);
+            message: req.t('upload.cant_upload')
+        })
     }
 };
 
