@@ -11,7 +11,11 @@ exports.readersById = function(req, res) {
         if (error) {
             console.log(error);
         } else {
-            response.ok(rows, res);
+            return res.send({
+                status: 'success',
+                message: req.t('success_get_data'),
+                data: rows
+            });
         }
 
     });
@@ -23,7 +27,11 @@ exports.getReadersName = function(req, res) {
         if (error) {
             console.log(error);
         } else {
-            response.ok(rows, res);
+            return res.send({
+                status: 'success',
+                message: req.t('success_get_data'),
+                data: rows
+            });
         }
 
     });
@@ -36,7 +44,11 @@ exports.allreader = function(req, res) {
         if (error) {
             console.log(error);
         } else {
-            response.ok(rows, res);
+            res.send({
+                status: 'success',
+                message: req.t('success_get_data'),
+                data: rows
+            });
         }
 
     });
@@ -52,12 +64,7 @@ exports.addreaders = function(req, res) {
         id_location = req.body.id_location,
         trxtype = req.body.trxtype;
     var rid = id_account.substring(0, 3) + uniqid.process().substring(7, 10)
-    if (name.length > 30) {
-        return response.warning({
-            status: 'warning',
-            message: 'nama terlalu panjang'
-        }, res);
-    }
+    
     koneksi.query('INSERT INTO readers (name,description,reader_id,id_account,id_location,Inventory_trx_type) VALUES(?,?,?,?,?,?)', [name, description, rid, id_account, id_location, trxtype],
         function(error, rows, fields) {
             if (error) {
@@ -67,11 +74,11 @@ exports.addreaders = function(req, res) {
                     message: error.sqlMessage
                 }, res)
             } else {
-                return response.ok({
+                return res.send({
                     status: 'success',
-                    message: 'Berhasil menambahkan Reader !',
-                    reader_id: rid
-                }, res)
+                    message: req.t('success_add_data'),
+                    data: rid
+                });
             }
         });
 };
@@ -86,18 +93,8 @@ exports.editreaders = function(req, res) {
         id_account = req.idaccount,
         id_location = req.body.id_location,
         trxtype = req.body.trxtype;
-    if (name.length > 30) {
-        return response.warning({
-            status: 'warning',
-            message: 'nama terlalu panjang'
-        }, res);
-    }
-    if(reader_id.length > 10){
-        return response.warning({
-            status: 'warning',
-            message: 'readers terlalu panjang'
-        }, res);
-    }
+
+    
     koneksi.query('UPDATE readers SET name=?,description=?,id_account=?,id_location=?,inventory_trx_type=? WHERE reader_id=?', [name, description, id_account, id_location, trxtype, reader_id],
         function(error, rows, fields) {
             if (error) {
@@ -108,7 +105,10 @@ exports.editreaders = function(req, res) {
                     }, res);
                 }
             } else {
-                return response.ok("Berhasil mengubah readers!", res);
+                return res.send({
+                    status: 'success',
+                    message: req.t('success_update_data')
+                });
             }
         });
 };
@@ -121,7 +121,10 @@ exports.hapusreaders = function(req, res) {
             if (error) {
                 console.log(error);
             } else {
-                return response.ok("Berhasil Hapus Data " + id, res)
+                res.send({
+                    status: 'success',
+                    message: req.t('success_delete_data')
+                })
             }
         });
 }
@@ -144,11 +147,11 @@ exports.sendTag = function(req, res){
     socket.send(data, 8000, '151.106.112.34', function(error){
         if(error){
             socket.close();
-            return response.warning({
-                status: 'warnig',
-                message: 'Server not Found',
-                data : data
-            }, res);
+            return res.send({
+                status: 'error',
+                message: req.t('reader.server_not_found')
+            });
+            
         }else{
             return response.ok({
                 status: 'ok',
