@@ -26,37 +26,6 @@
         }
     ],
     "paths": {
-        "/api/v1/item/all": {
-            "get": {
-                "tags": [
-                    "Master item"
-                ],
-                "security": [
-                    {
-                        "bearerAuth": []
-                    }
-                ],
-                "description": "get all master item data from database",
-                "responses": {
-                    "200": {
-                        "description": "success get all items",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/messages"
-                                }
-                            }
-                        }
-                    },
-                    "400": {
-                        "$ref": "#/components/responses/400"
-                    },
-                    "401": {
-                        "$ref": "#/components/responses/401"
-                    }
-                }
-            }
-        },
         "/api/v1/item": {
             "get": {
                 "security": [
@@ -65,7 +34,7 @@
                     }
                 ],
                 "tags": [
-                    "Master item"
+                    "Master Item"
                 ],
                 "summary": "get all items by ID",
                 "responses": {
@@ -89,14 +58,24 @@
             },
             "post": {
                 "tags": [
-                    "Master item"
+                    "Master Item"
                 ],
                 "security": [
                     {
                         "bearerAuth": []
                     }
                 ],
-                "description": "add data to database master item",
+                "description": "add data to database Master Item",
+                "requestBody":{
+                    "required": true,
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/items"
+                            }
+                        }
+                    }
+                },
                 "responses": {
                     "200": {
                         "$ref": "#/components/responses/200"
@@ -113,7 +92,7 @@
         "/api/v1/itemnull": {
             "get": {
                 "tags": [
-                    "Master item"
+                    "Update Batch Item"
                 ],
                 "security": [
                     {
@@ -143,7 +122,8 @@
         "/api/v1/item/{id}": {
             "delete": {
                 "tags": [
-                    "Master item"
+                    "Master Item",
+                    "Update Batch Item"
                 ],
                 "security": [
                     {
@@ -151,7 +131,7 @@
                     }
                 ],
                 
-                "description": "delete item from database",
+                "description": "delete item to database",
                 "parameters": [
                     {
                         "$ref": "#/components/parameters/id"
@@ -168,45 +148,12 @@
                         "$ref": "#/components/responses/401"
                     }
                 }
-            },
-            "get": {
-                "tags": [
-                    "Master item"
-                ],
-                "security": [
-                    {
-                        "bearerAuth": []
-                    }
-                ],
-                "parameters": [
-                    {
-                        "$ref": "#/components/parameters/tag"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "success get all items",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/messages"
-                                }
-                            }
-                        }
-                    },
-                    "400": {
-                        "$ref": "#/components/responses/400"
-                    },
-                    "401": {
-                        "$ref": "#/components/responses/401"
-                    }
-                }
             }
         },
         "/api/v1/item/{item_id}": {
             "put": {
                 "tags": [
-                    "Master item"
+                    "Master Item", "Update Batch Item"
                 ],
                 "security": [
                     {
@@ -235,8 +182,9 @@
         "/api/v1/item/search/{tag}": {
             "get": {
                 "tags": [
-                    "Master item"
+                    "Master Item"
                 ],
+                "description": "endpoint to search tag to database",
                 "security": [
                     {
                         "bearerAuth": []
@@ -265,6 +213,594 @@
                         "$ref": "#/components/responses/401"
                     }
                 }
+            }
+        },
+        "/api/v1/tr":{
+            "get":{
+                "name": "get inbound data",
+                "description": "get all data inbound based accound id and device id from database",
+                "tags":[
+                    "Inbound"
+                ],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/tr/confirm":{
+            "post":{
+                "name": "confirm Inbound",
+                "description": "Confirm data inbound for move to monitoring and delete all data inbound",
+                "tags":[
+                    "Inbound"
+                ],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/grdata":{
+            "get":{
+                "name": "Good receive Data",
+                "description": "Get data Good recieve from database",
+                "tags":["Good Received"],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/konfirmgr":{
+            "get":{
+                "name": "confirm gr data",
+                "description": "confirmation for indicate gr data was downloaded ",
+                "tags": ["Good Received"],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/tm":{
+            "get":{
+                "name": "monitoring data",
+                "description": "get all data monitoring (after confirmation inbound) from database",
+                "tags": ["Monitoring"],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/tm/selectedputaway/{id}":{
+            "post":{
+                "name": "add putaway",
+                "description": "add line rak bin by selected item to insert into database",
+                "tags": ["Monitoring", "Putaway"],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/tm/putaway":{
+            "get":{
+                "name": "get data Putaway",
+                "description": "get data Putaway from database",
+                "tags": ["Putaway"],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/tm/autoputaway":{
+            "post":{
+                "name": "auto putawayy",
+                "description": "to insert all data(line, rak, number) automaticly",
+                "tags": ["Putaway"],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/tm/bulkputaway":{
+            "post":{
+                "name": "multipe putaway",
+                "description": "insert data from item selected ",
+                "tags": ["Putaway"],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/orderlist":{
+            "get":{
+                "name": "order  list",
+                "description": "get data order  to database",
+                "tags": ["Order List"] ,
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/itemorder/{number}":{
+            "get":{
+                "name": "order number",
+                "description": "get number orrder to database",
+                "tags": ["Order List"],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/importorder":{
+            "post": {
+                "name": "import order",
+                "description": "create order data using excel to add into database",
+                "tags":["Order List"],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/tc":{
+            "get":{
+                "name": "Quality Control List",
+                "description": "get data Quality Control to database",
+                "tags": ["Quality Control"],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/tc/{id}":{
+            "delete":{
+                "name": "delete Quality Control",
+                "description": "delete item in Quality Control to database",
+                "tags": ["Quality Control"],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/pl/packing":{
+            "post":{
+                "name": "confirm Quality Control",
+                "description": "Confirm Quality Control based item list",
+                "tags": ["Quality Control"],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/tc/confirm":{
+            "post":{
+                "name": "confirm from chasier",
+                "description": "",
+                "tags": ["Quality Control"],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/gi":{
+            "get":{
+                "name": "Good Issue",
+                "description": "get good issue data from database",
+                "tags": ["Good Issue"],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "api/v1/konfirmgi":{
+            "get":{
+                "name": "Download Good Issue",
+                "description": "Download Good Issue to excele(update GR status to yes)",
+                "tags": ["Good Issue"],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/td":{
+            "get":{
+                "name": "Outbound Data",
+                "description": "get outbound data from database",
+                "tags": ["Outbound"],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/td/confirm":{
+            "post":{
+                "name": "confirm outbound",
+                "description": "Confirmation Outbound change status delivery to delivered ",
+                "tags": ["Outbound"],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/th":{
+            "get":{
+                "name": "get history data",
+                "description": "get data history from database",
+                "tags": ["History"],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "api/v1/status":{
+            "get":{
+                "name": "alarm status",
+                "description": "get alarm status yes or no from this endpoint",
+                "tags": ["History"],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/stoktake/{tag}":{
+            "get":{
+                "name" : "stock take",
+                "description": "search tag number from database ",
+                "tags": ["Stock Take"],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "api/v1/stoktakereport":{
+            "get": {
+                "name": "stock Take report",
+                "description": "stock take report to download ",
+                "tags": ["Stock Take"],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/konfirmst":{
+            "get": {
+                "name": "Stock take Confirm",
+                "description": "Change status Stock take to yes that cant download if status is yes",
+                "tags": ["Stock Take"],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/tm/search/{tags}":{
+            "get":{
+                "name": "search tag ",
+                "description": "search tag from table monitoring",
+                "tags": ["Scanning"],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/item/search/{tags}":{
+            "get": {
+                "name": "search tag",
+                "description": "Search tag from table master item",
+                "tags": ["Scanning"],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "api/v1/readers":{
+            "get":{
+                "name": "get all readers",
+                "description": "Get all data reader from database",
+                "tags": ["Reader"],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "api/v1/reader":{
+            "post": {
+                "name": "add reader",
+                "description": "create reader to add from database",
+                "tags": ["Reader"],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "api/v1/reader/{id}":{
+            "put":{
+                "name": "update reader",
+                "description": "Update rader data from database",
+                "tags": ["Reader"],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "delete":{
+                "name":"delete Reader",
+                "descirption": "Delete Reader from database",
+                "tags": ["Reader"],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/readerbyaccount/id":{
+            "get":{
+                "name": "get reader by ID",
+                "description": "get data reader from database by id account",
+                "tags": ["Reader"],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/readerbyaccount/{id}":{
+            "get": {
+                "name": "get Reader by id ",
+                "description": "get reader by id using param from database",
+                "tags": ["Reader"],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/gatescan": {
+            "get": {
+                "name": "send tag number",
+                "description": "Send Tag number to udp Server",
+                "tags": ["Reader"],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/locations": {
+            "post": {
+                "name": "add location",
+                "description": "add location to database",
+                "tags": [ "Location"],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/locations/{id_account}":{
+            "get": {
+                "name": "get Location by ID account",
+                "description": "get location data from database by id account",
+                "tags": ["Location"],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/locations/{id_location}":{
+            "put": {
+                "name":"update location",
+                "description": "Update location data to database",
+                "tags": ["Location"],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "delete": {
+                "name": "delete location",
+                "description": "Delete Locations data to database",
+                "tags": ["Location"],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/userbyaccount":{
+            "get": {
+                "name": "get user by  account",
+                "description": "get user from database based id account",
+                "tags": ["User"],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/user/{id_user}":{
+            "get":{
+                "name": "get user by id user",
+                "description": "get user id based id user from database",
+                "tags": ["User"],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "put":{
+                "name": "update user",
+                "description": "update user based id user from database",
+                "tags": ["User"],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "delete": {
+                "name": "delete user",
+                "description": "delete user based id_user from database",
+                "tags": ["User"],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/user":{
+            "get":{
+                "name": "get all user",
+                "description": "get all user from database",
+                "tags": ["User"],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "post": {
+                "name": "add user",
+                "description": "add user to database",
+                "tags": ["User"],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/account/{id_account}":{
+            "get":{
+                "name": "get account by id",
+                "description": "get account from database based id account",
+                "tags": ["Account"],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "delete":{
+                "name": "delete account by id",
+                "description": "Delete Account from database based id account",
+                "tags": ["Account"],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/account":{
+            "get": {
+                "name": "get all account",
+                "description": "get all account from database",
+                "tags": ["Account"],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "post":{
+                "name": "add account",
+                "description": "create account into database",
+                "tags": ["Account"],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "put": {
+                "name": "upadte account",
+                "description": "Update account based id account",
+                "tags": ["Account"],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/trxtypes":{
+            "get":{
+                "name": "transaction Type",
+                "description": "get all data transaction type from database",
+                "tags": ["Transaction Type"],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
             }
         }
     },
@@ -368,7 +904,7 @@
                 },
                 "example": {
                     "status": "success",
-                    "message": "success message from server"
+                    "message": "success message to server"
                 }
             },
             "InvailidInput": {
@@ -409,8 +945,8 @@
                 ],
                 "example": {
                     "status": "success",
-                    "message": "success messages from server ",
-                    "data": "[{}]"
+                    "message": "success messages to server ",
+                    "data": "array-json"
                 }
             },
             "items": {
