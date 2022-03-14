@@ -129,7 +129,7 @@ exports.getGi = function(req, res) {
                 // process all data
                 if (rows.length >= 1) {
                     console.log(rows.length);
-                     res.send({
+                    res.send({
                         fileName: tanggal + "GI Doc",
                         message: req.t('goodIssue.success_get_gi'),
                         data: rows
@@ -299,18 +299,26 @@ exports.importData = function(req, res) {
                         message: error.sqlMessage
                     });
                 } else {
-                    return response.ok({ message: "behasil menambahkan item baru" }, res);
                     console.log("import data excel berhasil");
                     fs.unlinkSync(__basedir + "/01-PORLI-rfid-backend/helper/" + req.file.filename); // delete uploaded excel file to free memory
+                    //return response.ok({ message: "behasil menambahkan item baru" }, res);
+                    return res.send({
+                        status: 'success',
+                        message: req.t('success_add_data')
+                    })
                 }
             }
         );
     } catch {
         console.log("ada errror!");
-        response.error({
+        // response.error({
+        //     status: 'error',
+        //     message: 'Tidak dapat mengupload file ' + req.file.fileName
+        // }, res);
+        res.status(400).json({
             status: 'error',
-            message: 'Tidak dapat mengupload file ' + req.file.fileName
-        }, res);
+            message: req.t('upload.cant_upload')
+        });
     }
 };
 
@@ -328,10 +336,10 @@ exports.importItems = async function(req, res){
 
     try{
         if(req.file == undefined){
-            return response.warning({
-                status: 'Warning',
-                message: "Harap masukan file dengan format Excel"
-            }, res);
+            return res.status(400).json({
+                status: 'error',
+                message: req.t('upload.please_use_excel_format')
+            })
         }
 
         let path = __basedir + "/01-PORLI-rfid-backend/helper/" + req.file.filename;
@@ -386,8 +394,8 @@ exports.importItems = async function(req, res){
                     });
                 }
                 console.log(data)
-                if(isSKUNull)return response.warning({status: 'warning', message:'SKU masih ada yang kosong di Excel'}, res)
-                if(isItemCodeNull)return response.warning({status: 'warning', message:'Item Code masih ada yang kosong di Excel'}, res)
+                if(isSKUNull)return response.warning({status: 'warning', message:req.t('upload.sku_required')}, res)
+                if(isItemCodeNull)return response.warning({status: 'warning', message:req.t('item_code_required')}, res)
                 if(isItemTypeNull)return response.warning({status: 'warning', message:'Item type masih ada yang kosong di Excel'}, res)
                 if(isReffNumberNull)return response.warning({status: 'warning', message:'Ref Number masih ada yang kosong di Excel'}, res);
                 if(isTagNumberNull)return response.warning({status: 'warning', message:'Tag Number masih ada yang kosong di Excel'}, res);
@@ -402,11 +410,11 @@ exports.importItems = async function(req, res){
                                 message: error.sqlMessage
                             });
                         } else {
-                            response.ok({
+                            res.send({
                                 status: "success",
-                                message: "behasil menambahkan item baru",
+                                message: req.t('success_add_data'),
                                 data: data
-                            }, res);
+                            });
                             console.log("import data excel berhasil");
                             fs.unlinkSync(__basedir + "/01-PORLI-rfid-backend/helper/" + req.file.filename);
                         }
@@ -414,11 +422,11 @@ exports.importItems = async function(req, res){
                 );
             })
     }catch(error){
-        console.log(error);
-        response.error({
+       //console.log(error);
+        res.status(400).json({
             status: 'error',
-            message: 'Tidak dapat mengupload file' + req.file.fileName
-        }, res);
+            message: req.t('upload.cant_upload')
+        });
     }
 }
 

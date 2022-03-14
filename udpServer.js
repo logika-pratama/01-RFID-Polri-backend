@@ -22,15 +22,6 @@ socket.on("message", (msg, rinfo) => {
 
 socket.bind(UDP_PORT, UDP_SERVER); //Start UDP SErver at 151.106.112.34 on port 8081
 
-/*  VENCH READER
-after recieved the data, next is check the tags type, there are 2 type of tags, tag with 72 & 56 data length,
-to check this we use modulus(%), we provide 2 varibel: cek72 & cek56, if one of these got result 6 the data wilbe parsing based on the type of tags data
-the result 6 is because every recieved data it contain 6 digit readerID at the last 6 digit of recived data. 
-
-*/
-
-
-
 
 function vech(uid) {
     var newData = uid.replace(/[']/g, ''); // mengilangkan '

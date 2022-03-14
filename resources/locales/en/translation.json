@@ -99,9 +99,6 @@
         "success_recieve_items": "succes recieve items",
         "please_select_item_to_move": "please select items to move"
     },
-    "user":{
-
-    },
     "upload":{
         "please_use_excel_format": "please use excel format",
         "sku_required": "SKU is required",

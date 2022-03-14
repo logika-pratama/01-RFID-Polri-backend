@@ -43,7 +43,7 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/messages"
+                                    "$ref": "#/components/schemas/dataItems"
                                 }
                             }
                         }
@@ -72,6 +72,18 @@
                         "application/json":{
                             "schema":{
                                 "$ref": "#/components/schemas/items"
+                            },
+                            "example":{
+                                    "Item_code": "010013",
+                                    "Item_category": "Persediaan",
+                                    "Item_Type": "Elektronik",
+                                    "SKU": "MKR-PRL-013",
+                                    "Name": "Laptop Asus",
+                                    "Description": "Laptop untuk Administrasi",
+                                    "Uom": "pcs",
+                                    "Quantity": 1,
+                                    "tag_number": "123222444222AC",
+                                    "Ref_Number": "SGA-102-AK"
                             }
                         }
                     }
@@ -105,41 +117,10 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/messages"
+                                    "$ref": "#/components/schemas/dataItems"
                                 }
                             }
                         }
-                    },
-                    "400": {
-                        "$ref": "#/components/responses/400"
-                    },
-                    "401": {
-                        "$ref": "#/components/responses/401"
-                    }
-                }
-            }
-        },
-        "/api/v1/item/{id}": {
-            "delete": {
-                "tags": [
-                    "Master Item",
-                    "Update Batch Item"
-                ],
-                "security": [
-                    {
-                        "bearerAuth": []
-                    }
-                ],
-                
-                "description": "delete item to database",
-                "parameters": [
-                    {
-                        "$ref": "#/components/parameters/id"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "$ref": "#/components/responses/200"
                     },
                     "400": {
                         "$ref": "#/components/responses/400"
@@ -177,6 +158,35 @@
                         "$ref": "#/components/responses/401"
                     }
                 }
+            },
+            "delete": {
+                "tags": [
+                    "Master Item",
+                    "Update Batch Item"
+                ],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                
+                "description": "delete item to database",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/id"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "$ref": "#/components/responses/200"
+                    },
+                    "400": {
+                        "$ref": "#/components/responses/400"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/401"
+                    }
+                }
             }
         },
         "/api/v1/item/search/{tag}": {
@@ -201,7 +211,7 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/messages"
+                                    "$ref": "#/components/schemas/dataItems"
                                 }
                             }
                         }
@@ -226,7 +236,25 @@
                     {
                         "bearerAuth": []
                     }
-                ]
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success get all items",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/dataItems"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "$ref": "#/components/responses/400"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/401"
+                    }
+                }
             }
         },
         "/api/v1/tr/confirm":{
@@ -240,7 +268,40 @@
                     {
                         "bearerAuth": []
                     }
-                ]
+                ],
+                "requestBody":{
+                    "required": true,
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/items"
+                            },
+                            "example":{
+                                    "Item_code": "010013",
+                                    "Item_category": "Persediaan",
+                                    "Item_Type": "Elektronik",
+                                    "SKU": "MKR-PRL-013",
+                                    "Name": "Laptop Asus",
+                                    "Description": "Laptop untuk Administrasi",
+                                    "Uom": "pcs",
+                                    "Quantity": 1,
+                                    "tag_number": "123222444222AC",
+                                    "Ref_Number": "SGA-102-AK"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "$ref": "#/components/responses/200"
+                    },
+                    "400": {
+                        "$ref": "#/components/responses/400"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/401"
+                    }
+                }
             }
         },
         "/api/v1/grdata":{
@@ -922,7 +983,7 @@
                     "message": "message error"
                 }
             },
-            "messages": {
+            "dataItems": {
                 "type": "object",
                 "properties": {
                     "status": {
@@ -941,12 +1002,59 @@
                     }
                 },
                 "required": [
-                    "message"
+                    "message",
+                    "data"
                 ],
                 "example": {
                     "status": "success",
                     "message": "success messages to server ",
-                    "data": "array-json"
+                    "data": [
+                        {
+                            "item_id": "bvdl00fl8wd",
+                            "Item_code": "010013",
+                            "Item_category": "Persediaan",
+                            "Item_Type": "Elektronik",
+                            "SKU": "MKR-PRL-013",
+                            "Name": "Laptop Asus",
+                            "Description": "Laptop untuk Administrasi",
+                            "Uom": "pcs",
+                            "Quantity": 1,
+                            "tag_number": "123123",
+                            "id_Account": "0002",
+                            "id_location": null,
+                            "Ref_Number": "12312",
+                            "Print_Tag": "yes"
+                        },
+                        {
+                            "item_id": "ce8kzxss9zp",
+                            "Item_code": "11223344556600d",
+                            "Item_category": "Bahan Setenagh Jadi",
+                            "Item_Type": "A",
+                            "SKU": "LGK-M1",
+                            "Name": "Baju",
+                            "Description": "Baju",
+                            "Uom": "pcs",
+                            "Quantity": 1,
+                            "tag_number": "11223344556600d",
+                            "id_Account": "0002",
+                            "id_location": null,
+                            "Ref_Number": "1",
+                            "Print_Tag": "yes"
+                        }
+                    ]
+                }
+            },
+            "bulkAdd":{
+                "type": "object",
+                "properties": {
+                    "Device_ID":{
+                        "type": "string",
+                        "required": true
+                    },
+                    "items":{
+                        "type": "array",
+                        "required": true
+                    }
                 }
             },
             "items": {
