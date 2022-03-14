@@ -395,11 +395,11 @@ exports.importItems = async function(req, res){
                 }
                 console.log(data)
                 if(isSKUNull)return response.warning({status: 'warning', message:req.t('upload.sku_required')}, res)
-                if(isItemCodeNull)return response.warning({status: 'warning', message:req.t('item_code_required')}, res)
-                if(isItemTypeNull)return response.warning({status: 'warning', message:'Item type masih ada yang kosong di Excel'}, res)
-                if(isReffNumberNull)return response.warning({status: 'warning', message:'Ref Number masih ada yang kosong di Excel'}, res);
-                if(isTagNumberNull)return response.warning({status: 'warning', message:'Tag Number masih ada yang kosong di Excel'}, res);
-                if(isFormat)return response.warning({status: 'warning', message:'Format tidak sesuai silahkan gunakan Format yang tersedia !'}, res);
+                if(isItemCodeNull)return response.warning({status: 'warning', message:req.t('upload.item_code_required')}, res)
+                if(isItemTypeNull)return response.warning({status: 'warning', message:req.t('upload.item_type_required')}, res)
+                if(isReffNumberNull)return response.warning({status: 'warning', message:req.t('upload.ref_number_required')}, res);
+                if(isTagNumberNull)return response.warning({status: 'warning', message:req.t('upload.tag_number_required')}, res);
+                if(isFormat)return response.warning({status: 'warning', message:req.t('upload.format_does_not_match')}, res);
                 koneksi.query(
                     "INSERT IGNORE INTO items (SKU,Item_code,Item_Type,Ref_number,tag_number,item_id,id_Account,Print_Tag,Quantity) VALUES ?", [data],
                     function(error, rows, fields) {

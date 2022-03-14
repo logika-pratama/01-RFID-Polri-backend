@@ -106,7 +106,8 @@
         "ref_number_required": "Nomor referensi tidak boleh ada yang kosong",
         "tag_number_required": "nomor RFID tidak boleh ada yang kosong",
         "format_does_not_match": "format tidak sesuai , gunakan yang sudah disediakan !",
-        "cant_upload": "tidak dapat mengunggah filename"
+        "cant_upload": "tidak dapat mengunggah filename",
+        "item_type_required": "Tipe Item tidak boleh kosong"
     },
     "user":{
         "success_create_user": "berhasil membuat pengguna",
