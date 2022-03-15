@@ -106,23 +106,25 @@ exports.gateOut = async (req, res) =>{
             item.push(items[i].item_id)
             // after delivery confirm, delete data from all table    
         }
-
+        /*
         const gateout = await api.post('/api/gate_out', data);
         const status = gateout.data
+        */
         //console.log(status)
-        if(status.status == 1){
-            deleteDelivery(item);
-            updateHistory(item);
-            deleteMonitoring(item);
-           // deleteitem(item); // Khusus POLRI Delete ITEM tidak digunakan 
-            addGINumber(item);
-            return response.ok({
-                status: 'success',
-                message: 'Sukes terima ' + items.length + ' items'
-            }, res);    
-        }else{
-            return res.json(status);
-        }
+
+        //if(status.status == 1){
+        deleteDelivery(item);
+        updateHistory(item);
+        deleteMonitoring(item);
+        // deleteitem(item); // Khusus POLRI Delete ITEM tidak digunakan 
+        addGINumber(item);
+        return response.ok({
+            status: 'success',
+            message: 'Sukes terima ' + items.length + ' items'
+        }, res);    
+        //}else{
+          //  return res.json(status);
+        //}
 
     }catch(error){
         if(error.code === 'ECONNREFUSED'){
