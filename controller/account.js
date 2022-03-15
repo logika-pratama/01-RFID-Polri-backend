@@ -21,7 +21,8 @@ exports.allAccount = function(req, res) {
 
 //edit account
 exports.editAccount = function(req, res) {
-    let id_account = req.body.id_account,
+    try{
+        let id_account = req.body.id_account,
         description = req.body.description,
         email = req.body.email,
         addresss = req.body.addresss,
@@ -39,8 +40,10 @@ exports.editAccount = function(req, res) {
                 message: req.t('account.success_update_account')
             })
         }
-
     });
+    }catch(error){
+
+    }
 };
 
 //get account by id
