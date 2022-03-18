@@ -15,7 +15,11 @@ exports.login = function(req, res) {
     query = mysql.format(query, table);
     koneksi.query(query, function(err, rows) {
         if (err) {
-            response.ok("email/password Salah!", res)
+            return res.status(401).json({
+                status: 'error',
+                statusCode: "401",
+                message: req.t("login.fail_login")
+            });
         } else {
             if (rows.length == 1) {
                 var data = rows[0];
