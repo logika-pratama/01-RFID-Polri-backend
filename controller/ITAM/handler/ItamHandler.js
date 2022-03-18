@@ -17,11 +17,11 @@ exports.gateIn = async(req, res) =>{
         const id_account = req.idaccount;
         const items = req.body.items;
         
-        if(items.length < 1){
-            return response.warning({
-                status: 'warning',
-                message: 'Silahkan pilih beberapa item untuk dipindahkan ke monitoring'
-            }, res);
+        if(items.length > 1){
+            return res.status(400).json({
+                status: 'error',
+                message: req.t('item.please_check_item')
+            })
         }
 
         let data = [];
@@ -80,12 +80,12 @@ exports.gateOut = async (req, res) =>{
         const id_account = req.idaccount;
         const items = req.body.items;
 
-        // if(items.length < 1){
-        //     return response.warning({
-        //         status: 'warning',
-        //         message: 'Silahkan pilih beberapa item untuk dipindahkan !'
-        //    }, res);
-        // }
+        if(items.length > 1){
+            return res.status(400).json({
+                status: 'error',
+                message: req.t('item.please_check_item')
+            })
+        }
         let data = [];
         let item = [];
 
