@@ -8,7 +8,7 @@ require('dotenv').config({path: path.resolve(__dirname, '../../../.env')});
 const {URL_SERVICE_ITAM} = process.env;
 
 
-const api = apiAdapter(URL_SERVICE_ITAM);
+//const api = apiAdapter(URL_SERVICE_ITAM);
 
 
 exports.gateIn = async(req, res) =>{
@@ -42,28 +42,29 @@ exports.gateIn = async(req, res) =>{
         }
         
         //
-        const gatein = await api.post('/api/gate_in', data);
-        const status = gatein.data
-	    console.log(status);
-	    console.log(data);
+        // const gatein = await api.post('/api/gate_in', data);
+        // const status = gatein.data
+	    // console.log(status);
+	    // console.log(data);
 
-        if (status.status == 1){
-            let cekmonitor = await cekMonitoring(item);
-            if(cekmonitor.length > 0){
-                console.log('Delete Monitoring');
-                deleteMonitoring(item);
-            }
-            
-            toMonitoring(item,device_id,id_account); // add async
-            deleteRecieve(item) // add async
-            addGRNumber(item); // add async
-            return res.send({
-                status: 'success',
-                message: req.t('success_recieve')
-            })
-        }else{
-            return res.json(status);
+        //if (status.status == 1){
+        let cekmonitor = await cekMonitoring(item);
+        if(cekmonitor.length > 0){
+            console.log('Delete Monitoring');
+            deleteMonitoring(item);
         }
+        
+        toMonitoring(item,device_id,id_account); // add async
+        deleteRecieve(item) // add async
+        addGRNumber(item); // add async
+        trx_detail(item, id_account,device_id, 'Monitoring'); // add to track Detail Monitoring
+        return res.send({
+            status: 'success',
+            message: req.t('success_recieve')
+        })
+        //}else{
+            return res.json(status);
+        //}
     }catch(error){
         if(error.code === 'ECONNREFUSED'){
             return res.status(500).json({status: 'error', message: 'service unavailable'});
@@ -102,22 +103,23 @@ exports.gateOut = async (req, res) =>{
             // after delivery confirm, delete data from all table    
         }
 
-        const gateout = await api.post('/api/gate_out', data);
-        const status = gateout.data
+        //const gateout = await api.post('/api/gate_out', data);
+        //const status = gateout.data
         //console.log(status)
-        if(status.status == 1){
+       // if(status.status == 1){
             deleteDelivery(item);
             updateHistory(item);
             deleteMonitoring(item);
            // deleteitem(item); // Khusus POLRI Delete ITEM tidak digunakan 
+           trx_detail(item, id_account,device_id, 'Delivered'); // add to track Detail Delivered
             addGINumber(item);
             return res.send({
                 status: 'success',
                 message: req.t('success_recieve')
             })
-        }else{
-            return res.json(status);
-        }
+        //}else{
+          //  return res.json(status);
+        //}
 
     }catch(error){
         if(error.code === 'ECONNREFUSED'){
@@ -258,18 +260,33 @@ const addGINumber = (id) =>{
     
 }
 
-
-var deleteitem = (id) => {
-    var sql = "DELETE FROM items  WHERE item_id IN (?)";
-    koneksi.query(sql, [id], function(error, rows){
-        if(error){
-            console.log(error);
-        }else{
-            console.log(`Data dengan ${id} berhasil di hapus dari master item`);
+const trx_detail = (item, id_account, device_id, status) => {
+    try{
+        let records = [];
+        for(let i =0; i <= item.length -1; i++){
+            let value = []
+            value.push( device_id, id_account,item[i], status);
+            records.push(value);
+            
         }
-    })
- 
+        console.log(records);
+        return new Promise(function(resolve, reject) {
+            let sql = "INSERT INTO track_detail_v (reader_id,id_Account,item_id,status) VALUES ?";
+            koneksi.query(sql, [records],
+                function(error, rows, fields) {
+                    if (error) {
+                        reject(error.sqlMessage);
+                    } else {
+                        resolve("success add data to track detail");
+                    }
+                });
+        })
+    }catch(error){
+        console.log(error)
+    }
 }
+
+
 
 var updateHistory = (item_id) => {
     var sql = 'UPDATE history SET status= "Delivered" WHERE item_id IN (?)'
@@ -281,3 +298,5 @@ var updateHistory = (item_id) => {
         }
     })
 }
+
+
