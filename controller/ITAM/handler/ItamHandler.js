@@ -42,20 +42,19 @@ exports.gateIn = async(req, res) =>{
         }
         
         const gatein = await api.post('/api/gate_in', data);
-
-        console.log(status);
-	 console.log(data);
+        console.log(gatein.data);
+	console.log(data);
         
         
-        if (status.status == 1){
+        if (gatein.data.status === 1){
             let cekmonitor = await cekMonitoring(item);
             if(cekmonitor.length > 0){
                 console.log('Delete Monitoring');
                 deleteMonitoring(item);
             }            
-            toMonitoring(item,device_id,id_account);
             deleteRecieve(item)
             addGRNumber(item);
+            toMonitoring(item,device_id,id_account);
             
             return response.ok({
                 status: 'success',
