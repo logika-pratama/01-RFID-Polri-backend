@@ -43,7 +43,7 @@ exports.gateIn = async(req, res) =>{
         
         const gatein = await api.post('/api/gate_in', data);
         console.log(gatein.data);
-	console.log(data);
+	    console.log(data);
         
         
         if (gatein.data.status === 1){
@@ -106,21 +106,24 @@ exports.gateOut = async (req, res) =>{
             // after delivery confirm, delete data from all table    
         }
         const gateout = await api.post('/api/gate_out', data);
-        const status = gateout.data
-        //console.log(status)
+        const status = gateout.status
+        console.log(`Data dari service : ${status}`);
 
-        if(status.status == 1){
+        if(status === 200){
             deleteDelivery(item);
             updateHistory(item);
             deleteMonitoring(item);
             // deleteitem(item); // Khusus POLRI Delete ITEM tidak digunakan 
             addGINumber(item);
-            return response.ok({
+            return res.json({
                 status: 'success',
                 message: 'Sukes terima ' + items.length + ' items'
-            }, res);    
+            });    
         }else{
-            return res.json(status);
+            return res.json({
+                status: 'error',
+                message: "error"
+            });
         }
 
     }catch(error){
