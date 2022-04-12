@@ -8,7 +8,7 @@ require('dotenv').config({path: path.resolve(__dirname, '../../../.env')});
 const {URL_SERVICE_ITAM} = process.env;
 
 
-//const api = apiAdapter(URL_SERVICE_ITAM);
+const api = apiAdapter(URL_SERVICE_ITAM);
 
 
 exports.gateIn = async(req, res) =>{
@@ -40,32 +40,32 @@ exports.gateIn = async(req, res) =>{
             data.push(payload);
             item.push(items[i].item_id);
         }
-        /*
+        
         const gatein = await api.post('/api/gate_in', data);
-        const status = gatein.data
-	    console.log(status);
+
+        console.log(status);
 	    console.log(data);
-        */
         
-        //if (status.status == 1){
-        let cekmonitor = await cekMonitoring(item);
-        if(cekmonitor.length > 0){
-            console.log('Delete Monitoring');
-            deleteMonitoring(item);
-        }            
-        toMonitoring(item,device_id,id_account);
-        deleteRecieve(item)
-        addGRNumber(item);
         
-        return response.ok({
-            status: 'success',
-            message: 'Sukes terima ' + items.length + ' items'
-        }, res);    
-       /*
+        if (status.status == 1){
+            let cekmonitor = await cekMonitoring(item);
+            if(cekmonitor.length > 0){
+                console.log('Delete Monitoring');
+                deleteMonitoring(item);
+            }            
+            toMonitoring(item,device_id,id_account);
+            deleteRecieve(item)
+            addGRNumber(item);
+            
+            return response.ok({
+                status: 'success',
+                message: 'Sukes terima ' + items.length + ' items'
+            }, res);    
+        
         }else{
            return res.json(status);
         }
-        */
+       
 
 
 
@@ -106,25 +106,23 @@ exports.gateOut = async (req, res) =>{
             item.push(items[i].item_id)
             // after delivery confirm, delete data from all table    
         }
-        /*
         const gateout = await api.post('/api/gate_out', data);
         const status = gateout.data
-        */
         //console.log(status)
 
-        //if(status.status == 1){
-        deleteDelivery(item);
-        updateHistory(item);
-        deleteMonitoring(item);
-        // deleteitem(item); // Khusus POLRI Delete ITEM tidak digunakan 
-        addGINumber(item);
-        return response.ok({
-            status: 'success',
-            message: 'Sukes terima ' + items.length + ' items'
-        }, res);    
-        //}else{
-          //  return res.json(status);
-        //}
+        if(status.status == 1){
+            deleteDelivery(item);
+            updateHistory(item);
+            deleteMonitoring(item);
+            // deleteitem(item); // Khusus POLRI Delete ITEM tidak digunakan 
+            addGINumber(item);
+            return response.ok({
+                status: 'success',
+                message: 'Sukes terima ' + items.length + ' items'
+            }, res);    
+        }else{
+            return res.json(status);
+        }
 
     }catch(error){
         if(error.code === 'ECONNREFUSED'){
