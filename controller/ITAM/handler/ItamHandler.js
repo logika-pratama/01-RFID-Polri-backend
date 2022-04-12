@@ -44,7 +44,7 @@ exports.gateIn = async(req, res) =>{
         const gatein = await api.post('/api/gate_in', data);
 
         console.log(status);
-	    console.log(data);
+	 console.log(data);
         
         
         if (status.status == 1){
