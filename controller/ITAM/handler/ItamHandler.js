@@ -109,7 +109,7 @@ exports.gateOut = async (req, res) =>{
         const status = gateout.status
         console.log(`Data dari service : ${status}`);
 
-        if(status === 200){
+        if(status >= 200 && status < 300){
             deleteDelivery(item);
             updateHistory(item);
             deleteMonitoring(item);
