@@ -91,35 +91,24 @@ exports.getGr = function(req, res) {
                 console.log(error);
             } else {
                 console.log(rows.length);
-                // // console.log(rows);
-                // var exceloutput = tanggal + "-GR-Document.xlsx"
-                //     var xls = json2xls(rows);
-                //     fs.writeFileSync(exceloutput, xls, 'binary');
-                //     res.download(exceloutput,(err) => {
-                //         if(err){
-                //             fs.unlinkSync(exceloutput)
-                //             response.ok("Unable to download the excel file")
-                //         }
-                //         fs.unlinkSync(exceloutput)
-                //     })
-
-                //process all data 
                 if (rows.length >= 1) {
                     console.log(rows.length);
-                    response.ok({
+                    res.send({
                         status: 'success',
-                        message: 'success get GR Data', 
-                        fileName: tanggal + "-GR Document", 
-                        data: rows 
-                    }, res); // response with file name
+                        message: req.t('goodRecieve.success_get_gr'),
+                        fileName: tanggal + "-GR Doc",
+                        data: rows
+                    })
                     var i = 0;
                     for (i; i <= rows.length - 1; i++) {
                         updategr(rows[i].Ref_Number); // update status GR to YES after download 
                     }
                 }
                 if (rows.length < 1) {
-
-                    response.ok("seluruh data telah di GI", res);
+                    return res.send({
+                        status: 'success',
+                        message: req.t('goodRecieve.data_already_printing')
+                    })
                 }
             }
         }
@@ -140,19 +129,21 @@ exports.getGi = function(req, res) {
                 // process all data
                 if (rows.length >= 1) {
                     console.log(rows.length);
-                    response.ok({ 
-                        fileName: tanggal + "-GI Document", 
-                        message: "success get GR Data",
-                        data: rows 
-                    }, res);
+                    res.send({
+                        fileName: tanggal + "GI Doc",
+                        message: req.t('goodIssue.success_get_gi'),
+                        data: rows
+                    })
                     var i = 0;
                     for (i; i <= rows.length - 1; i++) {
                         updategi(rows[i].No_Order);
                     }
                 }
                 if (rows.length < 1) {
-                    // response.ok("seluruh data telah di GR!",res);
-                    response.ok({ status: "seluruh data telah di GI" }, res);
+                    return res.send({
+                        status: 'succes',
+                        message: req.t('goodIssue.all_data_in_gi')
+                    })
                 }
             }
         }
@@ -204,27 +195,6 @@ exports.printTag = function(req, res) {
                 console.log(error);
             } else {
                 console.log(rows.length);
-                // if(rows.length >=1){
-                // console.log("tagnya "+rows.length);
-                // var exceloutput = tanggal + "-SKU-"+SKU+".xlsx"
-                //     var xls = json2xls(rows);
-                //     fs.writeFileSync(exceloutput, xls, 'binary');
-                //     res.download(exceloutput,(err) => {
-                //         if(err){
-                //             fs.unlinkSync(exceloutput)
-                //             response.ok("Unable to download the excel file")
-                //         }
-                //         fs.unlinkSync(exceloutput)
-                //     })
-
-                //     var i=0;
-                //     for(i; i<= rows.length-1 ;i++){
-                //             updateprint(rows[i].tag_number);
-                //     }
-                // } else{
-                //     response.ok("Data tidak di temukan/ tagsudah di print!!",res)
-                // }
-
                 if (rows.length >= 1) {
                     response.ok({ fileName: tanggal + "-" + SKU, rows }, res);
                     var i = 0;
@@ -232,8 +202,10 @@ exports.printTag = function(req, res) {
                         updateprint(rows[i].tag_number); // after send data update print_tag status of all dsended data to "yes"
                     }
                 } else {
-                    //response.ok("seluruh data telah di print!",res)
-                    response.ok({ status: "seluruh data telah di print!" }, res);
+                    return res.send({
+                        status: 'success',
+                        message: req.t('goodIssue.data_already_printing')
+                    })
                 }
             }
         }
@@ -327,18 +299,26 @@ exports.importData = function(req, res) {
                         message: error.sqlMessage
                     });
                 } else {
-                    return response.ok({ message: "behasil menambahkan item baru" }, res);
                     console.log("import data excel berhasil");
                     fs.unlinkSync(__basedir + "/01-PORLI-rfid-backend/helper/" + req.file.filename); // delete uploaded excel file to free memory
+                    //return response.ok({ message: "behasil menambahkan item baru" }, res);
+                    return res.send({
+                        status: 'success',
+                        message: req.t('success_add_data')
+                    })
                 }
             }
         );
     } catch {
         console.log("ada errror!");
-        response.error({
+        // response.error({
+        //     status: 'error',
+        //     message: 'Tidak dapat mengupload file ' + req.file.fileName
+        // }, res);
+        res.status(400).json({
             status: 'error',
-            message: 'Tidak dapat mengupload file ' + req.file.fileName
-        }, res);
+            message: req.t('upload.cant_upload')
+        });
     }
 };
 
@@ -356,10 +336,10 @@ exports.importItems = async function(req, res){
 
     try{
         if(req.file == undefined){
-            return response.warning({
-                status: 'Warning',
-                message: "Harap masukan file dengan format Excel"
-            }, res);
+            return res.status(400).json({
+                status: 'error',
+                message: req.t('upload.please_use_excel_format')
+            })
         }
 
         let path = __basedir + "/01-PORLI-rfid-backend/helper/" + req.file.filename;
@@ -414,12 +394,12 @@ exports.importItems = async function(req, res){
                     });
                 }
                 console.log(data)
-                if(isSKUNull)return response.warning({status: 'warning', message:'SKU masih ada yang kosong di Excel'}, res)
-                if(isItemCodeNull)return response.warning({status: 'warning', message:'Item Code masih ada yang kosong di Excel'}, res)
-                if(isItemTypeNull)return response.warning({status: 'warning', message:'Item type masih ada yang kosong di Excel'}, res)
-                if(isReffNumberNull)return response.warning({status: 'warning', message:'Ref Number masih ada yang kosong di Excel'}, res);
-                if(isTagNumberNull)return response.warning({status: 'warning', message:'Tag Number masih ada yang kosong di Excel'}, res);
-                if(isFormat)return response.warning({status: 'warning', message:'Format tidak sesuai silahkan gunakan Format yang tersedia !'}, res);
+                if(isSKUNull)return response.warning({status: 'warning', message:req.t('upload.sku_required')}, res)
+                if(isItemCodeNull)return response.warning({status: 'warning', message:req.t('upload.item_code_required')}, res)
+                if(isItemTypeNull)return response.warning({status: 'warning', message:req.t('upload.item_type_required')}, res)
+                if(isReffNumberNull)return response.warning({status: 'warning', message:req.t('upload.ref_number_required')}, res);
+                if(isTagNumberNull)return response.warning({status: 'warning', message:req.t('upload.tag_number_required')}, res);
+                if(isFormat)return response.warning({status: 'warning', message:req.t('upload.format_does_not_match')}, res);
                 koneksi.query(
                     "INSERT IGNORE INTO items (SKU,Item_code,Item_Type,Ref_number,tag_number,item_id,id_Account,Print_Tag,Quantity) VALUES ?", [data],
                     function(error, rows, fields) {
@@ -430,11 +410,11 @@ exports.importItems = async function(req, res){
                                 message: error.sqlMessage
                             });
                         } else {
-                            response.ok({
+                            res.send({
                                 status: "success",
-                                message: "behasil menambahkan item baru",
+                                message: req.t('success_add_data'),
                                 data: data
-                            }, res);
+                            });
                             console.log("import data excel berhasil");
                             fs.unlinkSync(__basedir + "/01-PORLI-rfid-backend/helper/" + req.file.filename);
                         }
@@ -442,11 +422,11 @@ exports.importItems = async function(req, res){
                 );
             })
     }catch(error){
-        console.log(error);
-        response.error({
+       //console.log(error);
+        res.status(400).json({
             status: 'error',
-            message: 'Tidak dapat mengupload file' + req.file.fileName
-        }, res);
+            message: req.t('upload.cant_upload')
+        });
     }
 }
 
@@ -455,10 +435,10 @@ exports.importOrders = async function(req, res) {
     let isNull = false
     try {
         if (req.file === undefined) {
-            return response.warning({
-                status: 'Warning',
-                message: "Harap masukan File Dengan Format Excel"
-            }, res);
+            return res.send({
+                status: 'error',
+                message: req.t('upload.please_use_excel_format')
+            })
         }
         let path = __basedir + "/01-PORLI-rfid-backend/helper/" + req.file.filename;
 
@@ -503,23 +483,22 @@ exports.importOrders = async function(req, res) {
                             message: error.sqlMessage
                         });
                     } else {
-                        response.ok({
-                            status: "success",
-                            message: "behasil menambahkan item baru",
-                            data: orders
-                        }, res);
                         console.log("import data excel berhasil");
                         fs.unlinkSync(__basedir + "/01-PORLI-rfid-backend/helper/" + req.file.filename);
+                        return res.send({
+                            status: 'success',
+                            message: req.t("success_add_data")
+                        })
                     }
                 }
             );
         });
     } catch (error) {
         console.log(error);
-        response.error({
+        res.status(400).json({
             status: 'error',
-            message: 'Tidak dapat mengupload file ' + req.file.fileName
-        }, res);
+            message: req.t('upload.cant_upload')
+        })
     }
 };
 
@@ -557,12 +536,17 @@ exports.konfirmGr = function(req, res) {
                 if (rows.length >= 1) {
 
                     updategr(id); // update status gr to yes
-
-                    response.ok("gr sukses!", res);
+                    res.send({
+                        status: 'success',
+                        message: req.t('goodRecieve.success_get_gr')
+                    })
                 }
                 if (rows.length < 1) {
                     // response.ok("seluruh data telah di GR!",res);
-                    response.ok({ status: "seluruh data telah di GR" }), res;
+                    return res.send({
+                        status: 'success',
+                        message: req.t('goodRecieve.data_already_printing')
+                    })
                 }
             }
         }
@@ -602,12 +586,17 @@ exports.konfirmGi = function(req, res) {
                 if (rows.length >= 1) {
 
                     updategi(id); // update all items status_GI to yes
-
+                    res.send({
+                        status: 'success',
+                        message: req.t('success_get_data')
+                    })
                     response.ok("GI sukses!", res);
                 }
                 if (rows.length < 1) {
-                    // response.ok("seluruh data telah di GI!",res);
-                    response.ok({ status: "seluruh data telah di GI" }, res);
+                    res.send({
+                        status: 'success',
+                        message: req.t('goodIssue.all_data_in_gi')
+                    })
                 }
             }
         }

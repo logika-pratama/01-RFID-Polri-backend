@@ -11,7 +11,11 @@ exports.locationsById = function(req, res) {
         if (error) {
             console.log(error);
         } else {
-            response.ok(rows, res);
+            return res.send({
+                status:' success',
+                message: req.t('success_get_data'),
+                data: rows
+            })
         }
     });
 };
@@ -24,12 +28,6 @@ exports.addlocation = function(req, res) {
         description = req.body.description,
         id_account = req.body.id_account;
     console.log(id_location.length);
-    if (id_location.length < 1) {
-        return response.ok({
-            message: 'warning !',
-            status: 'field id location tidak boleh kosong !'
-        }, res)
-    }
     koneksi.query('INSERT INTO locations (id_location,name,description,id_account) VALUES(?,?,?,?)', [id_location, name, description, id_account],
         function(error, rows, fields) {
             if (error) {
@@ -41,11 +39,10 @@ exports.addlocation = function(req, res) {
                     }, res)
                 }
             } else {
-                return response.ok({
-                    status: 'succes',
-                    message: 'berhasil menambahkan data ',
-                    data: req.body
-                }, res);
+                return res.send({
+                    status: 'success',
+                    message: req.t('location.success_add_location')
+                });
             }
         });
 };
@@ -63,10 +60,10 @@ exports.editlocation = function(req, res) {
             if (error) {
                 console.log(error);
             } else {
-                response.ok({
-                    status: 'succes',
-                    message: 'berhasil update location  ',
-                }, res);
+                return res.send({
+                    status: 'success',
+                    message: req.t('location.success_update_location')
+                })
             }
         });
 };
@@ -81,7 +78,10 @@ exports.hapuslocation = function(req, res) {
             if (error) {
                 console.log(error);
             } else {
-                response.ok("Berhasil Hapus Data", res)
+                res.send({
+                    status: 'success',
+                    message: req.t('success_delete_data')
+                })
             }
         });
 }

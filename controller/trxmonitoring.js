@@ -41,11 +41,11 @@ exports.TMById = function(req, res) {
             if (error) {
                 console.log(error);
             } else {
-                response.ok({
+                res.send({
                     status: 'success',
-                    message: 'berhasil mendapatkan data',
+                    message: req.t('success_get_data'),
                     data: rows
-                }, res);
+                })
             }
         }
     );
@@ -61,12 +61,11 @@ exports.TMByIdNull = function(req, res) {
             if (error) {
                 console.log(error);
             } else {
-                response.ok({
-                    status: 'success',
-                    message: 'berhasil mendapatkan data',
-                    data: rows
-                }, res);
-                console.log("beres");
+               res.send({
+                   status: 'success',
+                   message: req.t('success_get_data'),
+                   data: rows
+               })
             }
         }
     );
@@ -117,11 +116,11 @@ exports.addTM = function(req, res) {
             if (error) {
                 console.log(error);
             } else {
-                response.ok({
-                    status: 'success',
-                    message: "Berhasil add intem to monitoring!"
-                }, res);
                 deleteRecieve(item_id);
+                return res.send({
+                    status: 'success',
+                    message: req.t('monitoring.add_monitoring')
+                })
             }
         }
     );
@@ -164,7 +163,10 @@ exports.editTM = function(req, res) {
             if (error) {
                 console.log(error);
             } else {
-                response.ok("Berhasil mengubah data", res);
+                res.send({
+                    status: 'success',
+                    message: req.t('success_update_data')
+                })
             }
         }
     );
@@ -179,7 +181,10 @@ exports.hapusTM = function(req, res) {
             if (error) {
                 console.log(error);
             } else {
-                response.ok("Berhasil Hapus Data", res);
+                res.send({
+                    status: 'success',
+                    message: req.t('success_delete_data')
+                })
             }
         }
     );
@@ -187,11 +192,6 @@ exports.hapusTM = function(req, res) {
 
 exports.autoPutway = function(req, res) {
     var id_Account = req.idaccount;
-    // var UoM = req.body.UoM;
-    // var Quantity = req.body.Quantity;
-    // var Line_number = req.body.Line_number;
-    // var Rack_number = req.body.Rack_number;
-    // var Bin_number = req.body.Bin_number;
     console.log(id_Account);
     koneksi.query(
         'UPDATE Transaction_Monitoring SET Line_number="Auto",Rack_number="Auto",Bin_number="Auto" WHERE  UoM IS NULL AND Line_number IS NULL AND Rack_number IS NULL AND Bin_number IS NULL AND id_Account=?', [id_Account],
@@ -199,11 +199,10 @@ exports.autoPutway = function(req, res) {
             if (error) {
                 console.log(error);
             } else {
-                console.log(rows);
-                response.ok({
-                    status: "success",
-                    message: "Berhasil mengubah data"
-                }, res);
+                res.json({
+                    status: 'success',
+                    message: req.t('monitoring.auto_putway')
+                })
             }``
         }
     );
@@ -225,10 +224,10 @@ exports.Putway = function(req, res) {
                 console.log(error);
             } else {
                 console.log("putway item id: " + item_id);
-                response.ok({
-                    status: "Success",
-                    message: "Berhasil mengubah data"
-                }, res);
+                return res.send({
+                    status: 'success',
+                    message: req.t('monitoring.auto_putway')
+                })
             }
         }
     );
@@ -256,10 +255,10 @@ exports.bulkPutway = async function(req, res) {
             }
         );
     }
-    response.ok({
+    res.send({
         status: 'success',
-        message: "Berhasil update  Item"
-    }, res);
+        message: req.t('success_update_data')
+    })
 };
 
 exports.search = function(req, res) {
@@ -273,18 +272,16 @@ exports.search = function(req, res) {
                 console.log(error);
             } else {
                 if (rows.length < 1) {
-                    return response.ok({
-                        status: 'success',
-                        message: 'Tag Number tidak ada pada monitoring',
-                        data: rows
-                    }, res)
+                   return res.send({
+                       status: 'success',
+                       message: req.t('tag_number_not_found')
+                   })
                 }
                 // console.log("putway item id: " + item_id);
-                return response.ok({
-                    status: 'successs',
-                    message: 'succes mendapatkan data',
-                    data: rows
-                }, res);
+                return res.send({
+                    status: 'success',
+                    message: req.t('success_get_tag_number')
+                })
             }
         }
     );

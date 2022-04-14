@@ -9,6 +9,8 @@
     "tag_number_not_found": "tag number not found",
     "all_data_downloaded": "all data downloaded",
     "success_download_data": "success download data",
+    "data_not_found": "data not found",
+    "success_recieve": "success recieve items",
     "item":{
         "success_create_item": "success create item",
         "success_update_item": "success update item",
@@ -18,15 +20,27 @@
         "tag_required": "tag number required",
         "quantity_required": "quantity required",
         "ref_required": "ref number required",
-        "max_tag_number": "max length of tag number",
-        "max_ref_number": "max length of ref number",
-        "tag_exist": "tag number already exist"
+        "max_tag_number": "tag number too long ",
+        "max_ref_number": "tag number too long ",
+        "max_qty": "quantity too long ",
+        "max_item_code": "item code too long ",
+        "tag_exist": "tag number already exist",
+        "please_check_item": "please choose items to move"
     },
     "account":{
         "success_get_account": "success get account",
         "success_add_account": "success add account",
         "success_update_account": "succcess update account",
-        "success_delete_account": "success delete account"
+        "success_delete_account": "success delete account",
+        "id_account_max_length": "id account is too long",
+        "id_account_min_length": "id account is too short",
+        "id_account_is_required": "id account is required",
+        "name_max_length": "name is too long",
+        "email_is_required": "email is required",
+        "email_max_length": "email is too long ",
+        "status_max_length": "status is too long",
+        "clean_data_max_length": "clean data is too long",
+        "modul_name_max_length": "modul is too long"
     },
     "goodIssue":{
         "success_get_gi" : "success get good issue data",
@@ -42,6 +56,7 @@
         "success_get_tag_number": "success get tag number"
     },
     "location":{
+        "id_account_is_required": "id account is required",
         "success_add_location": "success add location",
         "id_location_exist": "id location already exist",
         "id_location_required": "id location is required",
@@ -71,9 +86,9 @@
     },
     "reader":{
         "success_add_reader": "success add reader",
-        "max_length_of_name": "max length of name",
+        "max_length_name": "name too long",
         "success_update_reader": "success update reader",
-        "max_length_of_reader": "max length of reader",
+        "max_length_reader": "reader too long ",
         "server_not_found": "server not found",
         "account_dont_have_reader": "account don't have reader"
     },
@@ -90,7 +105,34 @@
         "item_code_required": "item code is required",
         "ref_number_required": "ref number is requirerd",
         "tag_number_required": "tag number is required",
+        "item_type_required": "item type is required",
         "format_does_not_match": "format does not match",
         "cant_upload": "can't upload filename"
+    },
+    "user":{
+        "success_create_user": "success create user",
+        "success_update_user": "success update user",
+        "success_delete_user": "success delete user",
+        "succes_get_user": "success get user",
+        "user_id_is_rerquired": "user id is rerquired",
+        "user_max_length": "user id too long ",
+        "user_min_length": "user id too short ",
+        "name_max_length": "name too long ",
+        "name_min_length": "name too short ",
+        "description_max_lenght": "description too long ",
+        "phone_number_max_length": "phone number too long",
+        "email_is_required": "email is required",
+        "email_max_length": "email too long",
+        "username_max_length": "username too long ",
+        "username_min_length": "username is too short ",
+        "password_is_required": "password is required",
+        "password_max_length": "password is too long",
+        "password_min_length": "password is too short",
+        "id_account_max_length": "id account is too long",
+        "id_account_min_length": "id account is too short",
+        "id_account_required": "id account is required",
+        "role_required": "role is required",
+        "device_id_max_lenght": "device id is too loong",
+        "device_id_min_length": "device id too short"
     }
 }

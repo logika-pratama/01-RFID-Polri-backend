@@ -1,12 +1,16 @@
 const Validator = require('fastest-validator');
-const v = new Validator()
+const v = new Validator();
 
 exports.validateItem = (req, res, next)=>{
 
     const schema = {
         Item_code: {
             type: "string",
-            optional: true
+            optional: true,
+            max: 20,
+            messages:{
+                stringMax: req.t("item.max_item_code")
+            }
         },
         Item_category: {
             type: "string",
@@ -32,20 +36,30 @@ exports.validateItem = (req, res, next)=>{
             type: "string",
             optional: true
         },
+        Quantity:{
+            type: "number",
+            optional: true,
+            max: 10,
+            messages:{
+                numberMax: req.t("item.max_qty")
+            }
+        },
         tag_number: {
             type: "string", 
             empty:false, 
             max:100, 
             messages: { 
-                stringEmpty: req.t("item.tag_required") 
+                stringMax: req.t("item.max_tag_number"), 
+                stringEmpty: req.t("item.tag_required")
             }
         },
         Ref_Number:{
             type: "string",
             empty: false,
-            max: 10,
-            message:{
-                stringEmpty: req.t("item.sku_required")
+            max: 15,
+            messages:{
+               stringEmpty: req.t("item.ref_required"),
+               stringMax: req.t("item.max_ref_number")
             }
         }
     }

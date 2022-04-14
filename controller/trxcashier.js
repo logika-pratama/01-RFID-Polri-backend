@@ -89,11 +89,11 @@ exports.TCById = function(req, res) {
             if (error) {
                 console.log(error);
             } else {
-                response.ok({
+                res.send({
                     status: 'success',
-                    message: 'berhasil mendapatkan data',
+                    message: req.t('success_get_data'),
                     data: rows
-                }, res);
+                })
             }
         }
     );
@@ -107,7 +107,10 @@ exports.allTC = function(req, res) {
             if (error) {
                 console.log(error);
             } else {
-                response.ok(rows, res);
+                res.send({
+                    status: 'success',
+                    message: req.t('success_get_data')
+                })
             }
         }
     );
@@ -208,11 +211,11 @@ exports.hapusTC = function(req, res) {
                     error: error.sqlMessage
                 }, res)
             } else {
-                response.ok({
-                    status: 'success',
-                    message: " Berhasil Hapus Data"
-                }, res);
                 hystoryUpdate("status='Monitoring',time_monitoring=NOW(),time_cashier=' '", id);
+                return res.send({
+                    status: 'success',
+                    message: req.t('success_delete_data')
+                })
             }
         }
     );
@@ -273,8 +276,8 @@ exports.konfirm = function(req, res) {
 
         confirmed(sku[i], id_reader, id_account);
     }
-    response.ok({
+    return res.send({
         status: 'success',
-        message: "SKU sudah dikonfirmasi"
-    }, res);
+        message: req.t('success_update_data')
+    })
 };

@@ -1,364 +1,1118 @@
 {
-  "openapi": "3.0.3",
-  "info": {
-    "title": "ITAT Public API",
-    "description": "OPEN API for ITAT Public API Integration",
-    "termsOfService": "http://swagger.io/terms/",
-    "varsion": "1.0.0",
-    "contact": {
-      "name": "RFID Solution",
-      "email": "info@logikapratama.com",
-      "url": "https://rfidsolutions.id/"
+    "openapi": "3.0.3",
+    "info": {
+        "title": "RFID-API-Documentation",
+        "version": "1",
+        "description": "OpenAPI for RFID ",
+        "termsOfService": "https://rfidsolutions.id/",
+        "contact": {
+            "name": "RFID-Solution",
+            "email": "info@logikapratama.com",
+            "url": "https://rfidsolutions.id/"
+        },
+        "license": {
+            "name": "APACHE 2.0",
+            "url": "https://www.apache.org/licenses/LICENSE-2.0"
+        }
     },
-    "license": {
-      "name": "APACHE 2.0",
-      "url": "https://www.apache.org/licenses/LICENSE-2.0"
-    }
-  },
-  "servers": [
-    {
-      "name": "Public Server",
-      "url": "http//:151.106.112.34:8080"
+    "servers": [
+        {
+            "description": "RFID Solution API Public-Server",
+            "url": "http://151.106.112.34/"
+        },
+        {
+            "description": "RFID Solution API Local-Server",
+            "url": "localhost:8080"
+        }
+    ],
+    "paths": {
+        "/api/v1/item": {
+            "get": {
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "tags": [
+                    "Master Item"
+                ],
+                "summary": "get all items by ID",
+                "responses": {
+                    "200": {
+                        "description": "success get all items",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/dataItems"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "$ref": "#/components/responses/400"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/401"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Master Item"
+                ],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "description": "add data to database Master Item",
+                "requestBody":{
+                    "required": true,
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/items"
+                            },
+                            "example":{
+                                    "Item_code": "010013",
+                                    "Item_category": "Persediaan",
+                                    "Item_Type": "Elektronik",
+                                    "SKU": "MKR-PRL-013",
+                                    "Name": "Laptop Asus",
+                                    "Description": "Laptop untuk Administrasi",
+                                    "Uom": "pcs",
+                                    "Quantity": 1,
+                                    "tag_number": "123222444222AC",
+                                    "Ref_Number": "SGA-102-AK"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "$ref": "#/components/responses/200"
+                    },
+                    "400": {
+                        "$ref": "#/components/responses/400"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/401"
+                    }
+                }
+            }
+        },
+        "/api/v1/itemnull": {
+            "get": {
+                "tags": [
+                    "Update Batch Item"
+                ],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success get all items",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/dataItems"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "$ref": "#/components/responses/400"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/401"
+                    }
+                }
+            }
+        },
+        "/api/v1/item/{item_id}": {
+            "put": {
+                "tags": [
+                    "Master Item", "Update Batch Item"
+                ],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "description": "Update Master Item in database",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/item_id"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "$ref": "#/components/responses/200"
+                    },
+                    "400": {
+                        "$ref": "#/components/responses/400"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/401"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Master Item",
+                    "Update Batch Item"
+                ],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                
+                "description": "delete item to database",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/id"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "$ref": "#/components/responses/200"
+                    },
+                    "400": {
+                        "$ref": "#/components/responses/400"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/401"
+                    }
+                }
+            }
+        },
+        "/api/v1/item/search/{tag}": {
+            "get": {
+                "tags": [
+                    "Master Item"
+                ],
+                "description": "endpoint to search tag to database",
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/tag"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success get all items",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/dataItems"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "$ref": "#/components/responses/400"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/401"
+                    }
+                }
+            }
+        },
+        "/api/v1/tr":{
+            "get":{
+                "name": "get inbound data",
+                "description": "get all data inbound based accound id and device id from database",
+                "tags":[
+                    "Inbound"
+                ],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success get all items",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/dataItems"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "$ref": "#/components/responses/400"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/401"
+                    }
+                }
+            }
+        },
+        "/api/v1/tr/confirm":{
+            "post":{
+                "name": "confirm Inbound",
+                "description": "Confirm data inbound for move to monitoring and delete all data inbound",
+                "tags":[
+                    "Inbound"
+                ],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "requestBody":{
+                    "required": true,
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/items"
+                            },
+                            "example":{
+                                    "Item_code": "010013",
+                                    "Item_category": "Persediaan",
+                                    "Item_Type": "Elektronik",
+                                    "SKU": "MKR-PRL-013",
+                                    "Name": "Laptop Asus",
+                                    "Description": "Laptop untuk Administrasi",
+                                    "Uom": "pcs",
+                                    "Quantity": 1,
+                                    "tag_number": "123222444222AC",
+                                    "Ref_Number": "SGA-102-AK"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "$ref": "#/components/responses/200"
+                    },
+                    "400": {
+                        "$ref": "#/components/responses/400"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/401"
+                    }
+                }
+            }
+        },
+        "/api/v1/grdata":{
+            "get":{
+                "name": "Good receive Data",
+                "description": "Get data Good recieve from database",
+                "tags":["Good Received"],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/konfirmgr":{
+            "get":{
+                "name": "confirm gr data",
+                "description": "confirmation for indicate gr data was downloaded ",
+                "tags": ["Good Received"],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/tm":{
+            "get":{
+                "name": "monitoring data",
+                "description": "get all data monitoring (after confirmation inbound) from database",
+                "tags": ["Monitoring"],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/tm/selectedputaway/{id}":{
+            "post":{
+                "name": "add putaway",
+                "description": "add line rak bin by selected item to insert into database",
+                "tags": ["Monitoring", "Putaway"],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/tm/putaway":{
+            "get":{
+                "name": "get data Putaway",
+                "description": "get data Putaway from database",
+                "tags": ["Putaway"],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/tm/autoputaway":{
+            "post":{
+                "name": "auto putawayy",
+                "description": "to insert all data(line, rak, number) automaticly",
+                "tags": ["Putaway"],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/tm/bulkputaway":{
+            "post":{
+                "name": "multipe putaway",
+                "description": "insert data from item selected ",
+                "tags": ["Putaway"],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/orderlist":{
+            "get":{
+                "name": "order  list",
+                "description": "get data order  to database",
+                "tags": ["Order List"] ,
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/itemorder/{number}":{
+            "get":{
+                "name": "order number",
+                "description": "get number orrder to database",
+                "tags": ["Order List"],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/importorder":{
+            "post": {
+                "name": "import order",
+                "description": "create order data using excel to add into database",
+                "tags":["Order List"],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/tc":{
+            "get":{
+                "name": "Quality Control List",
+                "description": "get data Quality Control to database",
+                "tags": ["Quality Control"],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/tc/{id}":{
+            "delete":{
+                "name": "delete Quality Control",
+                "description": "delete item in Quality Control to database",
+                "tags": ["Quality Control"],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/pl/packing":{
+            "post":{
+                "name": "confirm Quality Control",
+                "description": "Confirm Quality Control based item list",
+                "tags": ["Quality Control"],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/tc/confirm":{
+            "post":{
+                "name": "confirm from chasier",
+                "description": "",
+                "tags": ["Quality Control"],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/gi":{
+            "get":{
+                "name": "Good Issue",
+                "description": "get good issue data from database",
+                "tags": ["Good Issue"],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "api/v1/konfirmgi":{
+            "get":{
+                "name": "Download Good Issue",
+                "description": "Download Good Issue to excele(update GR status to yes)",
+                "tags": ["Good Issue"],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/td":{
+            "get":{
+                "name": "Outbound Data",
+                "description": "get outbound data from database",
+                "tags": ["Outbound"],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/td/confirm":{
+            "post":{
+                "name": "confirm outbound",
+                "description": "Confirmation Outbound change status delivery to delivered ",
+                "tags": ["Outbound"],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/th":{
+            "get":{
+                "name": "get history data",
+                "description": "get data history from database",
+                "tags": ["History"],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "api/v1/status":{
+            "get":{
+                "name": "alarm status",
+                "description": "get alarm status yes or no from this endpoint",
+                "tags": ["History"],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/stoktake/{tag}":{
+            "get":{
+                "name" : "stock take",
+                "description": "search tag number from database ",
+                "tags": ["Stock Take"],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "api/v1/stoktakereport":{
+            "get": {
+                "name": "stock Take report",
+                "description": "stock take report to download ",
+                "tags": ["Stock Take"],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/konfirmst":{
+            "get": {
+                "name": "Stock take Confirm",
+                "description": "Change status Stock take to yes that cant download if status is yes",
+                "tags": ["Stock Take"],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/tm/search/{tags}":{
+            "get":{
+                "name": "search tag ",
+                "description": "search tag from table monitoring",
+                "tags": ["Scanning"],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/item/search/{tags}":{
+            "get": {
+                "name": "search tag",
+                "description": "Search tag from table master item",
+                "tags": ["Scanning"],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "api/v1/readers":{
+            "get":{
+                "name": "get all readers",
+                "description": "Get all data reader from database",
+                "tags": ["Reader"],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "api/v1/reader":{
+            "post": {
+                "name": "add reader",
+                "description": "create reader to add from database",
+                "tags": ["Reader"],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "api/v1/reader/{id}":{
+            "put":{
+                "name": "update reader",
+                "description": "Update rader data from database",
+                "tags": ["Reader"],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "delete":{
+                "name":"delete Reader",
+                "descirption": "Delete Reader from database",
+                "tags": ["Reader"],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/readerbyaccount/id":{
+            "get":{
+                "name": "get reader by ID",
+                "description": "get data reader from database by id account",
+                "tags": ["Reader"],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/readerbyaccount/{id}":{
+            "get": {
+                "name": "get Reader by id ",
+                "description": "get reader by id using param from database",
+                "tags": ["Reader"],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/gatescan": {
+            "get": {
+                "name": "send tag number",
+                "description": "Send Tag number to udp Server",
+                "tags": ["Reader"],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/locations": {
+            "post": {
+                "name": "add location",
+                "description": "add location to database",
+                "tags": [ "Location"],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/locations/{id_account}":{
+            "get": {
+                "name": "get Location by ID account",
+                "description": "get location data from database by id account",
+                "tags": ["Location"],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/locations/{id_location}":{
+            "put": {
+                "name":"update location",
+                "description": "Update location data to database",
+                "tags": ["Location"],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "delete": {
+                "name": "delete location",
+                "description": "Delete Locations data to database",
+                "tags": ["Location"],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/userbyaccount":{
+            "get": {
+                "name": "get user by  account",
+                "description": "get user from database based id account",
+                "tags": ["User"],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/user/{id_user}":{
+            "get":{
+                "name": "get user by id user",
+                "description": "get user id based id user from database",
+                "tags": ["User"],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "put":{
+                "name": "update user",
+                "description": "update user based id user from database",
+                "tags": ["User"],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "delete": {
+                "name": "delete user",
+                "description": "delete user based id_user from database",
+                "tags": ["User"],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/user":{
+            "get":{
+                "name": "get all user",
+                "description": "get all user from database",
+                "tags": ["User"],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "post": {
+                "name": "add user",
+                "description": "add user to database",
+                "tags": ["User"],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/account/{id_account}":{
+            "get":{
+                "name": "get account by id",
+                "description": "get account from database based id account",
+                "tags": ["Account"],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "delete":{
+                "name": "delete account by id",
+                "description": "Delete Account from database based id account",
+                "tags": ["Account"],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/account":{
+            "get": {
+                "name": "get all account",
+                "description": "get all account from database",
+                "tags": ["Account"],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "post":{
+                "name": "add account",
+                "description": "create account into database",
+                "tags": ["Account"],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "put": {
+                "name": "upadte account",
+                "description": "Update account based id account",
+                "tags": ["Account"],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/trxtypes":{
+            "get":{
+                "name": "transaction Type",
+                "description": "get all data transaction type from database",
+                "tags": ["Transaction Type"],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        }
     },
-    {
-      "name": "Local Server",
-      "url": "http//:localhost:8080"
-    }
-  ],
-  "paths": {
-    "/api/v1/public/item": {
-      "get": {
-        "tags": ["items"],
-        "security": [
-          {
-            "itemAuth": []
-          }
-          
-        ],
-        "summary": "get a items",
-        "description": "get items from databases",
-        "responses": {
-          "200": {
-            "description": "Success Get All Items",
-            "content": {
-              "application/json": {
+    "components": {
+        "parameters": {
+            "item_id": {
+                "name": "item_id",
+                "in": "path",
+                "required": true,
+                "description": "item id for updated",
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "type": "object",
-                    "properties": {
-                      "Item_code": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 10
+                },
+                "example": "zplikshs"
+            },
+            "id": {
+                "name": "id",
+                "in": "path",
+                "required": true,
+                "schema": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 10
+                },
+                "example": "zasypk"
+            },
+            "tag": {
+                "name": "tag",
+                "in": "path",
+                "required": true,
+                "schema": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 20
+                },
+                "example": "112223344556600AB"
+            }
+        },
+        "responses": {
+            "200": {
+                "description": "Success",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "$ref": "#/components/schemas/successResponse"
+                        }
+                    }
+                }
+            },
+            "401": {
+                "description": "Authentication information is misssing or invalid",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "$ref": "#/components/schemas/UnauthorizedError"
+                        }
+                    }
+                }
+            },
+            "400": {
+                "description": "Invalid input",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "$ref": "#/components/schemas/InvailidInput"
+                        }
+                    }
+                }
+            }
+        },
+        "securitySchemes": {
+            "bearerAuth": {
+                "type": "http",
+                "scheme": "bearer",
+                "bearerFormat": "JWT"
+            }
+        },
+        "schemas": {
+            "UnauthorizedError": {
+                "type": "object",
+                "properties": {
+                    "message": {
+                        "type": "string"
+                    }
+                },
+                "example": {
+                    "message": "Unauthorize"
+                }
+            },
+            "successResponse": {
+                "type": "object",
+                "properties": {
+                    "status": {
+                        "type": "string"
+                    },
+                    "message": {
+                        "type": "string"
+                    }
+                },
+                "example": {
+                    "status": "success",
+                    "message": "success message to server"
+                }
+            },
+            "InvailidInput": {
+                "type": "object",
+                "properties": {
+                    "status": {
+                        "type": "string"
+                    },
+                    "message": {
+                        "type": "string"
+                    }
+                },
+                "example": {
+                    "status": "error",
+                    "message": "message error"
+                }
+            },
+            "dataItems": {
+                "type": "object",
+                "properties": {
+                    "status": {
+                        "type": "string"
+                    },
+                    "message": {
+                        "type": "string"
+                    },
+                    "data": {
+                        "type": "array",
+                        "properties": {
+                            "value": {
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "required": [
+                    "message",
+                    "data"
+                ],
+                "example": {
+                    "status": "success",
+                    "message": "success messages to server ",
+                    "data": [
+                        {
+                            "item_id": "bvdl00fl8wd",
+                            "Item_code": "010013",
+                            "Item_category": "Persediaan",
+                            "Item_Type": "Elektronik",
+                            "SKU": "MKR-PRL-013",
+                            "Name": "Laptop Asus",
+                            "Description": "Laptop untuk Administrasi",
+                            "Uom": "pcs",
+                            "Quantity": 1,
+                            "tag_number": "123123",
+                            "id_Account": "0002",
+                            "id_location": null,
+                            "Ref_Number": "12312",
+                            "Print_Tag": "yes"
+                        },
+                        {
+                            "item_id": "ce8kzxss9zp",
+                            "Item_code": "11223344556600d",
+                            "Item_category": "Bahan Setenagh Jadi",
+                            "Item_Type": "A",
+                            "SKU": "LGK-M1",
+                            "Name": "Baju",
+                            "Description": "Baju",
+                            "Uom": "pcs",
+                            "Quantity": 1,
+                            "tag_number": "11223344556600d",
+                            "id_Account": "0002",
+                            "id_location": null,
+                            "Ref_Number": "1",
+                            "Print_Tag": "yes"
+                        }
+                    ]
+                }
+            },
+            "bulkAdd":{
+                "type": "object",
+                "properties": {
+                    "Device_ID":{
+                        "type": "string",
+                        "required": true
+                    },
+                    "items":{
+                        "type": "array",
+                        "required": true
+                    }
+                }
+            },
+            "items": {
+                "type": "object",
+                "properties": {
+                    "Item_code": {
                         "type": "string",
                         "minLength": 1,
                         "maxLength": 10,
                         "required": false
-                      },
-                      "Item_category": {
+                    },
+                    "Item_category": {
                         "type": "string",
                         "required": false
-                      },
-                      "Item_Type": {
+                    },
+                    "Item_Type": {
                         "type": "string",
                         "required": false
-                      },
-                      "SKU": {
+                    },
+                    "SKU": {
                         "type": "string",
-                        "required": true
-                      },
-                      "Name": {
-                        "type": "string",
-                        "required": false
-                      },
-                      "Description": {
+                        "required": true,
+                        "maxLength": 50
+                    },
+                    "Name": {
                         "type": "string",
                         "required": false
-                      },
-                      "Uom": {
+                    },
+                    "Description": {
                         "type": "string",
                         "required": false
-                      },
-                      "Quantity": {
+                    },
+                    "Uom": {
+                        "type": "string",
+                        "required": false
+                    },
+                    "Quantity": {
                         "type": "number",
-                        "required": true
-                      },
-                      "tag_number": {
+                        "required": true,
+                        "maxLength": 10
+                    },
+                    "tag_number": {
+                        "required": true,
+                        "type": "string",
+                        "maxLength": 100
+                    },
+                    "Ref_Number": {
                         "required": true,
                         "type": "string"
-                      },
-                      "Ref_Number": {
-                        "required": true,
-                        "type": "string"
-                      }
                     }
-                  }
-                },
-                "examples": {
-                  "success": {
-                    "description": "success get all items",
-                    "value": [
-                      {
-                        "Item_code": "A2920",
-                        "Item_category": "Persediaan",
-                        "Item_Type": "Elektronik",
-                        "SKU": "AKHUO9212",
-                        "Name": "TV",
-                        "Description": "TV description",
-                        "Uom": "pcs",
-                        "Quantity": 1,
-                        "tag_number": "A112333222112",
-                        "Ref_Number": "111213212"
-                      },
-                      {
-                        "Item_code": "A2921",
-                        "Item_category": "Persediaan",
-                        "Item_Type": "Elektronik",
-                        "SKU": "AKHUO9212",
-                        "Name": "Monitor",
-                        "Description": "Monitor description",
-                        "Uom": "pcs",
-                        "Quantity": 1,
-                        "tag_number": "A112333222113",
-                        "Ref_Number": "9022AKA"
-                      }
-                    ]
-                  }
                 }
-              }
+            },
+            "arrayItems": {
+                "type": "array",
+                "items": {
+                    "$ref": "#/components/schemas/items"
+                }
             }
-          }
         }
-      },
-      "post": {
-        "tags": ["items"],
-        "security": [
-          {
-            "itemAuth": []
-          }
-        ],
-        "summary": "create a new item",
-        "description": "create a new item to database",
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#components/schemas/items"
-              },
-              "examples": {
-                "item 1": {
-                  "description": "example items 1",
-                  "value": {
-                    "Item_code": "A2920",
-                    "Item_category": "Persediaan",
-                    "Item_Type": "Elektronik",
-                    "SKU": "AKHUO9212",
-                    "Name": "TV",
-                    "Description": "TV description",
-                    "Uom": "pcs",
-                    "Quantity": 1,
-                    "tag_number": "A112333222112",
-                    "Ref_Number": "111213212"
-                  }
-                },
-                "item 2": {
-                  "description": "example items 3",
-                  "value": {
-                    "Item_code": "A2921",
-                    "Item_category": "Persediaan",
-                    "Item_Type": "Elektronik",
-                    "SKU": "AKHUO9212",
-                    "Name": "Monitor",
-                    "Description": "Monitor description",
-                    "Uom": "pcs",
-                    "Quantity": 1,
-                    "tag_number": "A112333222113",
-                    "Ref_Number": "9022AKA"
-                  }
-                },
-                "item 3": {
-                  "description": "example items 3",
-                  "value": {
-                    "Item_code": "A2925",
-                    "Item_category": "Persediaan",
-                    "Item_Type": "Elektronik",
-                    "SKU": "AKHUO9212",
-                    "Name": "Kabel",
-                    "Description": "Kabel description",
-                    "Uom": "meters",
-                    "Quantity": 1,
-                    "tag_number": "A1123332221142",
-                    "Ref_Number": "9022AKP"
-                  }
-                }
-              }
-            }
-          }
-        },
-
-        "responses": {
-          "200": {
-            "description": "success create items",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "status":{
-                      "type": "string",
-                      "example": "success"
-                    },
-                    "message":{
-                      "type": "string",
-                      "example": "successs add new item"
-                    },
-                    "item_id":{
-                      "type": "string",
-                      "example": "gr8kzruti0v"
-                    } 
-                  }
-                  
-                }
-              }
-            }
-          },
-          "409":{
-            "description": "duplicat entry tag number",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "status":{
-                      "type": "string",
-                      "example": "warning"
-                    },
-                    "message":{
-                      "type": "string",
-                      "example": "tag number already existing"
-                    }
-                  }
-                  
-                }
-              }
-            }
-          }
-        }
-      }
     }
-  },
-  "components": {
-    "securitySchemes": {
-      "itemAuth": {
-        "description": "Authentication for REST full API Items",
-        "type": "apiKey",
-        "in": "header",
-        "name": "api_key"
-      }
-    },
-    "parameters": {
-      "itemsId": {
-        "name": "itemId",
-        "in": "path",
-        "required": true,
-        "description": "item id for update"
-      }
-    },
-    "schemas": {
-      "items": {
-        "type": "object",
-        "properties": {
-          "Item_code": {
-            "type": "string",
-            "minLength": 1,
-            "maxLength": 10,
-            "required": false
-          },
-          "Item_category": {
-            "type": "string",
-            "required": false
-          },
-          "Item_Type": {
-            "type": "string",
-            "required": false
-          },
-          "SKU": {
-            "type": "string",
-            "required": true
-          },
-          "Name": {
-            "type": "string",
-            "required": false
-          },
-          "Description": {
-            "type": "string",
-            "required": false
-          },
-          "Uom": {
-            "type": "string",
-            "required": false
-          },
-          "Quantity": {
-            "type": "number",
-            "required": true
-          },
-          "tag_number": {
-            "required": true,
-            "type": "string"
-          },
-          "Ref_Number": {
-            "required": true,
-            "type": "string"
-          }
-        }
-      },
-      "arrayItems": {
-        "type": "array",
-        "properties": {
-          "Item_code": {
-            "type": "string",
-            "minLength": 1,
-            "maxLength": 10,
-            "required": false,
-            "default": "A29201"
-          },
-          "Item_category": {
-            "type": "string",
-            "required": false
-          },
-          "Item_Type": {
-            "type": "string",
-            "required": false
-          },
-          "SKU": {
-            "type": "string",
-            "required": true
-          },
-          "Name": {
-            "type": "string",
-            "required": false
-          },
-          "Description": {
-            "type": "string",
-            "required": false
-          },
-          "Uom": {
-            "type": "string",
-            "required": false
-          },
-          "Quantity": {
-            "type": "number",
-            "required": true
-          },
-          "tag_number": {
-            "required": true,
-            "type": "string"
-          },
-          "Ref_Number": {
-            "required": true,
-            "type": "string"
-          }
-        }
-      }
-    }
-  }
 }

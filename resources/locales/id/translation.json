@@ -9,6 +9,8 @@
     "tag_number_not_found": "nomor RFID tidak ditemukan",
     "all_data_downloaded": "seluruh data telah diuduh",
     "success download data": "berhasil download data",
+    "data_not_found": "data tidak ditemukan",
+    "success_recieve": "success terima data barang",
     "item":{
         "success_create_item": "sukses menambahkan data barang",
         "success_update_item": "sukses memperbarui data barang",
@@ -18,15 +20,27 @@
         "tag_required": "nomor RFID wajib diisi !",
         "quantity_required": "kuantitas wajib diisi !",
         "ref_required": "nomor referensi wajib diisi !",
-        "max_tag_number": "nomor rfid melebihi batas",
-        "max_ref_number": "nomor referensi melebihi batas",
-        "tag_exist": "nomor RFID sudah digunakan"
+        "max_tag_number": "nomor rfid terlalu panjang",
+        "max_ref_number": "nomor referensi terlalu panjang",
+        "max_qty": "kuantitas terlalu panjang",
+        "max_item_code": "kode item terlalu panjang",
+        "tag_exist": "nomor RFID sudah digunakan",
+        "please_check_item": "please choose items to move"
     },
     "account":{
         "success_get_account": "berhasil mendapatkan akun",
-        "success_add_account" : "berhasil mendapatkan akun",
+        "success_add_account" : "berhasil membuat akun",
         "success_update_account": "berhasil memperbarui akun",
-        "succes_delete_account" : "berhasil menghapus akun"
+        "succes_delete_account" : "berhasil menghapus akun",
+        "id_account_max_length": "id pengguna terlalu panjang ",
+        "id_account_min_length": "id pengguna terlalu pendek ",
+        "id_account_is_required": "id pengguna wajib diisi ",
+        "name_max_length": "nama terlalu panjang",
+        "email_is_required": "email wajib diisi",
+        "email_max_length": "email terlalu panjang",
+        "status_max_length": "status terlalu panjang",
+        "clean_data_max_length": "clean data terlalu panjang",
+        "modul_name_max_length": "nama modul terlalu panjang"
     },
     "goodIssue":{
         "success_get_gi" : "berhasil mendapatkan data good issue ",
@@ -42,6 +56,7 @@
         "success_get_tag_number": "berhasil mendapatkan nomor RFID"
     },
     "location":{
+        "id_account_is_required": "id akun harus diisi",
         "success_add_location": "berhasil menambahkan lokasi",
         "id_location_exist": "id lokasi sudah digunakan di akun lain",
         "id_location_required": "id lokasi wajib diisi !",
@@ -51,7 +66,7 @@
         "success_add_location": "berhasil menambahkan data lokasi"
     },
     "login":{
-        "fail_login": "surat elektronik atau password salah "
+        "fail_login": "email atau password salah "
     },
     "monitoring":{
         "auto_putway": "berhasil memperbarui data",
@@ -91,7 +106,33 @@
         "ref_number_required": "Nomor referensi tidak boleh ada yang kosong",
         "tag_number_required": "nomor RFID tidak boleh ada yang kosong",
         "format_does_not_match": "format tidak sesuai , gunakan yang sudah disediakan !",
-        "cant_upload": "tidak dapat mengunggah filename"
+        "cant_upload": "tidak dapat mengunggah filename",
+        "item_type_required": "Tipe Item tidak boleh kosong"
+    },
+    "user":{
+        "success_create_user": "berhasil membuat pengguna",
+        "success_update_user": "berhasil memperbarui pengguna",
+        "success_delete_user": "berhasil menghapus pengguna",
+        "succes_get_user": "berhasil mendapatkan data pengguna",
+        "user_id_is_rerquired": "ID pengguna tidak boleh kosong",
+        "user_max_length": "ID pengguna terlalu panjang ",
+        "user_min_length": "ID pengguna terlalu pendek ",
+        "name_max_length": "nama terlalu panjang",
+        "name_min_length": "nama terlalu pendek",
+        "description_max_lenght": "deskripsi terlalu panjang",
+        "phone_number_max_length": "nomor telepon terlalu panjang",
+        "email_is_required": "email tidak boleh kosong ",
+        "email_max_length": "email terlalu panjang",
+        "username_max_length": "nama pengguna terlalu panjang",
+        "username_min_length": "nama pengguna terlalu panjang",
+        "password_is_required": "kata sandi harus diisi",
+        "password_max_length": "kata sandi terlalu panjang",
+        "password_min_length": "kata sandi terlalu pendek",
+        "id_account_max_length": "id akun terlalu panjang",
+        "id_account_min_length": "id akun terlalu pendek",
+        "id_account_required": "id akun harus diisi",
+        "role_required": "role harus diisi",
+        "device_id_max_lenght": "id perangkat terlalu panjang",
+        "device_id_min_length": "id perangkat terlalu pendek"
     }
-
 }

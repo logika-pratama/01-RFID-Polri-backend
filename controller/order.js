@@ -11,11 +11,10 @@ exports.getorderlist = function(req, res) {
             if (error) {
                 console.log(error);
             } else {
-                response.ok({
+                res.send({
                     status: 'success',
-                    message: 'berhasil mendapatkan data',
-                    data: rows
-                }, res);
+                    message: req.t('success_get_data')
+                })
             }
         }
     );
@@ -29,10 +28,10 @@ exports.deleteOreder = function(req, res) {
             if (error) {
                 console.log(error)
             } else {
-                response.ok({
+                res.send({
                     status: 'success',
-                    message: 'berhasil menghapus data'
-                }, res)
+                    message: req.t('success_delete_data')
+                })
             }
         }
 
@@ -50,17 +49,17 @@ exports.getitemlist = function(req, res) {
                 console.log(error);
             } else {
                 if (rows.length > 0) {
-                    response.ok({
+                    return res.send({
                         status: 'success',
-                        message: 'berhasil mendapatkan data',
+                        message: req.t('success_get_data'),
                         data: rows
-                    }, res);
+                    })
                 } else {
-                    response.ok({
+                    return res.send({
                         status: 'success',
-                        message: 'data tidak ada',
-                        data: []
-                    }, res);
+                        message: req.t('data_not_found'),
+                        data: rows
+                    })
                 }
             }
         }

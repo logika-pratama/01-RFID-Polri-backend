@@ -13,7 +13,11 @@ exports.itemById = function(req, res) {
         if (error) {
             console.log(error);
         } else {
-            response.ok(rows, res);
+            res.send({
+                status: "success",
+                message: req.t("success_get_data"),
+                data: rows
+            });
         }
 
     });
@@ -31,6 +35,22 @@ const itemCount = function(id, result) {
         })
 }
 
+function cektag(tag) {
+    return new Promise(function(resolve, reject) {
+        koneksi.query(
+            "SELECT * FROM items WHERE tag_number= ? ", [tag],
+            function(error, rows, fields) {
+                if (error) {
+                    reject(error.sqlMessage);
+                } else {
+                    var a = JSON.stringify(rows);
+                    var b = JSON.parse(a);
+                    resolve(b);
+                }
+            }
+        );
+    });
+}
 // Pagination Get Items by ID
 exports.getItems = async function(req, res) {
     let sort_by = `tag_number`
@@ -153,7 +173,11 @@ exports.datanull = function(req, res) {
         if (error) {
             console.log(error);
         } else {
-            response.ok(rows, res);
+            res.send({
+                status: "success",
+                message: req.t("success_get_data"),
+                data: rows
+            });
         }
 
     });
@@ -168,9 +192,12 @@ exports.itemByitemId = function(req, res) {
         if (error) {
             console.log(error);
         } else {
-            response.ok(rows, res);
+            res.send({
+                status: "success",
+                message: req.t("success_get_data"),
+                data: rows 
+            });
         }
-
     });
 };
 
@@ -181,13 +208,17 @@ exports.allitem = function(req, res) {
         if (error) {
             console.log(error);
         } else {
-            response.ok(rows, res);
+            res.send({
+                status: "success",
+                message: req.t("success_get_data"),
+                data: rows
+            });
         }
 
     });
 };
 // add 
-exports.additem = function(req, res) {
+exports.additem = async function(req, res) {
     var item_id = uniqid.process();
     var Item_code = req.body.Item_code;
     var Item_category = req.body.Item_category;
@@ -201,56 +232,31 @@ exports.additem = function(req, res) {
     var id_Account = req.idaccount;
     var Ref_Number = req.body.Ref_Number;
 
-    console.log(req.body)
-    if (SKU.length < 1 || SKU.trim() == "") {
-        return response.warning({
-            status: 'warning',
-            message: req.t('item.sku_required')
-        }, res);
-    } else if (Quantity.length < 1 ) {
-        return response.warning({
-            status: 'warning',
-            message: req.t('item.quantity_required')
-        }, res);
-    } else if (Ref_Number.length < 1 || Ref_Number.trim() == "") {
-        return response.warning({
-            status: 'warning',
-            message: req.t('item.ref_required')
-        }, res);
-    } else if (tag_number.length < 1 || tag_number.trim() == "") {
-        return res.json({
-            status: 'warning',
-            message: req.t('item.tag_required')
-        }, res);
+    const tag = await cektag(tag_number);
+    console.log(tag);
+    if(tag.length > 0){
+        return res.status(400).json({
+            status: 'error',
+            message: req.t('item.tag_exist')
+
+        });
     }
-    // if (Item_code.length > 20){return response.warning({status: 'warning', message: 'Panjang Karakter melebihi batas !'}, res)}
-    if (tag_number.length > 100){return response.warning({status: 'warning', message: req.t('item.max_tag_number')}, res)}
-    if (Ref_Number.length > 20){return response.warning({status: 'warning', message: req.t('item.max_ref_number')}, res)}
-    
+
     koneksi.query('INSERT INTO items (item_id,Item_code,Item_category,Item_Type,SKU,Name,Description,Uom,Quantity,tag_number,Ref_Number,Print_Tag,id_Account) VALUES(?,?,?,?,?,?,?,?,?,?,?,"yes",?)', [item_id, Item_code, Item_category, Item_Type, SKU, Name, Description, Uom, Quantity, tag_number, Ref_Number, id_Account],
         function(error, rows, fields) {
             if (error) {
-                if(error.errno == 1062){
-                    res.json({
-                        status: 'warning',
-                        message: req.t('tag_exist')
-    
-                    });
-                }    
-                console.log(error);
-                res.status(400).json({
+                return res.status(400).json({
                     status: 'error',
                     message: error.sqlMessage
                 })
 
-            } else {
-                response.ok({
-                    status: req.t('success'),
-                    message: req.t('item.success_create_item'),
-                    item_id: item_id
-                }, res);
             }
         });
+    return res.send({
+        status: 'success',
+        message: req.t('item.success_create_item'),
+        item_id: item_id
+    });
 };
 
 exports.registerItem = async (req, res) => {
@@ -274,7 +280,7 @@ exports.registerItem = async (req, res) => {
 
 
     const schema = {
-        Item_code: 'string|optional',
+        Item_code: 'string|optional|max:20',
         Item_category: 'string|optional',
         Item_Type: 'string|optional',
         SKU: 'string|empty:false',
@@ -319,6 +325,7 @@ exports.registerItem = async (req, res) => {
     });
 
 }
+
 // edit 
 exports.edititem = function(req, res) {
     const item_id = req.params.item_id;
@@ -333,50 +340,28 @@ exports.edititem = function(req, res) {
     const tag_number = req.body.tag_number;
     const Ref_Number = req.body.Ref_Number;
     const id_Account = req.idaccount;
+    
+
     console.log(`item_id : ${item_id}, id_Account: ${id_Account}`);
     console.log(req.body)
-    if (SKU.length < 1 || SKU.trim() == "") {
-        return response.warning({
-            status: 'warning',
-            message: 'Silahkan isi SKU !'
-        }, res);
-    } else if (Quantity.length < 1 ) {
-        return response.warning({
-            status: 'warning',
-            message: 'Silahkan isi Qauantity !'
-        }, res);
-    } else if (Ref_Number.length < 1 || Ref_Number.trim() == "") {
-        return response.warning({
-            status: 'warning',
-            message: 'Silahkan isi Ref Number !'
-        }, res);
-    } else if (tag_number.length < 1 || tag_number.trim() == "") {
-        return response.warning({
-            status: 'warning',
-            message: 'Silahkan isi Tag Number !'
-        }, res);
-    }    
-    if (Item_code.length > 20){return response.warning({status: 'warning', message: 'Panjang Karakter melebihi batas !'}, res)}
-    if (Quantity.length > 10){return response.warning({status: 'warning', message: 'Panjang Karakter melebihi batas !'}, res)}
-    if (tag_number.length > 100){return response.warning({status: 'warning', message: 'Panjang Karakter melebihi batas !'}, res)}
-    if (Ref_Number.length > 20){return response.warning({status: 'warning', message: 'Panjang Karakter melebihi batas !'}, res)}    
+
     koneksi.query('UPDATE items SET Item_code=?,Item_category=?,Item_Type=?,SKU=?,Name=?,Description=?,Uom=?,Quantity=?,tag_number=?,Ref_Number=? WHERE item_id=? AND id_Account=?', [Item_code, Item_category, Item_Type, SKU, Name, Description, Uom, Quantity, tag_number, Ref_Number, item_id, id_Account],
         function(error, rows, fields) {
             if (error) {
                 console.log(error);
                 if (error.errno == 1062) {
-                    return response.error({
+                    return res.status(500).json({
                         status: "error",
-                        message: "tag number sudah digunakan",
+                        message: req.t("tag_required"),
                         error: error.sqlMessage
-                    }, res);
+                    });
 
                 }
             } else {
-                return response.ok({
-                    status: "succes",
-                    message: "Berhasil mengubah data"
-                }, res);
+                return res.send({
+                    status: "success",
+                    message: req.t("success_update_item")
+                });
             }
         });
 };
@@ -389,7 +374,10 @@ exports.hapusitem = function(req, res) {
             if (error) {
                 console.log(error);
             } else {
-                response.ok("Berhasil Hapus Data", res)
+                res.send({
+                    status: "success",
+                    message: req.t("item.success_delete_item")
+                    })
             }
         });
 }
@@ -428,17 +416,17 @@ exports.cekItem = function(req, res) {
             } else {
                 console.log(rows.length);
                 if (rows.length < 1) {
-                    return response.ok({
-                        status: 'not found',
-                        message: 'data tidak ditemukan',
+                    return res.status(400).json({
+                        status: 'error',
+                        message: req.t("tag_number_not_found"),
                         data: rows
-                    }, res);
+                    });
                 } else {
-                    return response.ok({
+                    return res.send({
                         status: 'success',
-                        message: 'data berhasil didapatkan',
+                        message: req.t("success_get_tag_number"),
                         data: rows
-                    }, res);
+                    });
                 }
             }
         });

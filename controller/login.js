@@ -15,7 +15,11 @@ exports.login = function(req, res) {
     query = mysql.format(query, table);
     koneksi.query(query, function(err, rows) {
         if (err) {
-            response.ok("email/password Salah!", res)
+            return res.status(401).json({
+                status: 'error',
+                statusCode: "401",
+                message: req.t("login.fail_login")
+            });
         } else {
             if (rows.length == 1) {
                 var data = rows[0];
@@ -25,8 +29,12 @@ exports.login = function(req, res) {
                 response.ok({ jwtTokken: token }, res)
             } else {
                 // response.ok({message:"email/password Salah!"},res)
-                console.log(rows)
-                res.status(401).json({ statusCode: "401", message: "surat elektronik/kata sandi Salah!" })
+                //console.log(rows)
+                return res.status(401).json({
+                    status: 'error',
+                    statusCode: "401",
+                    message: req.t("login.fail_login")
+                });
             }
         }
     })

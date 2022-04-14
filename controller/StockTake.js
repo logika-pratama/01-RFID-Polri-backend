@@ -98,17 +98,17 @@ exports.searchV2 = function(req, res) {
                         device_id
                     );
                     console.log(rows[0].Line_number);
-                    return response.ok({
+                    return res.send({
                         status: 'success',
-                        message: 'berhasil mendapatkan Tag number',
+                        message: req.t('success_get_tag_number'),
                         data: rows
-                    }, res);
+                    })
                 } catch (err) {
-                    return response.ok({
-                        status: 'warning',
-                        message: 'Tag Number tidak ditemukan',
+                    return res.send({
+                        status: 'error',
+                        message: req.t('tag_number_not_found'),
                         data: rows
-                    }, res);
+                    })
                 }
             }
         }
@@ -134,19 +134,19 @@ exports.report = function(req, res) {
                 console.log(error);
             } else {
                 if (rows.length < 1) {
-                    return response.ok({
+                    return res.send({
                         status: 'success',
-                        message: 'Seluruh data telah di report ',
+                        message: req.t('stockTake.all_data_reported'),
                         data: rows
-                    }, res);
+                    })
                 }
                 console.log("report req by: " + id_Account);
-                return response.ok({
+                return res.send({
                     status: 'success',
-                    message: 'berhasil mendapatkan data',
-                    fileName: tanggal + "-Stock Take Document",
+                    message: 'success_get_data',
+                    fileName: tanggal + "-Stock Take Doc",
                     data: rows
-                }, res);
+                })
             }
         }
     );
@@ -174,15 +174,17 @@ exports.konfirmSt = function(req, res) {
                 console.log(rows.length)
                 if (rows.length >= 1) {
                     updateStatus(id);
-                    return response.ok({
+                    return res.send({
                         status: 'success',
-                        message: 'berhasil download data'
-                    }, res)
+                        message: req.t('success_download_data'),
+                        data: rows
+                    })
                 } else {
-                    response.ok({
+                    return res.send({
                         status: 'success',
-                        message: 'seluruh data sudah terdownload'
-                    }, res)
+                        message: req.t('stockTake.all_data_reported'),
+                        data: rows
+                    })
                 }
 
             }

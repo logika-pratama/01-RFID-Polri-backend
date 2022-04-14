@@ -10,6 +10,7 @@ const i18nextMiddleware = require('i18next-express-middleware');
 
 const app = express();
 
+// initial 2 language
 i18next
     .use(Backend)
     .use(i18nextMiddleware.LanguageDetector)
@@ -59,7 +60,7 @@ app.use(bodyParser.json());
 
 /// Swagger // 
 const swaggerUi = require('swagger-ui-express');
-const apiDocumenttation = require('./doc/swagger.json');
+const apiDocumenttation = require('./doc/docs.json');
 
 
 // call router

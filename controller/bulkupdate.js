@@ -38,16 +38,17 @@ exports.bulkupdateitem = async function(req, res) {
 
     // Validation
     if (item_id.length < 1) {
-        return response.warning({
-            status: 'warning',
-            message: 'Silahkan pilih beberapa items untuk di update !'
-        }, res);
+        res.status(400).json({
+            status: 'error',
+            message: req.t('item.please_check_item')
+        })
     }
     if (sku.length < 1 || sku.trim() == "") {
-        return response.warning({
-            status: 'warning',
-            message: 'Silahkan isi SKU field !'
-        }, res);
+        res.status(400).json({
+            status: 'error',
+            message: req.t('item.ref_required')
+        })
+ 
     }
     for (var i = 0; i <= item_id.length - 1; i++) {
         koneksi.query('UPDATE items SET SKU=?,name=?,Ref_Number=? WHERE item_id=?', [sku, name, Ref_Number, item_id[i]],
@@ -58,13 +59,11 @@ exports.bulkupdateitem = async function(req, res) {
                     console.log("BULK UPDATE SKU");
                 }
             });
-
     }
-    return response.ok({
+    return res.send({
         status: 'success',
-        message: "Berhasil update  Item"
-    }, res);
-
+        message: req.t('item.ref_required')
+    })
 };
 
 
