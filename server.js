@@ -19,7 +19,7 @@ i18next
             loadPath: __dirname + '/resources/locales/{{lng}}/{{ns}}.json'
         },
         fallbackLng: 'id', // default language
-        preload: ['en', 'id'] // language mode 
+        preload: ['id', 'en'] // language mode 
     });
 
 app.use(i18nextMiddleware.handle(i18next));
