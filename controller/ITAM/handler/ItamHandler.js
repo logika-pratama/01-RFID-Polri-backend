@@ -8,7 +8,7 @@ require('dotenv').config({path: path.resolve(__dirname, '../../../.env')});
 const {URL_SERVICE_ITAM} = process.env;
 
 
-const api = apiAdapter(URL_SERVICE_ITAM);
+//const api = apiAdapter(URL_SERVICE_ITAM);
 
 
 exports.gateIn = async(req, res) =>{
@@ -42,7 +42,7 @@ exports.gateIn = async(req, res) =>{
         }
         
         
-        const gatein = await api.post('/api/gate', data);
+        //const gatein = await api.post('/api/gate', data);
         // const status = gatein.data
 	    // console.log(status);
 	    // console.log(data);
