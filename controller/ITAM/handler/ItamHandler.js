@@ -8,7 +8,7 @@ require('dotenv').config({path: path.resolve(__dirname, '../../../.env')});
 const {URL_SERVICE_ITAM} = process.env;
 
 
-//const api = apiAdapter(URL_SERVICE_ITAM);
+const api = apiAdapter(URL_SERVICE_ITAM);
 
 
 exports.gateIn = async(req, res) =>{
@@ -41,37 +41,8 @@ exports.gateIn = async(req, res) =>{
             item.push(items[i].item_id);
         }
         
-<<<<<<< HEAD
-        const gatein = await api.post('/api/gate_in', data);
-        console.log(gatein.data);
-	    console.log(data);
         
-        
-        if (gatein.data.status === 1){
-            let cekmonitor = await cekMonitoring(item);
-            if(cekmonitor.length > 0){
-                console.log('Delete Monitoring');
-                deleteMonitoring(item);
-            }            
-            deleteRecieve(item)
-            addGRNumber(item);
-            toMonitoring(item,device_id,id_account);
-            
-            return response.ok({
-                status: 'success',
-                message: 'Sukes terima ' + items.length + ' items'
-            }, res);    
-        
-        }else{
-           return res.json(status);
-        }
-       
-
-
-
-=======
-        //
-        // const gatein = await api.post('/api/gate_in', data);
+        const gatein = await api.post('/api/gate', data);
         // const status = gatein.data
 	    // console.log(status);
 	    // console.log(data);
@@ -94,7 +65,6 @@ exports.gateIn = async(req, res) =>{
         //}else{
             return res.json(status);
         //}
->>>>>>> local
     }catch(error){
         if(error.code === 'ECONNREFUSED'){
             return res.status(500).json({status: 'error', message: 'service unavailable'});
@@ -132,28 +102,6 @@ exports.gateOut = async (req, res) =>{
             item.push(items[i].item_id)
             // after delivery confirm, delete data from all table    
         }
-<<<<<<< HEAD
-        const gateout = await api.post('/api/gate_out', data);
-        const status = gateout.status
-        console.log(`Data dari service : ${status}`);
-
-        if(status >= 200 && status < 300){
-            deleteDelivery(item);
-            updateHistory(item);
-            deleteMonitoring(item);
-            // deleteitem(item); // Khusus POLRI Delete ITEM tidak digunakan 
-            addGINumber(item);
-            return res.json({
-                status: 'success',
-                message: 'Sukes terima ' + items.length + ' items'
-            });    
-        }else{
-            return res.json({
-                status: 'error',
-                message: "error"
-            });
-        }
-=======
 
         //const gateout = await api.post('/api/gate_out', data);
         //const status = gateout.data
@@ -172,7 +120,6 @@ exports.gateOut = async (req, res) =>{
         //}else{
           //  return res.json(status);
         //}
->>>>>>> local
 
     }catch(error){
         if(error.code === 'ECONNREFUSED'){
