@@ -18,7 +18,7 @@ exports.login = function(req, res) {
             return res.status(401).json({
                 status: 'error',
                 statusCode: "401",
-                message: req.t("login.fail_login")
+                message: err.message
             });
         } else {
             if (rows.length == 1) {
