@@ -237,7 +237,7 @@ exports.importData = function(req, res) {
 
     try {
         var workbook = XLSX.readFile(
-            __basedir + "/01-PORLI-rfid-backend/helper/" + req.file.filename // save excel file here temporarily
+            __basedir + "/01-RFID-Polri-backend/helper/" + req.file.filename // save excel file here temporarily
         );
         var sheet_name_list = workbook.SheetNames;
         var xlDatcsv = XLSX.utils.sheet_to_csv(workbook.Sheets[sheet_name_list[0]]);
@@ -300,7 +300,7 @@ exports.importData = function(req, res) {
                     });
                 } else {
                     console.log("import data excel berhasil");
-                    fs.unlinkSync(__basedir + "/01-PORLI-rfid-backend/helper/" + req.file.filename); // delete uploaded excel file to free memory
+                    fs.unlinkSync(__basedir + "/01-RFID-Polri-backend/helper/" + req.file.filename); // delete uploaded excel file to free memory
                     //return response.ok({ message: "behasil menambahkan item baru" }, res);
                     return res.send({
                         status: 'success',
@@ -342,7 +342,7 @@ exports.importItems = async function(req, res){
             })
         }
 
-        let path = __basedir + "/01-PORLI-rfid-backend/helper/" + req.file.filename;
+        let path = __basedir + "/01-RFID-Polri-backend/helper/" + req.file.filename;
             readXlsxFile(path).then((rows) => {
                 // skip header
                 rows.shift();
@@ -416,7 +416,7 @@ exports.importItems = async function(req, res){
                                 data: data
                             });
                             console.log("import data excel berhasil");
-                            fs.unlinkSync(__basedir + "/01-PORLI-rfid-backend/helper/" + req.file.filename);
+                            fs.unlinkSync(__basedir + "/01-RFID-Polri-backend/helper/" + req.file.filename);
                         }
                     }
                 );
@@ -440,7 +440,7 @@ exports.importOrders = async function(req, res) {
                 message: req.t('upload.please_use_excel_format')
             })
         }
-        let path = __basedir + "/01-PORLI-rfid-backend/helper/" + req.file.filename;
+        let path = __basedir + "/01-RFID-Polri-backend/helper/" + req.file.filename;
 
         readXlsxFile(path).then((rows) => {
             // skip header
@@ -484,7 +484,7 @@ exports.importOrders = async function(req, res) {
                         });
                     } else {
                         console.log("import data excel berhasil");
-                        fs.unlinkSync(__basedir + "/01-PORLI-rfid-backend/helper/" + req.file.filename);
+                        fs.unlinkSync(__basedir + "/01-RFID-Polri-backend/helper/" + req.file.filename);
                         return res.send({
                             status: 'success',
                             message: req.t("success_add_data")
