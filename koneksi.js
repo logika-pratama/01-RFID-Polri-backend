@@ -1,5 +1,5 @@
 require('dotenv').config();
-var mysql = require('mysql2');
+var mysql = require('mysql');
 const {
     DB_NAME,
     DB_USERNAME,
