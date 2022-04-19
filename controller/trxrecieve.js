@@ -123,7 +123,8 @@ exports.TRByIdjoin = function(req, res) {
         } else {
             return res.send({
                 status: 'success',
-                message: req.t('success_get_data')
+                message: req.t('success_get_data'),
+                data: rows
             })
         }
 
