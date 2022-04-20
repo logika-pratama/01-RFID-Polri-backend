@@ -360,7 +360,7 @@ exports.edititem = function(req, res) {
             } else {
                 return res.send({
                     status: "success",
-                    message: req.t("success_update_item")
+                    message: req.t("success_update_data")
                 });
             }
         });
