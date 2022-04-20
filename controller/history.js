@@ -11,7 +11,8 @@ exports.THById = function(req, res) {
         } else {
             res.send({
                 status: 'success',
-                message: req.t('success_get_data')
+                message: req.t('success_get_data'),
+                data: rows
             })
         }
 
@@ -32,12 +33,14 @@ exports.search = function(req, res) {
                 if (rows.length < 1) {
                     res.send({
                         status: 'success',
-                        message: req.t('tag_number_not_found')
+                        message: req.t('tag_number_not_found'),
+                        data: rows
                     })
                 }
                 return res.send({
                     status: "success",
-                    message: req.t("success_get_tag_number")
+                    message: req.t("success_get_tag_number"),
+                    data: rows
                 })
             }
         }
