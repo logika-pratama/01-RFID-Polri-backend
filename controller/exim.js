@@ -107,7 +107,8 @@ exports.getGr = function(req, res) {
                 if (rows.length < 1) {
                     return res.send({
                         status: 'success',
-                        message: req.t('goodRecieve.data_already_printing')
+                        message: req.t('goodRecieve.data_already_printing'),
+                        data: rows
                     })
                 }
             }
@@ -142,7 +143,8 @@ exports.getGi = function(req, res) {
                 if (rows.length < 1) {
                     return res.send({
                         status: 'succes',
-                        message: req.t('goodIssue.all_data_in_gi')
+                        message: req.t('goodIssue.all_data_in_gi'),
+                        data: rows
                     })
                 }
             }
@@ -172,7 +174,11 @@ exports.downloadGr = function(req, res) {
                 res.download(exceloutput, (err) => {
                     if (err) {
                         fs.unlinkSync(exceloutput);
-                        response.ok("Unable to download the excel file", res);
+                        res.send({
+                            status: 'error',
+                            message: 'unable to download file',
+                            data: rows
+                        })
                     }
                     fs.unlinkSync(exceloutput);
                 });
@@ -204,7 +210,8 @@ exports.printTag = function(req, res) {
                 } else {
                     return res.send({
                         status: 'success',
-                        message: req.t('goodIssue.data_already_printing')
+                        message: req.t('goodIssue.data_already_printing'),
+                        data: rows
                     })
                 }
             }
@@ -538,14 +545,16 @@ exports.konfirmGr = function(req, res) {
                     updategr(id); // update status gr to yes
                     res.send({
                         status: 'success',
-                        message: req.t('goodRecieve.success_get_gr')
+                        message: req.t('goodRecieve.success_get_gr'),
+                        data: rows
                     })
                 }
                 if (rows.length < 1) {
                     // response.ok("seluruh data telah di GR!",res);
                     return res.send({
                         status: 'success',
-                        message: req.t('goodRecieve.data_already_printing')
+                        message: req.t('goodRecieve.data_already_printing'),
+                        data: rows
                     })
                 }
             }
@@ -588,14 +597,16 @@ exports.konfirmGi = function(req, res) {
                     updategi(id); // update all items status_GI to yes
                     res.send({
                         status: 'success',
-                        message: req.t('success_get_data')
+                        message: req.t('success_get_data'),
+                        data: rows
                     })
                     response.ok("GI sukses!", res);
                 }
                 if (rows.length < 1) {
                     res.send({
                         status: 'success',
-                        message: req.t('goodIssue.all_data_in_gi')
+                        message: req.t('goodIssue.all_data_in_gi'),
+                        data: rows
                     })
                 }
             }
