@@ -168,37 +168,49 @@ exports.getItems = async function(req, res) {
 
 // get items with empety information
 exports.datanull = function(req, res) {
-    let id = req.idaccount;
-    koneksi.query('SELECT * FROM items WHERE SKU="" OR SKU IS NULL AND id_Account= ?', [id], function(error, rows, fields) {
-        if (error) {
-            console.log(error);
-        } else {
-            res.send({
-                status: "success",
-                message: req.t("success_get_data"),
-                data: rows
-            });
-        }
+    try{
+        let id = req.idaccount;
+        koneksi.query('SELECT * FROM items WHERE SKU="" OR SKU IS NULL AND id_Account= ?', [id], function(error, rows, fields) {
+            if (error) {
+                console.log(error);
+            } else {
+                res.send({
+                    status: "success",
+                    message: req.t("success_get_data"),
+                    data: rows
+                });
+            }
+    
+        });
+    }catch(err){
+        const {status, data} = err.message;
+        return res.status(status).json(data); 
+    }
 
-    });
 };
 
 
 
 exports.itemByitemId = function(req, res) {
-    let id = req.params.id;
+    try{
+        let id = req.params.id;
 
-    koneksi.query('SELECT * FROM items WHERE item_id= ?', [id], function(error, rows, fields) {
-        if (error) {
-            console.log(error);
-        } else {
-            res.send({
-                status: "success",
-                message: req.t("success_get_data"),
-                data: rows 
-            });
-        }
-    });
+        koneksi.query('SELECT * FROM items WHERE item_id= ?', [id], function(error, rows, fields) {
+            if (error) {
+                console.log(error);
+            } else {
+                res.send({
+                    status: "success",
+                    message: req.t("success_get_data"),
+                    data: rows 
+                });
+            }
+        });
+    }catch(err){
+        const {status, data}  = err.message;
+        return res.status(status).json(data);
+    }
+
 };
 
 //get all 
@@ -219,46 +231,53 @@ exports.allitem = function(req, res) {
 };
 // add 
 exports.additem = async function(req, res) {
-    var item_id = uniqid.process();
-    var Item_code = req.body.Item_code;
-    var Item_category = req.body.Item_category;
-    var Item_Type = req.body.Item_Type;
-    var SKU = req.body.SKU;
-    var Name = req.body.Name;
-    var Description = req.body.Description;
-    var Uom = req.body.Uom;
-    var Quantity = req.body.Quantity;
-    var tag_number = req.body.tag_number;
-    var id_Account = req.idaccount;
-    var Ref_Number = req.body.Ref_Number;
-
-    const tag = await cektag(tag_number);
-    console.log(tag);
-    if(tag.length > 0){
-        return res.status(400).json({
-            status: 'error',
-            message: req.t('item.tag_exist')
-
+    try{
+        let item_id = uniqid.process();
+        let Item_code = req.body.Item_code;
+        let Item_category = req.body.Item_category;
+        let Item_Type = req.body.Item_Type;
+        let SKU = req.body.SKU;
+        let Name = req.body.Name;
+        let Description = req.body.Description;
+        let Uom = req.body.Uom;
+        let Quantity = req.body.Quantity;
+        let tag_number = req.body.tag_number;
+        let id_Account = req.idaccount;
+        let Ref_Number = req.body.Ref_Number;
+    
+        koneksi.query('INSERT INTO items (item_id,Item_code,Item_category,Item_Type,SKU,Name,Description,Uom,Quantity,tag_number,Ref_Number,Print_Tag,id_Account) VALUES(?,?,?,?,?,?,?,?,?,?,?,"yes",?)', [item_id, Item_code, Item_category, Item_Type, SKU, Name, Description, Uom, Quantity, tag_number, Ref_Number, id_Account],
+            function(error, rows, fields) {
+                if (error) {
+                    return res.status(400).json({
+                        status: 'error',
+                        message: error.sqlMessage
+                    })
+    
+                }
+            });
+        return res.send({
+            status: 'success',
+            message: req.t('item.success_create_item'),
+            item_id: item_id
         });
+
+    }catch(err){
+        const tag = await cektag(tag_number);
+        console.log(tag);
+        if(tag.length > 0){
+            return res.status(400).json({
+                status: 'error',
+                message: req.t('item.tag_exist')
+    
+            });
+        }
+        const {status, data} = err.message;
+        return res.status(status).json(data);
     }
 
-    koneksi.query('INSERT INTO items (item_id,Item_code,Item_category,Item_Type,SKU,Name,Description,Uom,Quantity,tag_number,Ref_Number,Print_Tag,id_Account) VALUES(?,?,?,?,?,?,?,?,?,?,?,"yes",?)', [item_id, Item_code, Item_category, Item_Type, SKU, Name, Description, Uom, Quantity, tag_number, Ref_Number, id_Account],
-        function(error, rows, fields) {
-            if (error) {
-                return res.status(400).json({
-                    status: 'error',
-                    message: error.sqlMessage
-                })
-
-            }
-        });
-    return res.send({
-        status: 'success',
-        message: req.t('item.success_create_item'),
-        item_id: item_id
-    });
 };
 
+// public API
 exports.registerItem = async (req, res) => {
     var item_id = uniqid.process();
     var Item_code = req.body.Item_code;
@@ -368,18 +387,24 @@ exports.edititem = function(req, res) {
 
 // delete 
 exports.hapusitem = function(req, res) {
-    var id = req.params.id;
-    koneksi.query('DELETE FROM items WHERE item_id=?', [id],
-        function(error, rows, fields) {
-            if (error) {
-                console.log(error);
-            } else {
-                res.send({
-                    status: "success",
-                    message: req.t("item.success_delete_item")
-                    })
-            }
-        });
+    try{ 
+        const id = req.params.id;
+        koneksi.query('DELETE FROM items WHERE item_id=?', [id],
+            function(error, rows, fields) {
+                if (error) {
+                    console.log(error);
+                } else {
+                    res.send({
+                        status: "success",
+                        message: req.t("item.success_delete_item")
+                        })
+                }
+            });
+    }catch(err){
+        const {status, data} = err.message;
+        return res.status(status).json(data);
+    }
+
 }
 
 //serach item
