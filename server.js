@@ -60,7 +60,7 @@ app.use(bodyParser.json());
 
 /// Swagger // 
 const swaggerUi = require('swagger-ui-express');
-const apiDocumenttation = require('./doc/docs.json');
+const apiDocumenttation = require('./doc/swagger.json');
 
 
 // call router
