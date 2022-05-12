@@ -36,14 +36,6 @@ exports.validateItem = (req, res, next)=>{
             type: "string",
             optional: true
         },
-        Quantity:{
-            type: "number",
-            optional: true,
-            max: 10,
-            messages:{
-                numberMax: req.t("item.max_qty")
-            }
-        },
         tag_number: {
             type: "string", 
             empty:false, 
