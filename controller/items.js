@@ -244,6 +244,16 @@ exports.additem = async function(req, res) {
         let tag_number = req.body.tag_number;
         let id_Account = req.idaccount;
         let Ref_Number = req.body.Ref_Number;
+
+        const tag = await cektag(tag_number);
+        //console.log(tag);
+        if(tag.length > 0){
+            return res.status(400).json({
+                status: 'error',
+                message: req.t('item.tag_exist')
+    
+            });
+        }
     
         koneksi.query('INSERT INTO items (item_id,Item_code,Item_category,Item_Type,SKU,Name,Description,Uom,Quantity,tag_number,Ref_Number,Print_Tag,id_Account) VALUES(?,?,?,?,?,?,?,?,?,?,?,"yes",?)', [item_id, Item_code, Item_category, Item_Type, SKU, Name, Description, Uom, Quantity, tag_number, Ref_Number, id_Account],
             function(error, rows, fields) {
@@ -262,15 +272,7 @@ exports.additem = async function(req, res) {
         });
 
     }catch(err){
-        const tag = await cektag(tag_number);
-        console.log(tag);
-        if(tag.length > 0){
-            return res.status(400).json({
-                status: 'error',
-                message: req.t('item.tag_exist')
-    
-            });
-        }
+
         const {status, data} = err.message;
         return res.status(status).json(data);
     }
