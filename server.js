@@ -48,6 +48,7 @@ const userRouters = require('./routers/user');
 const accountRouter = require('./routers/account');
 const trxTypeRouter = require('./routers/transactionType');
 const publicApiRouter = require('./routers/publicApi');
+const printRouters = require('./routers/print');
 
 
 global.__basedir = __dirname + "/..";
@@ -84,7 +85,7 @@ app.use('/api/v1', userRouters);
 app.use('/api/v1/account', accountRouter);
 app.use('/api/v1', trxTypeRouter);
 app.use('/api/v1/public',publicApiRouter);
-
+app.use('/api/v1/print',printRouters);
 // Swagger Router
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(apiDocumenttation));
 
