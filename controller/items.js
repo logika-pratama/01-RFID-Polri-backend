@@ -415,7 +415,7 @@ exports.search = function(req, res) {
     var tag = req.params.tag;
 
     koneksi.query(
-        "SELECT * FROM items WHERE id_Account=? AND tag_number=?", [id_Account, tag],
+        "SELECT Name, tag_number FROM items WHERE id_Account=? AND tag_number=?", [id_Account, tag],
         function(error, rows, fields) {
             if (error) {
                 console.log(error);
