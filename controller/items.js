@@ -413,14 +413,16 @@ exports.hapusitem = function(req, res) {
 exports.search = async function(req, res) {
     var id_Account = req.idaccount;
     var tag = req.query.tag_number;
-    console.log('request : ')
-    console.log(req.query)
-
+;
     const cekTag = await cektag(tag);
     if(cekTag.length < 1){
         return res.status(400).json({
-            status: 'success',
-            message: req.t('tag_number_not_found')
+            status: 'warning',
+            message: req.t('data_not_found'),
+            data: [{
+                tag_number: tag,
+                Name: '',
+            }]
         })
     }
 
