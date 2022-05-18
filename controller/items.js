@@ -410,9 +410,17 @@ exports.hapusitem = function(req, res) {
 }
 
 //serach item
-exports.search = function(req, res) {
+exports.search = async function(req, res) {
     var id_Account = req.idaccount;
     var tag = req.params.tag;
+
+    const cekTag = await cektag(tag);
+    if(cekTag.length < 1){
+        return res.status(400).json({
+            status: 'success',
+            message: req.t('tag_number_not_found')
+        })
+    }
 
     koneksi.query(
         "SELECT Name, tag_number FROM items WHERE id_Account=? AND tag_number=?", [id_Account, tag],
