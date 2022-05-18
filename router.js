@@ -144,9 +144,9 @@ module.exports = function(app) {
     app
         .route("/api/v1/item/:id")
         .get(jwt.verify, jwt.cekrole(["1", "2", "3"]), items.itemByitemId);
-    app
-        .route("/api/v1/item/search/:tag")
-        .get(jwt.verify, items.search);
+    // app
+    //     .route("/api/v1/item/search/:tag")
+    //     .get(jwt.verify, items.search);
     app
         .route("/api/v1/cekitem")
         .get(items.cekItem)

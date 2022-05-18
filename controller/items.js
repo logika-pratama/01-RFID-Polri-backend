@@ -412,7 +412,9 @@ exports.hapusitem = function(req, res) {
 //serach item
 exports.search = async function(req, res) {
     var id_Account = req.idaccount;
-    var tag = req.params.tag;
+    var tag = req.query.tag_number;
+    console.log('request : ')
+    console.log(req.query)
 
     const cekTag = await cektag(tag);
     if(cekTag.length < 1){
