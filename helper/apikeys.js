@@ -57,7 +57,7 @@ exports.validateUser = function validateUser(req, res, next) {
 exports.validateKey = function validateKey(req, res, next) {
     let host = req.headers.origin;
     let api_key = req.headers.api_key;
-    //console.log(api_key);
+    console.log(api_key);
     api_key = JSON.stringify(api_key);
     console.log(req.headers);
     if (api_key) {

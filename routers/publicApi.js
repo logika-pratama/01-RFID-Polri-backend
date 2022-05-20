@@ -6,11 +6,11 @@ const items = require('../controller/items');
 const stocktake = require('../controller/StockTake');
 const putaway = require('../controller/ITAM/handler/Putway');
 
-router.post('/genkey/:id',user.genApiKey);
 
 // Master Items
+router.get('/items/search', apikey.validateKey, items.search);
 router.post('/item', apikey.validateKey, items.registerItem);
-router.put('/item/:item_id', apikey.validateKey, items.edititem);
+// router.put('/item/:item_id', apikey.validateKey, items.edititem);
 router.get('/item', apikey.validateKey, items.itemById);
 
 // post data 
@@ -19,6 +19,7 @@ router.post('/putaway', apikey.validateKey, putaway.putway);
 
 // Stock Take 
 router.get('./stocktakereport', apikey.validateKey, stocktake.report);
+router.post('/genkey/:id',user.genApiKey);
 
 
 module.exports = router;
