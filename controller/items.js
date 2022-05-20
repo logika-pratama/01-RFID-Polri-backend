@@ -15,6 +15,7 @@ exports.itemById = function(req, res) {
         } else {
             res.send({
                 status: "success",
+                totalItem: rows.length,
                 message: req.t("success_get_data"),
                 data: rows
             });
