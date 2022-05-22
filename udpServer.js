@@ -213,10 +213,10 @@ function cekLogTagNumber() {
     });
 }
 
-function addToLogTagNumber(tag){
+function addToLogTagNumber(tag, item_id){
     return new Promise(function(resolve, reject) {
         koneksi.query(
-            "INSERT INTO log_tag_number (tag_number, flag) VALUES(?,?)", [tag, 0],
+            "INSERT INTO log_tag_number (tag_number, item_id, flag) VALUES(?,?,?)", [tag, item_id, 0],
             function(error, rows, fields) {
                 if (error) {
                     reject(error.sqlMessage);
@@ -373,7 +373,8 @@ async function cek(id, tid) { // parameters id=readerid, tid= tags id /UUID/EPC 
                     console.log('Upadate Flag to 3')
                 }else{
                     // Insert tag Number
-                    console.log('Insert Flag to 0')
+                    console.log('Insert Flag to 0');
+                    addToLogTagNumber(tid,iditem);
                 }
 
 
