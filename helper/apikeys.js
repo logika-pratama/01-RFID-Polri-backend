@@ -71,7 +71,6 @@ exports.validateKey = function validateKey(req, res, next) {
                             status: 'Failed',
                             message: 'Api-Key Not Found'
                         }, res)
-                        next()
                     }
                     console.log('Success Call API');
                     req.id_user = rows[0].id_user;
