@@ -249,7 +249,6 @@ function addToLogTagNumber(tag, item_id){
 
 
 function updateToLogTagNumber(tag){
-    const updated_at = new Date();
     return new Promise(function(resolve, reject) {
         koneksi.query(
             `UPDATE log_tag_number SET flag = 3, updated_at = NOW() WHERE tag_number= ${tag}`,
