@@ -93,6 +93,7 @@ this are query funtion to process data to and from database
 */
 
 
+
 const TrackDetail = (Device_ID, id_Account, id_location, tag_number, item_id) => {
     return new Promise(function(resolve, reject) {
         koneksi.query(
@@ -195,6 +196,53 @@ function cekCashier(itemcode) {
     });
 }
 
+function cekLogTagNumber() {
+    return new Promise(function(resolve, reject) {
+        koneksi.query(
+            "SELECT * FROM log_tag_number WHERE  flag = 2",
+            function(error, rows, fields) {
+                if (error) {
+                    reject(error.sqlMessage);
+                } else {
+                    var a = JSON.stringify(rows);
+                    var b = JSON.parse(a);
+                    resolve(b);
+                }
+            }
+        );
+    });
+}
+
+function addToLogTagNumber(tag){
+    return new Promise(function(resolve, reject) {
+        koneksi.query(
+            "INSERT INTO log_tag_number (tag_number, flag) VALUES(?,?)", [tag, 0],
+            function(error, rows, fields) {
+                if (error) {
+                    reject(error.sqlMessage);
+                } else {
+                    resolve("berhasil");
+                }
+            }
+        );
+    });
+}
+
+
+function updateToLogTagNumber(tag){
+    return new Promise(function(resolve, reject) {
+        koneksi.query(
+            "UPDATE log_tag_number SET flag = 3 WHERE tag_number= ?", [tag],
+            function(error, rows, fields) {
+                if (error) {
+                    reject(error.sqlMessage);
+                } else {
+                    resolve("berhasil");
+                }
+            }
+        );
+    });
+}
 //=====================       end of functions get data
 
 //=====================      functions insert data start here
@@ -287,6 +335,7 @@ Inv_Received_Delivery	  | Reader untuk kegiatan Received dan Delivery dalam 1 pi
 Inv_Received_Register	  | Reader untuk kegitan received dan langsung register ke item
 Inv_Cashier	Reader      | untuk kegitan process di cashier
 Inv_TrackDetail 	      | Reader untuk tahu posisi asset
+Inv_AssetTracking         | Reader untuk tahu posisi asset berdasarkan Flag
 ________________________|_________________________________________________________________
 
 this function (cek()) is to check which reader and where the data come from,
@@ -306,7 +355,7 @@ async function cek(id, tid) { // parameters id=readerid, tid= tags id /UUID/EPC 
         console.log(inv_type);
 
         //Special for this 6 Inventory_trx_type, it needs additional items information
-        if (inv_type == "Inv_Monitoring" || inv_type == "Inventory_trx_type" || inv_type == "Inv_Received_Delivery" || inv_type == "Inv_Received" || inv_type == "Inv_Delivery" || inv_type == "Inv_Cashier" || inv_type == "Inv_Delivery_Cashier") {
+        if (inv_type == "Inv_AssetTracking" || inv_type == "Inv_Monitoring" || inv_type == "Inventory_trx_type" || inv_type == "Inv_Received_Delivery" || inv_type == "Inv_Received" || inv_type == "Inv_Delivery" || inv_type == "Inv_Cashier" || inv_type == "Inv_Delivery_Cashier") {
             console.log("ambil data: " + inv_type);
             //here is the additional items information
             getitems = await getitem(tid, idAccount); // get the items information based on tag
@@ -315,7 +364,24 @@ async function cek(id, tid) { // parameters id=readerid, tid= tags id /UUID/EPC 
         }
         //================================================================
 
+        if(inv_type == "Inv_AssetTracking" ){
+            try{
+                console.log("Inv_AssetTracking");
+                var iditem = getitems[0].item_id;
+                if(cekLogTagNumber.length > 0){
+                    // Update Tag Number
+                    console.log('Upadate Flag to 3')
+                }else{
+                    // Insert tag Number
+                    console.log('Insert Flag to 0')
+                }
 
+
+
+            }catch(error){
+                console.log(error);
+            }
+        }
         if (inv_type == "Inv_TrackDetail") {
             // get items information
             getitems = await getitem(tid, idAccount);
