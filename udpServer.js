@@ -196,6 +196,23 @@ function cekCashier(itemcode) {
     });
 }
 
+function cekAllTagNumber(){
+    return new Promise(function(resolve, reject) {
+        koneksi.query(
+            'SELECT * FROM log_tag_number',
+            function(error, rows, fields) {
+                if (error) {
+                    reject(error.sqlMessage);
+                } else {
+                    var a = JSON.stringify(rows);
+                    var b = JSON.parse(a);
+                    resolve(b);
+                }
+            }
+        );
+    });
+}
+
 function cekLogTagNumber() {
     return new Promise(function(resolve, reject) {
         koneksi.query(
@@ -232,9 +249,10 @@ function addToLogTagNumber(tag, item_id){
 
 
 function updateToLogTagNumber(tag){
+    const updated_at = new Date();
     return new Promise(function(resolve, reject) {
         koneksi.query(
-            "UPDATE log_tag_number SET flag = 3 WHERE tag_number= ?", [tag],
+            `UPDATE log_tag_number SET flag = 3, updated_at = ${updated_at} WHERE tag_number= ${tag}`,
             function(error, rows, fields) {
                 if (error) {
                     reject(error.sqlMessage);
@@ -373,14 +391,16 @@ async function cek(id, tid) { // parameters id=readerid, tid= tags id /UUID/EPC 
                 console.log(iditem);
                 if(cekLogTagNumber.length > 0){
                     // Update Tag Number
-                    console.log('Upadate Flag to 3')
-                }else{
+                    console.log('Upadate Flag to 3');
+                    updateToLogTagNumber(tid);
+
+                }if(cekAllTagNumber.length > 0){
                     // Insert tag Number
                     console.log('Insert Flag to 0');
                     addToLogTagNumber(tid,iditem);
+                }else{
+                    console.log('Not Inserted !');
                 }
-
-
 
             }catch(error){
                 console.log(error);
