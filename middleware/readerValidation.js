@@ -15,20 +15,9 @@ exports.validateReader = (req, res, next) =>{
             type: "string",
             optional: true
         },
-        id_account:{
-            type: "string",
-            max: 20,
-            empty: false
-        },
-        id_location:{
-            type: "string",
-            max: 20,
-            empty: false
-
-        },
         trxtype:{
             type:"string",
-            max: 20,
+            max: 30,
             empty: false
 
         }
