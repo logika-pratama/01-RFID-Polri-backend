@@ -196,10 +196,10 @@ function cekCashier(itemcode) {
     });
 }
 
-function cekAllTagNumber(){
+function cekAllTagNumber(tid){
     return new Promise(function(resolve, reject) {
         koneksi.query(
-            'SELECT * FROM log_tag_number',
+            'SELECT * FROM log_tag_number WHERE tag_number = ?',[tid],
             function(error, rows, fields) {
                 if (error) {
                     reject(error.sqlMessage);
@@ -394,12 +394,12 @@ async function cek(id, tid) { // parameters id=readerid, tid= tags id /UUID/EPC 
                     console.log('Upadate Flag to 3');
                     updateToLogTagNumber(tid);
 
-                }if(cekAllTagNumber.length > 0){
+                }if(cekAllTagNumber(tid).length > 0){
                     // Insert tag Number
-                    console.log('Insert Flag to 0');
-                    addToLogTagNumber(tid,iditem);
-                }else{
                     console.log('Not Inserted !');
+                }else{
+                    console.log('Add To Tag Number');  
+                    addToLogTagNumber(tid, iditem);
                 }
 
             }catch(error){
