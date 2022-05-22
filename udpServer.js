@@ -387,16 +387,18 @@ async function cek(id, tid) { // parameters id=readerid, tid= tags id /UUID/EPC 
         if(inv_type == "Inv_AssetTracking" ){
             try{
                 const ceklogTagNumber = await cekAllTagNumber(tid);
+                const cekFlag = await cekLogTagNumber(tid);
                 console.log("Inv_AssetTracking");
-                console.log(`Panjang logTag Number : ${ceklogTagNumber.length}`);
+                console.log(`Panjang logTag Number : ${ceklogTagNumber.length}`)
+                console.log(`Panjang Flag : ${cekFlag.length}`);
                 var iditem = getitems[0].item_id;
                 console.log(iditem);
-                if(cekLogTagNumber.length > 0){
+                if(cekFlag.length > 0){
                     // Update Tag Number
                     console.log('Upadate Flag to 3');
                     updateToLogTagNumber(tid);
 
-                }else if(cekAllTagNumber.length > 0){
+                }else if(ceklogTagNumber.length > 0){
                     // Insert tag Number
                     console.log('Not Inserted !');
                 }else{
