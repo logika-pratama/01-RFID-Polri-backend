@@ -77,11 +77,11 @@ const UpdateFlag = (tag) => {
     });
 }
 
-const changeFlag = (tag_number) =>{
+const changeFlag = (tag_number, flag) =>{
     return new Promise((resolve, reject) =>{
       for(let i = 0; i < tag_number.length ; i++){
-        const sql = `UPDATE log_tag_number SET flag = 1, updated_at = NOW() WHERE tag_number = ?`;
-        koneksi.query(sql,  tag_number[i],
+        const sql = `UPDATE log_tag_number SET flag = ?, updated_at = NOW() WHERE tag_number = ?`;
+        koneksi.query(sql, flag[i], tag_number[i],
           
         function(error, rows, fields){
           if(error){
