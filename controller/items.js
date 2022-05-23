@@ -294,6 +294,7 @@ exports.registerItem = async (req, res) => {
     var tag_number = req.body.tag_number;
     var id_Account = req.idaccount;
     var Ref_Number = req.body.Ref_Number;
+    const created_at = new Date();
 
     if(typeof(Quantity) === 'string'){
         Quantity = parseInt(Quantity)
@@ -321,7 +322,7 @@ exports.registerItem = async (req, res) => {
         }); 
     }
 
-    koneksi.query('INSERT INTO items (item_id,Item_code,Item_category,Item_Type,SKU,Name,Description,Uom,Quantity,tag_number,Ref_Number,Print_Tag,id_Account) VALUES(?,?,?,?,?,?,?,?,?,?,?,"yes",?)', [item_id, Item_code, Item_category, Item_Type, SKU, Name, Description, Uom, Quantity, tag_number, Ref_Number, id_Account],
+    koneksi.query('INSERT INTO items (item_id,Item_code,Item_category,Item_Type,SKU,Name,Description,Uom,Quantity,tag_number,Ref_Number,Print_Tag,id_Account,created_at) VALUES(?,?,?,?,?,?,?,?,?,?,?,"yes",?,?)', [item_id, Item_code, Item_category, Item_Type, SKU, Name, Description, Uom, Quantity, tag_number, Ref_Number, id_Account, created_at],
     function(error, rows, fields) {
         if (error) {
             if(error.errno == 1062){
