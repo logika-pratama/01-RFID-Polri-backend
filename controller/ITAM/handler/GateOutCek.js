@@ -28,8 +28,8 @@ exports.gate = async(req, res) =>{
                     const tag_number = gate.data.data.map(tag => tag.rfid_code);
                     const flag = gate.data.data.map(flag => flag.flag);
                     //UpdateFlag(data);
-                    changeFlag(tag_number);
-                    console.log(tag_number);
+                    changeFlag(tag_number, flag);
+                    //console.log(tag_number);
                     // res.status(200).json({
                     //     status: 'success',
                     //     data: data
@@ -77,11 +77,10 @@ const UpdateFlag = (tag) => {
     });
 }
 
-const changeFlag = (tag_number) =>{
+const changeFlag = (tag_number, flag) =>{
     return new Promise((resolve, reject) =>{
       for(let i = 0; i < tag_number.length ; i++){
-        const sql = `UPDATE log_tag_number SET flag = 1, updated_at = NOW() WHERE tag_number = ?`;
-        koneksi.query(sql,  tag_number[i],
+        koneksi.query('UPDATE log_tag_number SET flag = ?, updated_at = NOW() WHERE tag_number = ?',  [flag[i], tag_number[i]],
           
         function(error, rows, fields){
           if(error){
