@@ -4,7 +4,7 @@ const apiAdapter = require('../apiAddapter');
 require('dotenv').config({path: path.resolve(__dirname, '../../../.env')})
 
 const {URL_SERVICE_ITAM} = process.env;
-console.log(URL_SERVICE_ITAM);
+//console.log(URL_SERVICE_ITAM);
 const api = apiAdapter(URL_SERVICE_ITAM);
 
 exports.gate = async(req, res) =>{
@@ -22,18 +22,20 @@ exports.gate = async(req, res) =>{
                     }
                 );
                 
-                console.log(rows.length);
+                //console.log(rows.length);
                 if(rows.length > 0){
                     const gate = await api.post('/api/gate', allAseetId);
-                    const data = gate.data.data.map(flag => flag.rfid_code);
-                    UpdateFlag(data);
-                    console.log(data);
+                    const tag_number = gate.data.data.map(tag => tag.rfid_code);
+                    const flag = gate.data.data.map(flag => flag.flag);
+                    //UpdateFlag(data);
+                    changeFlag(tag_number,flag);
+                    console.log(tag_number);
                     // res.status(200).json({
                     //     status: 'success',
                     //     data: data
                     // });    
                 }else{
-                    console.log('Pass');
+                    console.log('Dont Post Data');
                 }
             }
         });
@@ -74,3 +76,21 @@ const UpdateFlag = (tag) => {
         }
     });
 }
+
+const changeFlag = (tag_number) =>{
+    return new Promise((resolve, reject) =>{
+      for(let i = 0; i < tag_number.length ; i++){
+        const sql = `UPDATE log_tag_number SET flag = 1, updated_at = NOW() WHERE tag_number = ?`;
+        koneksi.query(sql,  tag_number[i],
+          
+        function(error, rows, fields){
+          if(error){
+            reject(error);
+          }else{
+            resolve(rows);
+          }
+        });
+      }
+    });
+  }
+  
