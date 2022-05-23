@@ -251,7 +251,7 @@ function addToLogTagNumber(tag, item_id){
 function updateToLogTagNumber(tag){
     return new Promise(function(resolve, reject) {
         const sql = `UPDATE log_tag_number SET flag = 3 WHERE IN tag_number= (?)`;
-        koneksi.query(sql, [tag],
+        koneksi.query(`UPDATE log_tag_number SET flag = 3 WHERE IN tag_number= (?)` ,[tag],
             function(error, rows, fields) {
                 if (error) {
                     reject(error.sqlMessage);
