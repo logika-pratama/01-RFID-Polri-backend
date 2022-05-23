@@ -1,25 +1,35 @@
 const koneksi = require('../koneksi');
 
-exports.Monitoring = async (req, res) =>{
+exports.Putaway = async (req, res) =>{
   try{
-    const tag_number = req.body.rfid_code;
-    if(req.body !== 'rfid_code'){
-      return res.status(400).json({
-        status: 'error',
-        message: 'wrong parameter'
-      })
-    }
-
+    console.log("Putaway");
+    const tag_number = req.body.map(tag => tag.rfid_code);
+    // if(req.body !== 'rfid_code'){
+    //   return res.status(400).json({
+    //     status: 'error',
+    //     message: 'wrong parameter'
+    //   })
+    // }
+    //return res.send('OK')
     updateFlag(tag_number);
-    koneksi.query(`SELECT tag_number, flag log_tag_number WHERE tag_number IN (?) '${tag_number}'`,
+    const sql = `SELECT tag_number, flag FROM log_tag_number WHERE tag_number IN (?)`;
+    koneksi.query(sql, [tag_number],
     function(error, rows, fields){
+      let flag = 0;
       if(error){
         console.log(error);
       }else{
         const allAseetId = rows.map(
+          
           assetID => {
+            if(assetID.flag == 2){
+              flag = 1;
+            }else{
+              flag = 0;
+            }
             return{   
               rfid_code : assetID.tag_number,
+              flag : flag
             }
           }
         );
@@ -38,7 +48,8 @@ exports.Monitoring = async (req, res) =>{
 
 const updateFlag = (tag_number) =>{
   return new Promise((resolve, reject) =>{
-    koneksi.query(`UPDATE log_tag_number SET flag = 2 WHERE tag_number IN (?) '${tag_number}'`, 
+    const sql = `UPDATE log_tag_number SET flag = 2, updated_at = NOW() WHERE tag_number IN (?)`;
+    koneksi.query(sql, [tag_number],
     function(error, rows, fields){
       if(error){
         reject(error);
@@ -48,3 +59,4 @@ const updateFlag = (tag_number) =>{
     });
   });
 }
+
