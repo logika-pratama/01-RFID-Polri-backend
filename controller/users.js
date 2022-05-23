@@ -53,61 +53,83 @@ exports.alluser = function(req, res) {
 
 // add 
 exports.adduser = function(req, res) {
-    var id_user = req.body.id_user; // wajib
-    var name = req.body.name;
-    var description = req.body.description;
-    var telpon = req.body.telpon;
-    var email = req.body.email; // wajib
-    var username = req.body.username; // wajib
-    var password = req.body.password;
-    var id_account = req.body.id_account; // wajib
-    var role = req.body.role
-    var Device_ID = req.body.Device_ID;
+    try{
+        var id_user = req.body.id_user; // wajib
+        var name = req.body.name;
+        var description = req.body.description;
+        var telpon = req.body.telpon;
+        var email = req.body.email; // wajib
+        var username = req.body.username; // wajib
+        var password = req.body.password;
+        var id_account = req.body.id_account; // wajib
+        var role = req.body.role
+        var Device_ID = req.body.Device_ID;
+    
+        console.log(typeof(req.body.role))
+        if (req.body.role == "2" || req.body.role == "1"){
+            Device_ID = "";
+            console.log("Device ID harus 0 ")
+        }
+        koneksi.query('INSERT INTO users (id_user,name,description,telpon,email,username,password,id_account,role,Device_ID) VALUES(?,?,?,?,?,?,?,?,?,?)', [id_user, name, description, telpon, email, username, password, id_account, role, Device_ID],
+            function(error, rows, fields) {
+                if (error) {
+                    return res.send({
+                        status: "error",
+                        message: error.message
+                    });
+                } else {
+                    return res.send({
+                        status: 'success',
+                        message: req.t("success_create_user")
+                    });
+                }
+            });
 
-    console.log(typeof(req.body.role))
-    if (req.body.role == "2" || req.body.role == "1"){
-        Device_ID = "";
-        console.log("Device ID harus 0 ")
-    }
-    koneksi.query('INSERT INTO users (id_user,name,description,telpon,email,username,password,id_account,role,Device_ID) VALUES(?,?,?,?,?,?,?,?,?,?)', [id_user, name, description, telpon, email, username, password, id_account, role, Device_ID],
-        function(error, rows, fields) {
-            if (error) {
-                console.log(error);
-            } else {
-                return res.send({
-                    status: 'success',
-                    message: req.t("success_create_user")
-                });
-            }
+    }catch(error){
+        return res.send({
+            status: 'error',
+            message: error.message
         });
+    }
+
 };
 
 
 
 //edit 
 exports.edituser = function(req, res) {
-    var id_user = req.params.id;
-    var name = req.body.name;
-    var description = req.body.description;
-    var telpon = req.body.telpon;
-    var email = req.body.email;
-    var username = req.body.username;
-    var password = req.body.password;
-    var role = req.body.role;
-    var Device_ID = req.body.Device_ID;
-
-
-    koneksi.query('UPDATE users SET name=?,description=?,telpon=?,email=?,username=?,password=?,role=?,Device_ID=? WHERE id_user=?', [name, description, telpon, email, username, password, role, Device_ID, id_user],
-        function(error, rows, fields) {
-            if (error) {
-                console.log(error);
-            } else {
-                return res.send({
-                    status: "succes",
-                    message: req.t("success_update_user")
-                });
-            }
+    try{
+        var id_user = req.params.id;
+        var name = req.body.name;
+        var description = req.body.description;
+        var telpon = req.body.telpon;
+        var email = req.body.email;
+        var username = req.body.username;
+        var password = req.body.password;
+        var role = req.body.role;
+        var Device_ID = req.body.Device_ID;
+    
+    
+        koneksi.query('UPDATE users SET name=?,description=?,telpon=?,email=?,username=?,password=?,role=?,Device_ID=? WHERE id_user=?', [name, description, telpon, email, username, password, role, Device_ID, id_user],
+            function(error, rows, fields) {
+                if (error) {
+                    return res.send({
+                        status: "error",
+                        message: error.message
+                    });
+                } else {
+                    return res.send({
+                        status: "succes",
+                        message: req.t("success_update_user")
+                    });
+                }
+            });    
+    }catch(error){
+        return res.send({
+            status: 'error',
+            message: error.message
         });
+    }
 };
 
 // delete 
