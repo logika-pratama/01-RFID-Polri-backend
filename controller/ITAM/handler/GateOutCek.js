@@ -7,40 +7,66 @@ const {URL_SERVICE_ITAM} = process.env;
 console.log(URL_SERVICE_ITAM);
 const api = apiAdapter(URL_SERVICE_ITAM);
 
-// exports.gate = async(req, res) =>{
-//     try{
-//         koneksi.query(`SELECT * FROM log_tag_number WHERE flag = 0 OR flag = 3`, 
-//         async function(error, rows, fields){
-//             if(error){
-//                 console.log(error);
-//             }else{
-//                 const allAseetId = rows.map(
-//                     assetID => {
-//                         return{
-//                             rfid_code : assetID.tag_number,
-//                         }
-//                     }
-//                 );
-                
-//                 const gate = await api.post('/api/v1/tag', {data: 'hhh'});
-//                 res.send('OK');
-            
-//             }
-//         });
-//     }catch(error){
-//         console.log(error);
-//     }
-// }
-
-exports.gate = async (req, res) =>{
+exports.gate = async(req, res) =>{
     try{
-        const gate = await api.post('/api/gate', req.body);
-        res.json(gate.data);
+        koneksi.query(`SELECT * FROM log_tag_number WHERE flag = 0 OR flag = 3`, 
+        async function(error, rows, fields){
+            if(error){
+                console.log(error);
+            }else{
+                const allAseetId = rows.map(
+                    assetID => {
+                        return{
+                            rfid_code : assetID.tag_number,
+                        }
+                    }
+                );
+                
+                console.log(allAseetId);
+                const gate = await api.post('/api/gate', allAseetId);
+                const data = gate.data.data.map(flag => flag.rfid_code);
+                UpdateFlag(data);
+                return res.status(200).json({
+                    status: 'success',
+                    data: data
+                })
+            
+            }
+        });
     }catch(error){
-        console.log(error)
+        console.log(error);
         return res.status(400).json({
             status: 'error',
             message: error.message
-          })    
+          }) 
     }
+}
+
+
+// exports.gate = async (req, res) =>{
+//     try{
+//         const gate = await api.post('/api/gate', req.body);
+//         const data = gate.data.data.map(flag => flag.flag);
+
+//         console.log(data);
+//         res.status(200).json(gate.data);
+//         // TOD 
+//         // Update flag from 0 -> 1
+//         // Update lfag from 3 -> 4
+//         //res.json(gate.data);
+//     }catch(error){
+   
+//     }
+// }
+
+const UpdateFlag = (tag) => {
+    const sql = `UPDATE log_tag_number SET flag = 1 WHERE tag_number IN (?)`;
+    koneksi.query(sql,[tag], 
+    function(error, rows, fields){
+        if(error){
+            console.log(error);
+        }else{
+            console.log('Update Flag');
+        }
+    });
 }
