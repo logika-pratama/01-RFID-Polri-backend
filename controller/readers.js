@@ -133,7 +133,7 @@ const dgram = require('dgram');
 const socket = dgram.createSocket('udp4');
 
 exports.sendTag = function(req, res){
-    let tag = req.body.tag;
+    let tag = req.query.tag_number;
     let deviceID = req.Device_ID;
     console.log(req.Device_ID);
     if(req.Device_ID == undefined || req.Device_ID == ''){
@@ -156,6 +156,7 @@ exports.sendTag = function(req, res){
             return response.ok({
                 status: 'ok',
                 message: 'OK',
+                tag_number : tag,
                 data : data
             }, res);
         }
