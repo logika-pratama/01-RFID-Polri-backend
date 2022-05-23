@@ -354,7 +354,7 @@ Inv_Received_Delivery	  | Reader untuk kegiatan Received dan Delivery dalam 1 pi
 Inv_Received_Register	  | Reader untuk kegitan received dan langsung register ke item
 Inv_Cashier	Reader      | untuk kegitan process di cashier
 Inv_TrackDetail 	      | Reader untuk tahu posisi asset
-Inv_AssetTracking         | Reader untuk tahu posisi asset berdasarkan Flag
+Inv_Inv_Gate         | Reader untuk tahu posisi asset berdasarkan Flag
 ________________________|_________________________________________________________________
 
 this function (cek()) is to check which reader and where the data come from,
@@ -374,7 +374,7 @@ async function cek(id, tid) { // parameters id=readerid, tid= tags id /UUID/EPC 
         console.log(inv_type);
 
         //Special for this 6 Inventory_trx_type, it needs additional items information
-        if (inv_type == "Inv_AssetTracking" || inv_type == "Inv_Monitoring" || inv_type == "Inventory_trx_type" || inv_type == "Inv_Received_Delivery" || inv_type == "Inv_Received" || inv_type == "Inv_Delivery" || inv_type == "Inv_Cashier" || inv_type == "Inv_Delivery_Cashier") {
+        if (inv_type == "Inv_Gate" || inv_type == "Inv_Monitoring" || inv_type == "Inventory_trx_type" || inv_type == "Inv_Received_Delivery" || inv_type == "Inv_Received" || inv_type == "Inv_Delivery" || inv_type == "Inv_Cashier" || inv_type == "Inv_Delivery_Cashier") {
             console.log("ambil data: " + inv_type);
             //here is the additional items information
             getitems = await getitem(tid, idAccount); // get the items information based on tag
@@ -383,11 +383,11 @@ async function cek(id, tid) { // parameters id=readerid, tid= tags id /UUID/EPC 
         }
         //================================================================
 
-        if(inv_type == "Inv_AssetTracking" ){
+        if(inv_type == "Inv_Gate" ){
             try{
                 const ceklogTagNumber = await cekAllTagNumber(tid);
                 const cekFlag = await cekLogTagNumber(tid);
-                console.log("Inv_AssetTracking");
+                console.log("Inv_Gate");
                 console.log(`Panjang logTag Number : ${ceklogTagNumber.length}`)
                 console.log(`Panjang Flag : ${cekFlag.length}`);
                 var iditem = getitems[0].item_id;
