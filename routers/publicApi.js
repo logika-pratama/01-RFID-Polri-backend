@@ -5,6 +5,7 @@ const user = require('../controller/users');
 const items = require('../controller/items');
 const stocktake = require('../controller/StockTake');
 const putaway = require('../controller/ITAM/handler/Putway');
+const gateout = require('../controller/ITAM/handler/GateOutCek');
 
 
 // Master Items
@@ -20,7 +21,7 @@ router.post('/putaway', apikey.validateKey, putaway.putway);
 // Stock Take 
 router.get('./stocktakereport', apikey.validateKey, stocktake.report);
 router.post('/genkey/:id',user.genApiKey);
-
+router.post('/gate', gateout.gate);
 
 module.exports = router;
 
