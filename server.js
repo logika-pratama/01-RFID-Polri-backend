@@ -93,7 +93,7 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(apiDocumenttation));
 //router(app);
 
 
-//const cron =require('./Scheduller/scheduller');
+const cron =require('./Scheduller/scheduller');
 // app.use(cron);
 
 

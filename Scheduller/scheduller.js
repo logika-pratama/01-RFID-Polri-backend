@@ -1,8 +1,8 @@
 const cron = require('node-cron');
 const PostData = require('../controller/ITAM/handler/GateOutCek');
 
-cron.schedule('*/60 * * * * *', function() {
-  console.log('Running task every 1 second');
+cron.schedule('*/10 * * * * *', function() {
+  console.log('Running task every 10 second');
   console.log(new Date().toLocaleString())
   PostData.gate();
 });
