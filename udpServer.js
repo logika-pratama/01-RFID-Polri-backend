@@ -213,10 +213,10 @@ function cekAllTagNumber(tid){
     });
 }
 
-function cekLogTagNumber() {
+function cekLogTagNumber(tag) {
     return new Promise(function(resolve, reject) {
-        koneksi.query(
-            "SELECT * FROM log_tag_number WHERE  flag = 2",
+        const sql = `SELECT * FROM log_tag_number WHERE tag_number IN (?) AND flag = 2`;
+        koneksi.query(sql, [tag],
             function(error, rows, fields) {
                 if (error) {
                     reject(error.sqlMessage);
