@@ -303,15 +303,15 @@ exports.registerItem = async (req, res) => {
 
 
     const schema = {
-        Item_code: 'string|optional|max:20',
+        Item_code: 'string|optional',
         Item_category: 'string|optional',
         Item_Type: 'string|optional',
-        SKU: 'string|empty:false',
+        SKU: 'string|optional',
         Name: 'string|optional',
         Description: 'string|optional',
         Uom: 'string|optional',
         tag_number: 'string|empty:false|max:100',
-        Ref_Number: 'string|empty:false|max:10'
+        Ref_Number: 'string|optional'
     }
 
     const validate = v.validate(req.body, schema);
