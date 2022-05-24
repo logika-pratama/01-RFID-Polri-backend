@@ -64,6 +64,7 @@ const swaggerUi = require('swagger-ui-express');
 const apiDocumenttation = require('./doc/swagger.json');
 
 
+
 // call router
 app.use('/api/v1/login',loginRouters);
 app.use('/api/v1', itemsRouters);
@@ -89,9 +90,15 @@ app.use('/api/v1/print',printRouters);
 // Swagger Router
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(apiDocumenttation));
 
+
 //var router = require('./router');
 //router(app);
-
+app.use(function(req, res) {
+    res.status(404).send({
+        status: '404',
+        message: 'URL Not Found'
+    });
+});
 
 const cron =require('./Scheduller/scheduller');
 // app.use(cron);
