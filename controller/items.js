@@ -296,6 +296,15 @@ exports.registerItem = async (req, res) => {
     var Ref_Number = req.body.Ref_Number;
     const created_at = new Date();
 
+    const tag = await cektag(tag_number);
+    if(tag.length > 0){
+        return res.status(400).json({
+            status: 'error',
+            message: req.t('tag number already exist')
+        });
+    }
+            
+
     if(typeof(Quantity) === 'string'){
         Quantity = parseInt(Quantity)
     } 
@@ -325,13 +334,6 @@ exports.registerItem = async (req, res) => {
     koneksi.query('INSERT INTO items (item_id,Item_code,Item_category,Item_Type,SKU,Name,Description,Uom,Quantity,tag_number,Ref_Number,Print_Tag,id_Account,created_at) VALUES(?,?,?,?,?,?,?,?,?,?,?,"yes",?,?)', [item_id, Item_code, Item_category, Item_Type, SKU, Name, Description, Uom, Quantity, tag_number, Ref_Number, id_Account, created_at],
     function(error, rows, fields) {
         if (error) {
-            if(error.errno == 1062){
-                response.warning({
-                    status: 'warning',
-                    message: 'tag number already existing'
-
-                }, res);
-            }
             console.log(error);
             res.status(500).json({
                 status: 'error',
