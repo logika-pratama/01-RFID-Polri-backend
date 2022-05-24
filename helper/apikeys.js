@@ -59,6 +59,7 @@ exports.validateKey = function validateKey(req, res, next) {
     let api_key = req.headers.api_key;
     console.log(api_key);
     api_key = JSON.stringify(api_key);
+    
     console.log(req.headers);
     if (api_key) {
         koneksi.query(`SELECT * FROM users WHERE api_key = ${api_key}`,
@@ -81,5 +82,11 @@ exports.validateKey = function validateKey(req, res, next) {
                     next();
                 }
             });
+    }else{
+        return response.warning({
+            status: 'Failed',
+            message: 'Api-Key Not Falid'
+        }, res)    
     }
+    
 }
