@@ -154,10 +154,8 @@ exports.sendTag = function(req, res){
             
         }else{
             return response.ok({
-                status: 'ok',
-                message: 'OK',
-                tag_number : tag,
-                data : data
+                status: 'success',
+                tag_number : tag
             }, res);
         }
     });

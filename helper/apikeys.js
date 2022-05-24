@@ -76,8 +76,9 @@ exports.validateKey = function validateKey(req, res, next) {
                     console.log('Success Call API');
                     req.id_user = rows[0].id_user;
                     req.role = rows[0].role;
+                    console.log(rows[1].Device_ID);
                     req.idaccount = rows[0].id_account;
-                    req.Device_ID = rows[0].Device_ID;
+                    req.Device_ID = rows[1].Device_ID;
                     req.name = rows[0].name;
                     next();
                 }

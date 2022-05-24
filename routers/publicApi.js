@@ -7,12 +7,13 @@ const stocktake = require('../controller/StockTake');
 const putaway = require('../controller/ITAM/handler/Putway');
 const gateout = require('../controller/ITAM/handler/GateOutCek');
 const logTagNumber = require('../controller/logTagNumber');
-
+const reader = require('../controller/readers');
 
 // Penyimpanan
 router.post('/putaway', apikey.validateKey, logTagNumber.Putaway);
 router.get('/putaway', apikey.validateKey, logTagNumber.getAllTagNumber);
 router.get('/putaway/search', apikey.validateKey, logTagNumber.getTagNumberByRfid);
+router.post('/gate', apikey.validateKey, reader.sendTag ); //  Non aktifkan End point ini saat Demo
 
 router.get('/items/search', apikey.validateKey, items.search);
 router.post('/item', apikey.validateKey, items.registerItem);
