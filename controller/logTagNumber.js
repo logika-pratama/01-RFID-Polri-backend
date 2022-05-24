@@ -19,6 +19,12 @@ exports.Putaway = async (req, res) =>{
       if(error){
         console.log(error);
       }else{
+        if(rows.length < 1){
+          return res.status(400).json({
+            status: 'error',
+            message: 'rfid code not found'
+          })
+        }
         const allAseetId = rows.map(
           
           assetID => {
@@ -38,6 +44,12 @@ exports.Putaway = async (req, res) =>{
     })
     
   }catch(error){
+    if(error.message == "req.body.map is not a function"){
+      return res.status(400).json({
+        status: 'error',
+        message: 'wrong parameter'
+      })
+    }
     return res.status(400).json({
       status: 'error',
       message: error.message
