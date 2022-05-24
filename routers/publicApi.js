@@ -13,7 +13,7 @@ const reader = require('../controller/readers');
 router.post('/putaway', apikey.validateKey, logTagNumber.Putaway);
 router.get('/putaway', apikey.validateKey, logTagNumber.getAllTagNumber);
 router.get('/putaway/search', apikey.validateKey, logTagNumber.getTagNumberByRfid);
-router.post('/gate', apikey.validateKey, reader.sendTag ); //  Non aktifkan End point ini saat Demo
+// router.post('/gate', apikey.validateKey, reader.sendTag ); //  Non aktifkan End point ini saat Demo
 
 router.get('/items/search', apikey.validateKey, items.search);
 router.post('/item', apikey.validateKey, items.registerItem);
@@ -27,7 +27,6 @@ router.get('/item', apikey.validateKey, items.itemById);
 // Stock Take 
 router.get('./stocktakereport', apikey.validateKey, stocktake.report);
 router.post('/genkey/:id',user.genApiKey);
-router.post('/gate', gateout.gate);
 
 module.exports = router;
 
