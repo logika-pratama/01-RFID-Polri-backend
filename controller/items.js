@@ -300,7 +300,7 @@ exports.registerItem = async (req, res) => {
         Quantity = parseInt(Quantity)
     } 
     console.log(typeof(Quantity));
-
+    console.log(req.body);
 
     const schema = {
         Item_code: 'string|optional',
