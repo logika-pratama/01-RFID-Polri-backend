@@ -10,7 +10,7 @@ const logTagNumber = require('../controller/logTagNumber');
 
 
 // Master Items
-router.post('/putaway', logTagNumber.Putaway);
+router.post('/putaway', apikey.validateKey, logTagNumber.Putaway);
 
 router.get('/items/search', apikey.validateKey, items.search);
 router.post('/item', apikey.validateKey, items.registerItem);
