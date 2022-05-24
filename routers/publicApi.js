@@ -9,8 +9,10 @@ const gateout = require('../controller/ITAM/handler/GateOutCek');
 const logTagNumber = require('../controller/logTagNumber');
 
 
-// Master Items
+// Penyimpanan
 router.post('/putaway', apikey.validateKey, logTagNumber.Putaway);
+router.get('/putaway', apikey.validateKey, logTagNumber.getAllTagNumber);
+router.get('/putaway/search', apikey.validateKey, logTagNumber.getTagNumberByRfid);
 
 router.get('/items/search', apikey.validateKey, items.search);
 router.post('/item', apikey.validateKey, items.registerItem);
