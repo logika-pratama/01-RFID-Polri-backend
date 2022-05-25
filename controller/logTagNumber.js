@@ -113,3 +113,166 @@ const updateFlag = (tag_number) =>{
   });
 }
 
+
+
+// TODO 
+// 0 -> Inbound  /tr/log
+// 1 -> Good Receive /gr/log
+// 2 -> Monitoring/Putway  
+// 3 -> Gate Out  /
+// 4 -> Good Issue /
+
+
+// Inbound Function
+exports.getZeroFlag = async (req, res) =>{
+  try{
+    const idaccount = req.idaccount;
+    const sql = `SELECT items.tag_number, items.Item_code, items.SKU, 
+    items.name,log_tag_number.updated_at, 
+    items.quantity, items.Uom
+    FROM items 
+    RIGHT JOIN log_tag_number ON (items.tag_number=log_tag_number.tag_number)
+    WHERE log_tag_number.flag = 0 AND items.id_Account = ? `;
+    koneksi.query(sql,[idaccount],
+    function(error, rows, fields){
+      if(error){
+        console.log(error);
+      }else{
+        return res.status(200).json({
+          status: 'success',
+          total: rows.length,
+          data: rows
+        });
+      }
+    })
+  }catch(error){
+    return res.status(400).json({
+      status: 'error',
+      message: error.message
+    })
+  }
+}
+
+
+// Good Recieve Function
+exports.getFirstFlag = async (req, res) =>{
+  try{
+    const idaccount = req.idaccount;
+    const sql = `SELECT items.tag_number, items.Item_code, items.SKU, 
+    items.name,log_tag_number.updated_at, 
+    items.quantity, items.Uom
+    FROM items 
+    RIGHT JOIN log_tag_number ON (items.tag_number=log_tag_number.tag_number)
+    WHERE log_tag_number.flag = 1 AND items.id_Account = ? `;
+    koneksi.query(sql,[idaccount],
+    function(error, rows, fields){
+      if(error){
+        console.log(error);
+      }else{
+        return res.status(200).json({
+          status: 'success',
+          messsage: 'success get data',
+          total: rows.length,
+          data: rows
+        });
+      }
+    })
+  }catch(error){
+    return res.status(400).json({
+      status: 'error',
+      message: error.message
+    })
+  }
+}
+
+
+// Monitoring Function
+exports.getSecondFlag = async (req, res) =>{
+  try{
+    const idaccount = req.idaccount;
+    const sql = `SELECT items.tag_number, items.Item_code, items.SKU, 
+    items.name,log_tag_number.updated_at, 
+    items.quantity, items.Uom
+    FROM items 
+    RIGHT JOIN log_tag_number ON (items.tag_number=log_tag_number.tag_number)
+    WHERE log_tag_number.flag = 2 AND items.id_Account = ? `;
+    koneksi.query(sql,[idaccount],
+    function(error, rows, fields){
+      if(error){
+        console.log(error);
+      }else{
+        return res.status(200).json({
+          status: 'success',
+          total: rows.length,
+          data: rows
+        });
+      }
+    })
+  }catch(error){
+    return res.status(400).json({
+      status: 'error',
+      message: error.message
+    })
+  }
+}
+
+
+// Outbound Function
+exports.getThirdFlag = async (req, res) =>{
+  try{
+    const idaccount = req.idaccount;
+    const sql = `SELECT items.tag_number, items.Item_code, items.SKU, 
+    items.name,log_tag_number.updated_at, 
+    items.quantity, items.Uom
+    FROM items 
+    RIGHT JOIN log_tag_number ON (items.tag_number=log_tag_number.tag_number)
+    WHERE log_tag_number.flag = 3 AND items.id_Account = ? `;
+    koneksi.query(sql,[idaccount],
+    function(error, rows, fields){
+      if(error){
+        console.log(error);
+      }else{
+        return res.status(200).json({
+          status: 'success',
+          total: rows.length,
+          data: rows
+        });
+      }
+    })
+  }catch(error){
+    return res.status(400).json({
+      status: 'error',
+      message: error.message
+    })
+  }
+}
+
+// Good Issue Function
+exports.getFourhFlag = async (req, res) =>{
+  try{
+    const idaccount = req.idaccount;
+    const sql = `SELECT items.tag_number, items.Item_code, items.SKU, 
+    items.name,log_tag_number.updated_at, 
+    items.quantity, items.Uom
+    FROM items 
+    RIGHT JOIN log_tag_number ON (items.tag_number=log_tag_number.tag_number)
+    WHERE log_tag_number.flag = 4 AND items.id_Account = ? `;
+    koneksi.query(sql, [idaccount],
+    function(error, rows, fields){
+      if(error){
+        console.log(error);
+      }else{
+        return res.status(200).json({
+          status: 'success',
+          total: rows.length,
+          data: rows
+        });
+      }
+    })
+  }catch(error){
+    return res.status(400).json({
+      status: 'error',
+      message: error.message
+    })
+  }
+}
