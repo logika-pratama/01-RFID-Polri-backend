@@ -9,7 +9,7 @@ const v = new Validator();
 exports.itemById = function(req, res) {
     let id = req.idaccount;
 
-    koneksi.query('SELECT * FROM items WHERE id_Account= ?', [id], function(error, rows, fields) {
+    koneksi.query('SELECT Item_code, Item_category, SKU, Name, Description, Uom, Quantity, tag_number, Ref_Number, created_at FROM items WHERE id_Account= ?', [id], function(error, rows, fields) {
         if (error) {
             console.log(error);
         } else {
