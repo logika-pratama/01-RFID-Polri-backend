@@ -195,7 +195,7 @@ exports.getSecondFlag = async (req, res) =>{
     items.quantity, items.Uom
     FROM items 
     RIGHT JOIN log_tag_number ON (items.tag_number=log_tag_number.tag_number)
-    WHERE log_tag_number.flag = 2 AND items.id_Account = ? `;
+    WHERE log_tag_number.flag = 1 AND items.id_Account = ? `;
     koneksi.query(sql,[idaccount],
     function(error, rows, fields){
       if(error){
