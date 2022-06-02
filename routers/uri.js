@@ -5,5 +5,6 @@ const uri = require('../controller/uri');
 
 router.get('/', jwt.verify, uri.getUri);
 router.post('/', jwt.verify, uri.addUri);
+router.put('/:name', jwt.verify, uri.editUri);
 
 module.exports = router;
