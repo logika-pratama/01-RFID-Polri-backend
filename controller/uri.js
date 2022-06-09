@@ -2,18 +2,95 @@
 
 const koneksi = require('../koneksi');
 
+exports.getHomeScreen = async (req, res) => {
+  try{
+    koneksi.query('SELECT * FROM menu WHERE category = "home"', 
+    function(error, rows, fields){
+      if(error){
+        return res.status(500).json({
+          status: 'error',
+          message: 'Internal Server Error',
+          error: error.sqlMessage
+        });
+      }
+    
+      let data = rows.map(item => ({
+        id: item.id,
+        title: item.title,
+        integration_module_screen: item.integration_module_screen !== null ? item.integration_module_screen : [],
+        rfid_screen: item.rfid_screen,
+        table_header: item.table_header !== null ?  JSON.parse(item.table_header)  : [],
+        enable_search_field: item.enable_search_field,
+        enable_setting_url_form: item.enable_setting_url_form,
+        enable_confirm_buttom: item.enable_confirm_buttom,
+        config_url_screen: JSON.parse(item.list_menu_rfid_screen),
+        url_screen: item.url_screen !== null ? item.url_screen : '',
+        }));
+    
+      return res.send({
+        status: 'success',
+        data: data
+        
+      });
+    })
+  }catch(err){
+    res.status(400).json({
+      status: 'error',
+      message: err.message
+    });
+  }
+}
+
+exports.getIntegrationScreen = async (req, res) => {
+  try{
+    koneksi.query('SELECT * FROM menu WHERE category = "integration"',
+    function(error, rows, fields){
+      if(error){
+        return res.status(500).json({
+          status: 'error',
+          message: 'Internal Server Error',
+          error: error.sqlMessage
+        });
+      }
+    
+      let data = rows.map(item => ({
+        id: item.id,
+        title: item.title,
+        rfid_screen: item.rfid_screen,
+        table_header: item.table_header !== null ?  JSON.parse(item.table_header)  : [],
+        enable_search_field: item.enable_search_field,
+        enable_setting_url_form: item.enable_setting_url_form,
+        enable_confirm_buttom: item.enable_confirm_buttom,
+        config_url_screen: JSON.parse(item.list_menu_rfid_screen),
+        url_screen: item.url_screen !== null ? item.url_screen : [],
+        }));
+    
+      return res.send({
+        status: 'success',
+        data: data
+        
+      });
+    })
+  }catch(err){
+    res.status(400).json({
+      status: 'error',
+      message: err.message
+    });
+  }
+}
+
 
 exports.getUri = async (req, res) =>{
   try{
     let query = `SELECT * FROM uri_tab`;
     console.log(req.query);
-    if(req.query.name){
-      let name = req.query.name;
+    if(req.query.uri_code){
+      let name = req.query.uri_code;
       name = name.toLowerCase();
       name = JSON.stringify(name)
       console.log(name)
       
-      query += ` WHERE name = ${name}`
+      query += ` WHERE uri_code = ${name}`
   
     } 
 
@@ -55,8 +132,8 @@ const cekName = (name) =>{
 
 exports.addUri = async (req, res) => {
   try{
-    let {name, uri }  = req.body;
-    let dataName = name.toLowerCase();
+    let {uri_code, uri, name }  = req.body;
+    let dataName = uri_code.toLowerCase();
     const cek_name = await cekName(dataName);
     if(cek_name){
       return res.status(400).json({
@@ -65,7 +142,7 @@ exports.addUri = async (req, res) => {
       })
     }
   
-    koneksi.query('INSERT INTO uri_tab (name, uri) VALUES (?,?)', [dataName, uri],
+    koneksi.query('INSERT INTO uri_tab (uri_code, uri, name) VALUES (?,?)', [dataName, uri, name],
     function(error, rows, fields){
       if(error){
         return res.status(400).json({
@@ -90,9 +167,9 @@ exports.addUri = async (req, res) => {
 
 exports.editUri = async (req, res) => {
   try{ 
-    let name = req.params.name;
+    let uri_code = req.params.uri_code;
     let uri = req.body.uri;
-    koneksi.query('UPDATE uri_tab SET uri=? WHERE name = ?', [name, uri],
+    koneksi.query('UPDATE uri_tab SET uri=? WHERE uri_code = ?', [uri, uri_code],
     function(error, rows, fields){
       if(error){
         return res.status(500).json({
