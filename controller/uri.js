@@ -19,16 +19,17 @@ exports.getHomeScreen = async (req, res) => {
           error: error.sqlMessage
         });
       }
+
     
       let data = rows.map(item => ({
         id: item.id,
         title: item.title,
-        integration_module_screen: item.integration_module_screen !== null ? item.integration_module_screen : [],
-        rfid_screen: item.rfid_screen,
+        integration_module_screen: item.integration_module_screen == "true" ? true : false,
+        rfid_screen: item.rfid_screen == "true" ? true : false,
         table_headers: item.table_header !== null ?  JSON.parse(item.table_header)  : [],
-        search_field: item.enable_search_field,
-        setting_url_form: item.enable_setting_url_form,
-        confirm_button: item.enable_confirm_buttom,
+        search_field: item.enable_search_field == 'true' ? true : false ,
+        setting_url_form: item.enable_setting_url_form == 'true' ? true : false,
+        confirm_button: item.enable_confirm_buttom == 'true' ? true : false,
         config_menu_rfid_screen: JSON.parse(item.config_url_screen),
         url_screen: item.url_screen !== null ? item.url_screen : '',
         }));
@@ -62,12 +63,12 @@ exports.getIntegrationScreen = async (req, res) => {
       let data = rows.map(item => ({
         id: item.id,
         title: item.title,
-        table: item.table,
-        rfid_screen: item.rfid_screen,
+        table: item.table == "true" ? true : false,
+        rfid_screen: item.rfid_screen == "true" ? true : false,
         table_headers: item.table_header !== null ?  JSON.parse(item.table_header)  : [],
-        search_field: item.enable_search_field,
-        setting_url_form: item.enable_setting_url_form,
-        confirm_button: item.enable_confirm_buttom,
+        search_field: item.enable_search_field == "true" ? true : false,
+        setting_url_form: item.enable_setting_url_form == "true" ? true : false,
+        confirm_button: item.enable_confirm_buttom == "true" ? true : false,
         config_menu_rfid_screen: JSON.parse(item.config_url_screen),
         url_screen: item.url_screen !== null ? item.url_screen : "",
         }));
