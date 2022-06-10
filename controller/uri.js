@@ -62,6 +62,7 @@ exports.getIntegrationScreen = async (req, res) => {
       let data = rows.map(item => ({
         id: item.id,
         title: item.title,
+        table: item.table,
         rfid_screen: item.rfid_screen,
         table_headers: item.table_header !== null ?  JSON.parse(item.table_header)  : [],
         search_field: item.enable_search_field,
