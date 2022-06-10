@@ -4,6 +4,12 @@ const koneksi = require('../koneksi');
 
 exports.getHomeScreen = async (req, res) => {
   try{
+    // TODO 
+    // Cek Role 
+    // Setting permision  -> 1
+    // Other menu permision -> 2
+    // Gate Scan have must Have Device ID 
+    // Permission 3 Gate
     koneksi.query('SELECT * FROM menu WHERE category = "home"', 
     function(error, rows, fields){
       if(error){
@@ -62,7 +68,7 @@ exports.getIntegrationScreen = async (req, res) => {
         setting_url_form: item.enable_setting_url_form,
         confirm_buttom: item.enable_confirm_buttom,
         config_url_screen: JSON.parse(item.config_url_screen),
-        url_screen: item.url_screen !== null ? item.url_screen : [],
+        url_screen: item.url_screen !== null ? item.url_screen : "",
         }));
     
       return res.send({
@@ -82,7 +88,7 @@ exports.getIntegrationScreen = async (req, res) => {
 
 exports.getUri = async (req, res) =>{
   try{
-    let query = `SELECT * FROM uri_tab`;
+    let query = `SELECT menu_id, title, url_screen  FROM menu WHERE url_screen IS NOT NULL`;
     console.log(req.query);
     if(req.query.uri_code){
       let name = req.query.uri_code;
