@@ -4,13 +4,18 @@ const koneksi = require('../koneksi');
 
 exports.getHomeScreen = async (req, res) => {
   try{
+    const role = req.role;
+    let query = `SELECT * FROM menu WHERE category = "home"`;
+    if(role == '2' || role == '3'){
+      query += ` AND role = '2'`;
+    }
     // TODO 
     // Cek Role 
     // Setting permision  -> 1
     // Other menu permision -> 2
     // Gate Scan have must Have Device ID 
     // Permission 3 Gate
-    koneksi.query('SELECT * FROM menu WHERE category = "home"', 
+    koneksi.query(query, 
     function(error, rows, fields){
       if(error){
         return res.status(500).json({
@@ -50,6 +55,8 @@ exports.getHomeScreen = async (req, res) => {
 
 exports.getIntegrationScreen = async (req, res) => {
   try{
+
+    
     koneksi.query('SELECT * FROM menu WHERE category = "integration"',
     function(error, rows, fields){
       if(error){
