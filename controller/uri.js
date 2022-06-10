@@ -25,11 +25,11 @@ exports.getHomeScreen = async (req, res) => {
         title: item.title,
         integration_module_screen: item.integration_module_screen !== null ? item.integration_module_screen : [],
         rfid_screen: item.rfid_screen,
-        table_header: item.table_header !== null ?  JSON.parse(item.table_header)  : [],
+        table_headers: item.table_header !== null ?  JSON.parse(item.table_header)  : [],
         search_field: item.enable_search_field,
         setting_url_form: item.enable_setting_url_form,
-        confirm_buttom: item.enable_confirm_buttom,
-        config_url_screen: JSON.parse(item.config_url_screen),
+        confirm_button: item.enable_confirm_buttom,
+        config_menu_rfid_screen: JSON.parse(item.config_url_screen),
         url_screen: item.url_screen !== null ? item.url_screen : '',
         }));
     
@@ -63,11 +63,11 @@ exports.getIntegrationScreen = async (req, res) => {
         id: item.id,
         title: item.title,
         rfid_screen: item.rfid_screen,
-        table_header: item.table_header !== null ?  JSON.parse(item.table_header)  : [],
+        table_headers: item.table_header !== null ?  JSON.parse(item.table_header)  : [],
         search_field: item.enable_search_field,
         setting_url_form: item.enable_setting_url_form,
-        confirm_buttom: item.enable_confirm_buttom,
-        config_url_screen: JSON.parse(item.config_url_screen),
+        confirm_button: item.enable_confirm_buttom,
+        config_menu_rfid_screen: JSON.parse(item.config_url_screen),
         url_screen: item.url_screen !== null ? item.url_screen : "",
         }));
     
@@ -173,9 +173,9 @@ exports.addUri = async (req, res) => {
 
 exports.editUri = async (req, res) => {
   try{ 
-    let uri_code = req.params.uri_code;
+    let uri_code = req.params.menu_id;
     let uri = req.body.uri;
-    koneksi.query('UPDATE uri_tab SET uri=? WHERE uri_code = ?', [uri, uri_code],
+    koneksi.query('UPDATE menu SET url_screen=? WHERE menu_id = ?', [uri, uri_code],
     function(error, rows, fields){
       if(error){
         return res.status(500).json({
