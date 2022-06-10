@@ -308,8 +308,8 @@ exports.registerItem = async (req, res) => {
     if(typeof(Quantity) === 'string'){
         Quantity = parseInt(Quantity)
     } 
-    console.log(typeof(Quantity));
-    console.log(`req.body ${req.body}`);
+    console.log('req.body:' );
+    console.log(req.body);
 
     const schema = {
         Item_code: 'string|optional',
