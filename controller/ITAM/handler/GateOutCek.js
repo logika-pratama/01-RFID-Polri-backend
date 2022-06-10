@@ -35,7 +35,7 @@ exports.gate = async(req, res) =>{
                     //     data: data
                     // });    
                 }else{
-                    console.log('Dont Post Data');
+                   // console.log('Dont Post Data');
                 }
             }
         });
