@@ -282,18 +282,18 @@ exports.additem = async function(req, res) {
 
 // public API
 exports.registerItem = async (req, res) => {
-    var item_id = uniqid.process();
-    var Item_code = req.body.Item_code;
-    var Item_category = req.body.Item_category;
-    var Item_Type = req.body.Item_Type;
-    var SKU = req.body.SKU;
-    var Name = req.body.Name;
-    var Description = req.body.Description;
-    var Uom = req.body.Uom;
-    var Quantity = req.body.Quantity;
-    var tag_number = req.body.tag_number;
-    var id_Account = req.idaccount;
-    var Ref_Number = req.body.Ref_Number;
+    let item_id = uniqid.process();
+    let Item_code = req.body.Item_code;
+    let Item_category = req.body.Item_category;
+    let Item_Type = req.body.Item_Type;
+    let SKU = req.body.SKU;
+    let Name = req.body.Name;
+    let Description = req.body.Description;
+    let Uom = req.body.Uom;
+    let Quantity = req.body.Quantity;
+    let tag_number = req.body.tag_number;
+    let id_Account = req.idaccount;
+    let Ref_Number = req.body.Ref_Number;
     const created_at = new Date();
 
     const tag = await cektag(tag_number);
