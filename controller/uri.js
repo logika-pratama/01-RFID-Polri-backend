@@ -101,8 +101,6 @@ exports.getUri = async (req, res) =>{
     // Integration modul false 
     // RFID Screen false
 
-    let query = `SELECT menu_id, title, url_screen  FROM menu WHERE integration_module_screen = false AND rfid_screen = false`;
-    console.log(req.query);
     if(req.query.uri_code){
       let name = req.query.uri_code;
       name = name.toLowerCase();
@@ -113,7 +111,7 @@ exports.getUri = async (req, res) =>{
   
     } 
 
-    koneksi.query(query, 
+    koneksi.query('SELECT menu_id, title, url_screen  FROM menu WHERE integration_module_screen = "false" AND rfid_screen = "false"', 
     function(error, rows, fields){
       if(error){
         console.log(error);
