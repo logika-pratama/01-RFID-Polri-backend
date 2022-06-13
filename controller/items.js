@@ -310,6 +310,7 @@ exports.registerItem = async (req, res) => {
     } 
     console.log('req.body:' );
     console.log(req.body);
+    console.log('Response : ', res.message);
 
     const schema = {
         Item_code: 'string|optional',
@@ -331,7 +332,7 @@ exports.registerItem = async (req, res) => {
         }); 
     }
 
-    koneksi.query('INSERT INTO items (item_id,Item_code,Item_category,Item_Type,SKU,Name,Description,Uom,Quantity,tag_number,Ref_Number,Print_Tag,id_Account,created_at) VALUES(?,?,?,?,?,?,?,?,?,?,?,"yes",?,?)', [item_id, Item_code, Item_category, Item_Type, SKU, Name, Description, Uom, Quantity, tag_number, Ref_Number, id_Account, created_at],
+    koneksi.query('   INTO items (item_id,Item_code,Item_category,Item_Type,SKU,Name,Description,Uom,Quantity,tag_number,Ref_Number,Print_Tag,id_Account,created_at) VALUES(?,?,?,?,?,?,?,?,?,?,?,"yes",?,?)', [item_id, Item_code, Item_category, Item_Type, SKU, Name, Description, Uom, Quantity, tag_number, Ref_Number, id_Account, created_at],
     function(error, rows, fields) {
         if (error) {
             console.log(error);
