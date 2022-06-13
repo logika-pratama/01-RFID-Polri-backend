@@ -192,7 +192,7 @@ exports.editUri = async (req, res) => {
       data => data.menu_id,
     );
     const uri = req.body.map(
-      uri => uri.uri,
+      uri => uri.url_screen,
     )
    
     // data.toString();
