@@ -29,7 +29,7 @@ exports.getHomeScreen = async (req, res) => {
       let data = rows.map(item => ({
         id: item.id,
         title: item.title,
-        integration_module_screen: item.integration_module_screen == "true" ? true : false,
+        integration_module_screen: item.integration_module_screen === "true" ? true : false,
         rfid_screen: item.rfid_screen == "true" ? true : false,
         table_headers: item.table_header !== null ?  JSON.parse(item.table_header)  : [],
         search_field: item.enable_search_field == 'true' ? true : false ,
@@ -56,7 +56,7 @@ exports.getHomeScreen = async (req, res) => {
 exports.getIntegrationScreen = async (req, res) => {
   try{
 
-    
+
     koneksi.query('SELECT * FROM menu WHERE category = "integration"',
     function(error, rows, fields){
       if(error){
@@ -97,7 +97,11 @@ exports.getIntegrationScreen = async (req, res) => {
 
 exports.getUri = async (req, res) =>{
   try{
-    let query = `SELECT menu_id, title, url_screen  FROM menu WHERE url_screen IS NOT NULL`;
+    // TODO 
+    // Integration modul false 
+    // RFID Screen false
+
+    let query = `SELECT menu_id, title, url_screen  FROM menu WHERE integration_module_screen = false AND rfid_screen = false`;
     console.log(req.query);
     if(req.query.uri_code){
       let name = req.query.uri_code;
@@ -180,24 +184,39 @@ exports.addUri = async (req, res) => {
   }
 }
 
+
+/// UPDATE history SET GR_Number=?, GR_Date= ? WHERE item_id IN  (?) ', [gr_number,time,id],
+
 exports.editUri = async (req, res) => {
   try{ 
-    let uri_code = req.params.menu_id;
-    let uri = req.body.uri;
-    koneksi.query('UPDATE menu SET url_screen=? WHERE menu_id = ?', [uri, uri_code],
+
+    const data = req.body.map(
+      data => data.menu_id,
+    );
+    const uri = req.body.map(
+      uri => uri.uri,
+    )
+   
+    // data.toString();
+    // uri.toString()
+      
+   for (let i = 0; i <= data.length - 1; i++) {
+    koneksi.query(`UPDATE menu SET url_screen = ? WHERE menu_id = ?`, [uri[i], data[i]],
     function(error, rows, fields){
       if(error){
-        return res.status(500).json({
+        return res.status(400).json({
           status: 'error',
-          message: 'Internal Server Error',
-          error: error.sqlMessage
+          message: error.sqlMessage
         });
-      }
-      return res.send({
-        status: 'success',
-        message: req.t('success_update_data')
-      });
-    });
+        }
+      })
+      console.log(uri[i]);
+      console.log(data[i]);
+    }
+    return res.send({
+      status: 'success',
+      message: req.t('success_update_data')
+    })
   }catch(error){
     return res.status(400).json({
       status: 'success',
@@ -205,3 +224,19 @@ exports.editUri = async (req, res) => {
     })
   }
 }
+
+// const updateUri = (uri, id) =>{
+//   return new Promise(function(resolve, reject) {
+//     koneksi.query( `UPDATE menu SET url_screen = ? WHERE menu_id = ? `, [uri, id],
+//     function(error, rows, fileds){
+//       if(error){
+//         reject(error.sqlMessage);
+//       }else{
+//         let data = JSON.stringify(rows);
+//         data = JSON.parse(data);
+//         resolve(data);
+//       }
+//     })
+//   }
+//   )
+// }
