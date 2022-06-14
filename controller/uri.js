@@ -29,7 +29,7 @@ exports.getHomeScreen = async (req, res) => {
         table_headers: item.table_headers !== null ?  JSON.parse(item.table_headers)  : [],
         search_field: item.search_field === 0 ? false : true ,
         setting_url_form: item.setting_url_form  === 0 ? false : true,
-        confirm_button: item.confirm_buttom  === 0 ? false : true,
+        confirm_button: item.confirm_button  === 0 ? false : true,
         config_menu_rfid_screen: JSON.parse(item.config_menu_rfid_screen),
         url_screen: item.url_screen !== null ? item.url_screen : '',
         }));
@@ -70,7 +70,7 @@ exports.getIntegrationScreen = async (req, res) => {
         table_headers: item.table_headers !== null ?  JSON.parse(item.table_headers)  : [],
         search_field: item.search_field === 0 ? false : true,
         setting_url_form: item.setting_url_form === 0 ? false : true,
-        confirm_button: item.confirm_buttom === 0 ? false : true,
+        confirm_button: item.confirm_button === 0 ? false : true,
         config_menu_rfid_screen: JSON.parse(item.config_menu_rfid_screen),
         url_screen: item.url_screen !== null ? item.url_screen : "",
         }));
