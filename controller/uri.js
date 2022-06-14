@@ -9,12 +9,7 @@ exports.getHomeScreen = async (req, res) => {
     if(role == '2' || role == '3'){
       query += ` AND role = '2'`;
     }
-    // TODO 
-    // Cek Role 
-    // Setting permision  -> 1
-    // Other menu permision -> 2
-    // Gate Scan have must Have Device ID 
-    // Permission 3 Gate
+  
     koneksi.query(query, 
     function(error, rows, fields){
       if(error){
@@ -29,13 +24,13 @@ exports.getHomeScreen = async (req, res) => {
       let data = rows.map(item => ({
         id: item.id,
         title: item.title,
-        integration_module_screen: item.integration_module_screen === "true" ? true : false,
-        rfid_screen: item.rfid_screen == "true" ? true : false,
-        table_headers: item.table_header !== null ?  JSON.parse(item.table_header)  : [],
-        search_field: item.enable_search_field == 'true' ? true : false ,
-        setting_url_form: item.enable_setting_url_form == 'true' ? true : false,
-        confirm_button: item.enable_confirm_buttom == 'true' ? true : false,
-        config_menu_rfid_screen: JSON.parse(item.config_url_screen),
+        integration_module_screen: item.integration_module_screen === 0 ? false : true,
+        rfid_screen: item.rfid_screen  === 0 ? false : true,
+        table_headers: item.table_headers !== null ?  JSON.parse(item.table_headers)  : [],
+        search_field: item.search_field === 0 ? false : true ,
+        setting_url_form: item.setting_url_form  === 0 ? false : true,
+        confirm_button: item.confirm_buttom  === 0 ? false : true,
+        config_menu_rfid_screen: JSON.parse(item.config_menu_rfid_screen),
         url_screen: item.url_screen !== null ? item.url_screen : '',
         }));
     
@@ -70,13 +65,13 @@ exports.getIntegrationScreen = async (req, res) => {
       let data = rows.map(item => ({
         id: item.id,
         title: item.title,
-        table: item.table == "true" ? true : false,
-        rfid_screen: item.rfid_screen == "true" ? true : false,
-        table_headers: item.table_header !== null ?  JSON.parse(item.table_header)  : [],
-        search_field: item.enable_search_field == "true" ? true : false,
-        setting_url_form: item.enable_setting_url_form == "true" ? true : false,
-        confirm_button: item.enable_confirm_buttom == "true" ? true : false,
-        config_menu_rfid_screen: JSON.parse(item.config_url_screen),
+        table: item.table === 0 ? false : true,
+        rfid_screen: item.rfid_screen=== 0 ? false : true,
+        table_headers: item.table_headers !== null ?  JSON.parse(item.table_headers)  : [],
+        search_field: item.search_field === 0 ? false : true,
+        setting_url_form: item.setting_url_form === 0 ? false : true,
+        confirm_button: item.confirm_buttom === 0 ? false : true,
+        config_menu_rfid_screen: JSON.parse(item.config_menu_rfid_screen),
         url_screen: item.url_screen !== null ? item.url_screen : "",
         }));
     
@@ -97,9 +92,7 @@ exports.getIntegrationScreen = async (req, res) => {
 
 exports.getUri = async (req, res) =>{
   try{
-    // TODO 
-    // Integration modul false 
-    // RFID Screen false
+
 
     if(req.query.uri_code){
       let name = req.query.uri_code;
