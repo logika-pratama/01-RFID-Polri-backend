@@ -101,7 +101,7 @@
               }
           }
       },
-      "/putaway": {
+      "api/v1/putaway": {
           "post": {
               "tags": [
                   "Penyimpanan"
