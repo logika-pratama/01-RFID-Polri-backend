@@ -1,0 +1,392 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+      "title": "RFID-API-Documentation",
+      "version": "1",
+      "description": "OpenAPI for RFID ",
+      "termsOfService": "https://rfidsolutions.id/",
+      "contact": {
+          "name": "RFID-Solution",
+          "email": "info@logikapratama.com",
+          "url": "https://rfidsolutions.id/"
+      },
+      "license": {
+          "name": "APACHE 2.0",
+          "url": "https://www.apache.org/licenses/LICENSE-2.0"
+      }
+  },
+  "servers": [
+      {
+          "description": "RFID Solution API Public-Server",
+          "url": "http://151.106.112.34/"
+      },
+      {
+          "description": "RFID Solution API Local-Server",
+          "url": "localhost:8080"
+      }
+  ],
+  "paths": {
+      "/api/v1/item": {
+          "get": {
+              "security": [
+                  {
+                      "bearerAuth": []
+                  }
+              ],
+              "tags": [
+                  "Master Item"
+              ],
+              "summary": "get all items by ID",
+              "responses": {
+                  "200": {
+                      "description": "success get all items",
+                      "content": {
+                          "application/json": {
+                              "schema": {
+                                  "$ref": "#/components/schemas/dataItems"
+                              }
+                          }
+                      }
+                  },
+                  "400": {
+                      "$ref": "#/components/responses/400"
+                  },
+                  "401": {
+                      "$ref": "#/components/responses/401"
+                  }
+              }
+          },
+          "post": {
+              "tags": [
+                  "Master Item"
+              ],
+              "security": [
+                  {
+                      "bearerAuth": []
+                  }
+              ],
+              "description": "add data to database Master Item",
+              "requestBody":{
+                  "required": true,
+                  "content":{
+                      "application/json":{
+                          "schema":{
+                              "$ref": "#/components/schemas/items"
+                          },
+                          "example":{
+                                  "Item_code": "010013",
+                                  "Item_category": "Persediaan",
+                                  "Item_Type": "Elektronik",
+                                  "SKU": "MKR-PRL-013",
+                                  "Name": "Laptop Asus",
+                                  "Description": "Laptop untuk Administrasi",
+                                  "Uom": "pcs",
+                                  "Quantity": 1,
+                                  "tag_number": "123222444222AC",
+                                  "Ref_Number": "SGA-102-AK"
+                          }
+                      }
+                  }
+              },
+              "responses": {
+                  "200": {
+                      "$ref": "#/components/responses/200"
+                  },
+                  "400": {
+                      "$ref": "#/components/responses/400"
+                  },
+                  "401": {
+                      "$ref": "#/components/responses/401"
+                  }
+              }
+          }
+      },
+      "/api/v1/item/search/{tag}": {
+          "get": {
+              "tags": [
+                  "Master Item"
+              ],
+              "description": "endpoint to search tag to database",
+              "security": [
+                  {
+                      "bearerAuth": []
+                  }
+              ],
+              "parameters": [
+                  {
+                      "$ref": "#/components/parameters/tag"
+                  }
+              ],
+              "responses": {
+                  "200": {
+                      "description": "success get all items",
+                      "content": {
+                          "application/json": {
+                              "schema": {
+                                  "$ref": "#/components/schemas/dataItems"
+                              }
+                          }
+                      }
+                  },
+                  "400": {
+                      "$ref": "#/components/responses/400"
+                  },
+                  "401": {
+                      "$ref": "#/components/responses/401"
+                  }
+              }
+          }
+      }
+
+  },
+  "components": {
+      "parameters": {
+          "item_id": {
+              "name": "item_id",
+              "in": "path",
+              "required": true,
+              "description": "item id for updated",
+              "schema": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 10
+              },
+              "example": "zplikshs"
+          },
+          "id": {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "schema": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 10
+              },
+              "example": "zasypk"
+          },
+          "tag": {
+              "name": "tag",
+              "in": "path",
+              "required": true,
+              "schema": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 20
+              },
+              "example": "112223344556600AB"
+          }
+      },
+      "responses": {
+          "200": {
+              "description": "Success",
+              "content": {
+                  "application/json": {
+                      "schema": {
+                          "$ref": "#/components/schemas/successResponse"
+                      }
+                  }
+              }
+          },
+          "401": {
+              "description": "Authentication information is misssing or invalid",
+              "content": {
+                  "application/json": {
+                      "schema": {
+                          "$ref": "#/components/schemas/UnauthorizedError"
+                      }
+                  }
+              }
+          },
+          "400": {
+              "description": "Invalid input",
+              "content": {
+                  "application/json": {
+                      "schema": {
+                          "$ref": "#/components/schemas/InvailidInput"
+                      }
+                  }
+              }
+          }
+      },
+      "securitySchemes": {
+          "bearerAuth": {
+              "type": "http",
+              "scheme": "bearer",
+              "bearerFormat": "JWT"
+          }
+      },
+      "schemas": {
+          "UnauthorizedError": {
+              "type": "object",
+              "properties": {
+                  "message": {
+                      "type": "string"
+                  }
+              },
+              "example": {
+                  "message": "Unauthorize"
+              }
+          },
+          "successResponse": {
+              "type": "object",
+              "properties": {
+                  "status": {
+                      "type": "string"
+                  },
+                  "message": {
+                      "type": "string"
+                  }
+              },
+              "example": {
+                  "status": "success",
+                  "message": "success message to server"
+              }
+          },
+          "InvailidInput": {
+              "type": "object",
+              "properties": {
+                  "status": {
+                      "type": "string"
+                  },
+                  "message": {
+                      "type": "string"
+                  }
+              },
+              "example": {
+                  "status": "error",
+                  "message": "message error"
+              }
+          },
+          "dataItems": {
+              "type": "object",
+              "properties": {
+                  "status": {
+                      "type": "string"
+                  },
+                  "message": {
+                      "type": "string"
+                  },
+                  "data": {
+                      "type": "array",
+                      "properties": {
+                          "value": {
+                              "type": "object"
+                          }
+                      }
+                  }
+              },
+              "required": [
+                  "message",
+                  "data"
+              ],
+              "example": {
+                  "status": "success",
+                  "message": "success messages to server ",
+                  "data": [
+                      {
+                          "item_id": "bvdl00fl8wd",
+                          "Item_code": "010013",
+                          "Item_category": "Persediaan",
+                          "Item_Type": "Elektronik",
+                          "SKU": "MKR-PRL-013",
+                          "Name": "Laptop Asus",
+                          "Description": "Laptop untuk Administrasi",
+                          "Uom": "pcs",
+                          "Quantity": 1,
+                          "tag_number": "123123",
+                          "id_Account": "0002",
+                          "id_location": null,
+                          "Ref_Number": "12312",
+                          "Print_Tag": "yes"
+                      },
+                      {
+                          "item_id": "ce8kzxss9zp",
+                          "Item_code": "11223344556600d",
+                          "Item_category": "Bahan Setenagh Jadi",
+                          "Item_Type": "A",
+                          "SKU": "LGK-M1",
+                          "Name": "Baju",
+                          "Description": "Baju",
+                          "Uom": "pcs",
+                          "Quantity": 1,
+                          "tag_number": "11223344556600d",
+                          "id_Account": "0002",
+                          "id_location": null,
+                          "Ref_Number": "1",
+                          "Print_Tag": "yes"
+                      }
+                  ]
+              }
+          },
+          "bulkAdd":{
+              "type": "object",
+              "properties": {
+                  "Device_ID":{
+                      "type": "string",
+                      "required": true
+                  },
+                  "items":{
+                      "type": "array",
+                      "required": true
+                  }
+              }
+          },
+          "items": {
+              "type": "object",
+              "properties": {
+                  "Item_code": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 10,
+                      "required": false
+                  },
+                  "Item_category": {
+                      "type": "string",
+                      "required": false
+                  },
+                  "Item_Type": {
+                      "type": "string",
+                      "required": false
+                  },
+                  "SKU": {
+                      "type": "string",
+                      "required": true,
+                      "maxLength": 50
+                  },
+                  "Name": {
+                      "type": "string",
+                      "required": false
+                  },
+                  "Description": {
+                      "type": "string",
+                      "required": false
+                  },
+                  "Uom": {
+                      "type": "string",
+                      "required": false
+                  },
+                  "Quantity": {
+                      "type": "number",
+                      "required": true,
+                      "maxLength": 10
+                  },
+                  "tag_number": {
+                      "required": true,
+                      "type": "string",
+                      "maxLength": 100
+                  },
+                  "Ref_Number": {
+                      "required": true,
+                      "type": "string"
+                  }
+              }
+          },
+          "arrayItems": {
+              "type": "array",
+              "items": {
+                  "$ref": "#/components/schemas/items"
+              }
+          }
+      }
+  }
+}
