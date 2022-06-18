@@ -100,6 +100,73 @@
                   }
               }
           }
+      },
+      "putaway": {
+          "post": {
+              "tags": [
+                  "Penyimpanan"
+              ],
+              "description": "endpoint to chagne status to putaway",
+              "security": [
+                  {
+                      "bearerAuth": []
+                  }
+              ],
+              "requestBody":{
+                "required": true,
+                "content":{
+                    "application/json":{
+                        "schema":{
+                          "type": "array",
+                          "properties":{
+                            "type": "object",
+                            "required": true
+                          }
+                        },
+                        "example":[
+                                {
+                                  "rfid_code": "12000000000000"
+                                },
+                                {
+                                  "rfid_code": "11000000000000"
+                                }
+                        ]
+                    }
+                }
+            },
+              "responses": {
+                  "200": {
+                      "description": "success ",
+                      "content":{
+                        "application/json":{
+                            "schema":{
+                              "type": "array",
+                              "properties":{
+                                "type": "object",
+                                "required": true
+                              }
+                            },
+                            "example":[
+                              {
+                                "rfid_code": "12000000000000",
+                                "flag" : 1
+                              },
+                              {
+                                "rfid_code": "11000000000000",
+                                "flag" : 1
+                              }
+                      ]                        
+                    }
+                    }
+                  },
+                  "400": {
+                      "$ref": "#/components/responses/400"
+                  },
+                  "401": {
+                      "$ref": "#/components/responses/401"
+                  }
+              }
+          }
       }
 
   },
@@ -188,7 +255,7 @@
                   }
               },
               "example": {
-                  "message": "Unauthorize"
+                  "message": "Api Key failed"
               }
           },
           "successResponse": {
