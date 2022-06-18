@@ -74,16 +74,16 @@
                               "$ref": "#/components/schemas/items"
                           },
                           "example":{
-                                  "Item_code": "010013",
-                                  "Item_category": "Persediaan",
-                                  "Item_Type": "Elektronik",
-                                  "SKU": "MKR-PRL-013",
-                                  "Name": "Laptop Asus",
-                                  "Description": "Laptop untuk Administrasi",
-                                  "Uom": "pcs",
+                                  "Item_code": "myprod.id",
+                                  "Item_category": "3.10.01.02.001 3.10.01.02 3.10.01 3.10 3 PERALATAN DAN MESIN  / KOMPUTER / KOMPUTER UNIT / PERSONAL KOMPUTER / P.C Unit",
+                                  "Item_Type": "product",
+                                  "SKU": "3.10.01.02.001",
+                                  "Name": "Laptop",
+                                  "Description": "Laptop Lenovo",
+                                  "Uom": "Units",
                                   "Quantity": 1,
-                                  "tag_number": "123222444222AC",
-                                  "Ref_Number": "SGA-102-AK"
+                                  "tag_number": "2030000000005",
+                                  "Ref_Number": "11002"
                           }
                       }
                   }
@@ -91,42 +91,6 @@
               "responses": {
                   "200": {
                       "$ref": "#/components/responses/200"
-                  },
-                  "400": {
-                      "$ref": "#/components/responses/400"
-                  },
-                  "401": {
-                      "$ref": "#/components/responses/401"
-                  }
-              }
-          }
-      },
-      "/api/v1/item/search/{tag}": {
-          "get": {
-              "tags": [
-                  "Master Item"
-              ],
-              "description": "endpoint to search tag to database",
-              "security": [
-                  {
-                      "bearerAuth": []
-                  }
-              ],
-              "parameters": [
-                  {
-                      "$ref": "#/components/parameters/tag"
-                  }
-              ],
-              "responses": {
-                  "200": {
-                      "description": "success get all items",
-                      "content": {
-                          "application/json": {
-                              "schema": {
-                                  "$ref": "#/components/schemas/dataItems"
-                              }
-                          }
-                      }
                   },
                   "400": {
                       "$ref": "#/components/responses/400"
