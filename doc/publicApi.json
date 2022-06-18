@@ -101,7 +101,7 @@
               }
           }
       },
-      "putaway": {
+      "/putaway": {
           "post": {
               "tags": [
                   "Penyimpanan"
@@ -270,7 +270,7 @@
               },
               "example": {
                   "status": "success",
-                  "message": "success message to server"
+                  "message": "success add items"
               }
           },
           "InvailidInput": {
