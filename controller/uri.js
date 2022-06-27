@@ -68,6 +68,7 @@ exports.getIntegrationScreen = async (req, res) => {
       let data = rows.map(item => ({
         id: item.id,
         title: item.title,
+        integration_module_screen: item.integration_module_screen === 0 ? false : true,
         table: item.table === 0 ? false : true,
         menu_order: item.menu_order,
         rfid_screen: item.rfid_screen=== 0 ? false : true,
