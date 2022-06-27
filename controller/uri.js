@@ -9,6 +9,7 @@ exports.getHomeScreen = async (req, res) => {
     if(role == '2' || role == '3'){
       query += ` AND role = '2'`;
     }
+    query += ` ORDER BY menu_order ASC`;
   
     koneksi.query(query, 
     function(error, rows, fields){
@@ -26,6 +27,7 @@ exports.getHomeScreen = async (req, res) => {
         title: item.title,
         integration_module_screen: item.integration_module_screen === 0 ? false : true,
         rfid_screen: item.rfid_screen  === 0 ? false : true,
+        menu_order: item.menu_order,
         box : item.box === 0 ? false : true,
         table_headers: item.table_headers !== null ?  JSON.parse(item.table_headers)  : [],
         search_field: item.search_field === 0 ? false : true ,
@@ -53,7 +55,7 @@ exports.getIntegrationScreen = async (req, res) => {
   try{
 
 
-    koneksi.query('SELECT * FROM menu WHERE category = "integration"',
+    koneksi.query('SELECT * FROM menu WHERE category = "integration" ORDER BY menu_order ASC',
     function(error, rows, fields){
       if(error){
         return res.status(500).json({
@@ -67,6 +69,7 @@ exports.getIntegrationScreen = async (req, res) => {
         id: item.id,
         title: item.title,
         table: item.table === 0 ? false : true,
+        menu_order: item.menu_order,
         rfid_screen: item.rfid_screen=== 0 ? false : true,
         box : item.box === 0 ? false : true,
         table_headers: item.table_headers !== null ?  JSON.parse(item.table_headers)  : [],
