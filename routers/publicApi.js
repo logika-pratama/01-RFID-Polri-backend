@@ -7,7 +7,7 @@ const stocktake = require('../controller/StockTake');
 const putaway = require('../controller/ITAM/handler/Putway');
 const gateout = require('../controller/ITAM/handler/GateOutCek');
 const logTagNumber = require('../controller/logTagNumber');
-const reader = require('../controller/readers');
+const alarm = require('../controller/alarm');
 
 // Penyimpanan
 router.post('/putaway', apikey.validateKey, logTagNumber.Putaway);
@@ -19,6 +19,9 @@ router.get('/item/search', apikey.validateKey, items.search);
 router.post('/item', apikey.validateKey, items.registerItem);
 // router.put('/item/:item_id', apikey.validateKey, items.edititem);
 router.get('/item', apikey.validateKey, items.itemById);
+
+// alarm 
+router.post('/alarm', apikey.validateKey, alarm.isAlarm);
 
 // post data 
 //router.post('/putaway', apikey.validateKey, putaway.putaway);
