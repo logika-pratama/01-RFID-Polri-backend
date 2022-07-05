@@ -15,8 +15,8 @@ router.get('/putaway', apikey.validateKey, logTagNumber.getAllTagNumber);
 router.get('/putaway/search', apikey.validateKey, logTagNumber.getTagNumberByRfid);
 // router.post('/gate', apikey.validateKey, reader.sendTag ); //  Non aktifkan End point ini saat Demo
 
-router.get('/item/search', apikey.validateKey, items.search);
 router.post('/item', apikey.validateKey, items.registerItem);
+router.get('/item/search', apikey.validateKey, items.search);
 // router.put('/item/:item_id', apikey.validateKey, items.edititem);
 router.get('/item', apikey.validateKey, items.itemById);
 

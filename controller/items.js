@@ -39,7 +39,7 @@ const itemCount = function(id, result) {
 function cektag(tag) {
     return new Promise(function(resolve, reject) {
         koneksi.query(
-            "SELECT * FROM items WHERE tag_number= ? ", [tag],
+            "SELECT tag_number FROM items WHERE tag_number IN (?) ", [tag],
             function(error, rows, fields) {
                 if (error) {
                     reject(error.sqlMessage);
@@ -196,7 +196,7 @@ exports.itemByitemId = function(req, res) {
     try{
         let id = req.params.id;
 
-        koneksi.query('SELECT * FROM items WHERE item_id= ?', [id], function(error, rows, fields) {
+        koneksi.query('SELECT * FROM items WHERE item_id = ?', [id], function(error, rows, fields) {
             if (error) {
                 console.log(error);
             } else {
@@ -282,21 +282,27 @@ exports.additem = async function(req, res) {
 
 // public API
 exports.registerItem = async (req, res) => {
-    let item_id = uniqid.process();
-    let Item_code = req.body.Item_code;
-    let Item_category = req.body.Item_category;
-    let Item_Type = req.body.Item_Type;
-    let SKU = req.body.SKU;
-    let Name = req.body.Name;
-    let Description = req.body.Description;
-    let Uom = req.body.Uom;
-    let Quantity = req.body.Quantity;
-    let tag_number = req.body.tag_number;
-    let id_Account = req.idaccount;
-    let Ref_Number = req.body.Ref_Number;
-    const created_at = new Date();
-
-    const tag = await cektag(tag_number);
+    
+    const data = req.body.map(item => ({
+            item_id: uniqid.process(),
+            Item_code: item.Item_code,
+            Item_category: item.Item_category,
+            Item_Type: item.Item_Type,
+            SKU: item.SKU,
+            Name: item.Name,
+            Description: item.Description,
+            Uom: item.Uom,
+            Quantity: item.Quantity,
+            tag_number: item.tag_number,
+            Ref_Number: item.Ref_Number,
+            Print_Tag: 'yes',
+            id_Account: req.idaccount || '0009',
+            created_at: new Date(),
+    })
+    );
+    let rfid_code = req.body.map(item => item.tag_number);
+    const tag = await cektag(rfid_code);
+    console.log(rfid_code)
     if(tag.length > 0){
         return res.status(400).json({
             status: 'error',
@@ -309,30 +315,31 @@ exports.registerItem = async (req, res) => {
         Quantity = parseInt(Quantity)
     } 
     console.log('req.body:' );
-    console.log(req.body);
-    console.log('Response : ', res.message);
+    // console.log(req.body);
+    // console.log('Response : ', res.message);
 
-    const schema = {
-        Item_code: 'string|optional',
-        Item_category: 'string|optional',
-        Item_Type: 'string|optional',
-        SKU: 'string|optional',
-        Name: 'string|optional',
-        Description: 'string|optional',
-        Uom: 'string|optional',
-        tag_number: 'string|empty:false|max:100',
-        Ref_Number: 'string|optional'
-    }
+    // const schema = {
+    //     Item_code: 'string|optional',
+    //     Item_category: 'string|optional',
+    //     Item_Type: 'string|optional',
+    //     SKU: 'string|optional',
+    //     Name: 'string|optional',
+    //     Description: 'string|optional',
+    //     Uom: 'string|optional',
+    //     tag_number: 'string|empty:false|max:100',
+    //     Ref_Number: 'string|optional'
+    // }
 
-    const validate = v.validate(req.body, schema);
-    if(validate.length){
-        return res.status(400).json({
-            status: 'error',
-            message: validate
-        }); 
-    }
-
-    koneksi.query('INSERT INTO items (item_id,Item_code,Item_category,Item_Type,SKU,Name,Description,Uom,Quantity,tag_number,Ref_Number,Print_Tag,id_Account,created_at) VALUES(?,?,?,?,?,?,?,?,?,?,?,"yes",?,?)', [item_id, Item_code, Item_category, Item_Type, SKU, Name, Description, Uom, Quantity, tag_number, Ref_Number, id_Account, created_at],
+    // const validate = v.validate(req.body, schema);
+    // if(validate.length){
+    //     return res.status(400).json({
+    //         status: 'error',
+    //         message: validate
+    //     }); 
+    // }
+    let values = data.map((item) => Object.values(item))
+    let sql = "INSERT INTO items (item_id,Item_code,Item_category,Item_Type,SKU,Name,Description,Uom,Quantity,tag_number,Ref_Number,Print_Tag,id_Account,created_at) VALUES ?"
+    koneksi.query(sql, [values],
     function(error, rows, fields) {
         if (error) {
             console.log(error);
@@ -342,10 +349,9 @@ exports.registerItem = async (req, res) => {
             })
 
         } else {
-            response.ok({
+           return response.ok({
                 status: 'success',
-                message: "successs add new item",
-                item_id: item_id
+                message: "successs add new item"
             }, res);
         }
     });
