@@ -276,3 +276,32 @@ exports.getFourhFlag = async (req, res) =>{
     })
   }
 }
+
+// Mobile Function
+exports.searchMonitoring = async (req, res) =>{
+  try{
+    const idaccount = req.idaccount;
+    const tag_number = req.query.tag_number;
+    const sql = `SELECT items.tag_number, items.name
+    FROM items 
+    RIGHT JOIN log_tag_number ON (items.tag_number=log_tag_number.tag_number)
+    WHERE log_tag_number.flag = 2 AND items.id_Account = ? AND items.tag_number = ?`;
+    koneksi.query(sql, [idaccount, tag_number],
+    function(error, rows, fields){
+      if(error){
+        console.log(error);
+      }else{
+        return res.status(200).json({
+          status: 'success',
+          total: rows.length,
+          data: rows
+        });
+      }
+    })
+  }catch(error){
+    return res.status(400).json({
+      status: 'error',
+      message: error.message
+    })
+  }
+}

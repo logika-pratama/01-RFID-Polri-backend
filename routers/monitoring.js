@@ -12,7 +12,12 @@ router.get('/', jwt.verify, jwt.cekrole(["1", "2", "3"]), monitoring.TMById);
 router.get('/putaway', jwt.verify, jwt.cekrole(["1", "2", "3"]), monitoring.TMByIdNull);
 router.post('/selectedputaway/:item_id', jwt.verify, jwt.cekrole(["1", "2", "3"]), monitoring.Putway);
 router.post('/bulkputaway', jwt.verify, jwt.cekrole(["1", "2", "3"]), monitoring.bulkPutway);
-router.get('/search/:tag', jwt.verify, jwt.cekrole(["1", "2", "3"]), monitoring.search);
+
+// Handheld API Integration 
+router.get('/search', jwt.verify, logTagNumber.searchMonitoring);
+
+// Handheld API LOCALE
+//router.get('/search/:tag', jwt.verify, jwt.cekrole(["1", "2", "3"]), monitoring.search);
 
 // ITAT
 router.get('/log', jwt.verify, jwt.cekrole(["1", "2", "3"]), logTagNumber.getSecondFlag);
