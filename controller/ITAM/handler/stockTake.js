@@ -1,8 +1,11 @@
 const path = require('path');
 const koneksi = require('../../../koneksi');
+const apiAddapter = require('../apiAddapter');
 require('dotenv').config({path: path.resolve(__dirname, '../../../.env')});
 
 
+const url = 'http://localhost:3000';
+const api = apiAddapter(url);
 
 exports.StockTake = async(req, res) =>{
     try{
@@ -41,6 +44,11 @@ exports.addStockOpname = async (req, res) => {
 
         })
         );
+        console.log(req.body);
+        const postData = req.body
+        let post = await api.post('/api/v1/stock_take', postData);
+        let data = post.data;
+        console.log("Data :", data);
 
         let values = value.map((item) => Object.values(item));  
         console.log(`values ${values}`);  

@@ -277,11 +277,43 @@ exports.getFourhFlag = async (req, res) =>{
   }
 }
 
+
+function cektag(tag) {
+  return new Promise(function(resolve, reject) {
+      koneksi.query(
+          "SELECT tag_number FROM log_tag_number WHERE tag_number IN (?) ", [tag],
+          function(error, rows, fields) {
+              if (error) {
+                  reject(error.sqlMessage);
+              } else {
+                  var a = JSON.stringify(rows);
+                  var b = JSON.parse(a);
+                  resolve(b);
+              }
+          }
+      );
+  });
+}
+
 // Mobile Function
 exports.searchMonitoring = async (req, res) =>{
   try{
     const idaccount = req.idaccount;
     const tag_number = req.query.tag_number;
+
+    const cekTag = await cektag(tag_number);
+    if(cekTag.length < 1){
+        return res.status(400).json({
+            status: 'warning',
+            message: req.t('data_not_found'),
+            data: [{
+                tag_number: tag_number,
+                Name: '',
+            }]
+        })
+    }
+
+
     const sql = `SELECT items.tag_number, items.name
     FROM items 
     RIGHT JOIN log_tag_number ON (items.tag_number=log_tag_number.tag_number)
