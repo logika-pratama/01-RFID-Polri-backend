@@ -27,7 +27,7 @@ exports.search = async(req, res) =>{
       name_asset : item.name_asset
     })
     )
-    return res.status(400).json({
+    return res.status(200).json({
       status: 'success',
       data: payload
     });
