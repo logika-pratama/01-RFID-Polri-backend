@@ -1,10 +1,11 @@
 const express = require('express');
 const router = express.Router();
 const items = require('../controller/items');
+const itemHandler = require('../controller/ITAM/handler/item')
 const jwt = require('../helper/jwt');
 const itemValidation = require('../middleware/itemValidation')
 
-router.get('/item/search', jwt.verify, items.search);
+router.get('/item/search', jwt.verify, itemHandler.search);
 router.get('/item/all', jwt.verify, jwt.cekrole(["1"]), items.allitem);
 router.get('/itemnull', jwt.verify, jwt.cekrole(["1", "2", "3"]), items.datanull);
 router.get('/item', jwt.verify, jwt.cekrole(["1", "2", "3"]), items.itemById);

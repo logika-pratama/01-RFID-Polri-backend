@@ -3,6 +3,7 @@ const router = express.Router();
 const jwt = require('../helper/jwt');
 const monitoring = require('../controller/trxmonitoring');
 const logTagNumber = require('../controller/logTagNumber');
+const handlerMonitoring = require('../controller/ITAM/handler/monitoring');
 
 router.post('/autoputaway', jwt.verify, jwt.cekrole(["1", "2", "3"]), monitoring.autoPutway);
 router.post('/', jwt.verify, jwt.cekrole(["1", "2", "3"]), monitoring.addTM);
@@ -14,7 +15,7 @@ router.post('/selectedputaway/:item_id', jwt.verify, jwt.cekrole(["1", "2", "3"]
 router.post('/bulkputaway', jwt.verify, jwt.cekrole(["1", "2", "3"]), monitoring.bulkPutway);
 
 // Handheld API Integration 
-router.get('/search', jwt.verify, logTagNumber.searchMonitoring);
+router.get('/search', jwt.verify, handlerMonitoring.search);
 
 // Handheld API LOCALE
 //router.get('/search/:tag', jwt.verify, jwt.cekrole(["1", "2", "3"]), monitoring.search);
