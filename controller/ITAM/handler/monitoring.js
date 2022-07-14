@@ -53,6 +53,13 @@ exports.search = async(req, res) =>{
     //   }
     // );
   }catch(error){
+    if(error.response.status === 400){
+      return res.status(400).json({
+        status: 'error',
+        message: error.response.data.meta.message,
+        data:[]
+      })
+    }  
     return res.status(400).json({
       status: 'error',
       message: error.message

@@ -18,15 +18,14 @@ exports.search = async(req, res) =>{
     const postData = req.body;
     // boduy 
    // console.log("Data :", tag);
-    let post = await api.get('/api/asset/detail',  { params: { asset_id: tag } });
-    
+    let post = await api.get('/api/asset/detail?',  { params: { asset_id: tag } });
     let data = post.data;
-    console.log("Data :", data);
-    const payload = data.data.map(item => ({
-      asset_id : item.asset_id,
-      name_asset : item.name_asset
-    })
-    )
+      console.log("Data :", data);
+      const payload = data.data.map(item => ({
+        asset_id : item.asset_id,
+        name_asset : item.name_asset
+      })
+      )
     return res.status(200).json({
       status: 'success',
       data: payload
@@ -56,7 +55,14 @@ exports.search = async(req, res) =>{
     //   }
     // );
   }catch(error){
-    return res.status(400).json({
+    if(error.response.status === 400){
+      return res.status(400).json({
+        status: 'error',
+        message: error.response.data.meta.message,
+        data:[]
+      })
+    }   
+    return res.status(500).json({
       status: 'error',
       message: error.message
     })
