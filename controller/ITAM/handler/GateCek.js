@@ -35,7 +35,7 @@ exports.gate = async(req, res) =>{
                     //     data: data
                     // });    
                 }else{
-                   // console.log('Dont Post Data');
+                   //console.log('Dont Post Data');
                 }
             }
         });
@@ -49,21 +49,7 @@ exports.gate = async(req, res) =>{
 }
 
 
-// exports.gate = async (req, res) =>{
-//     try{
-//         const gate = await api.post('/api/gate', req.body);
-//         const data = gate.data.data.map(flag => flag.flag);
 
-//         console.log(data);
-//         res.status(200).json(gate.data);
-//         // TOD 
-//         // Update flag from 0 -> 1
-//         // Update lfag from 3 -> 4
-//         //res.json(gate.data);
-//     }catch(error){
-   
-//     }
-// }
 
 const UpdateFlag = (tag) => {
     const sql = `UPDATE log_tag_number SET flag = 1, updated_at = NOW() WHERE tag_number IN (?)`;
