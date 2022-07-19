@@ -10,7 +10,8 @@ router.get('/konfirmst', jwt.verify, stockTake.konfirmSt);
 router.get('/stoktakereport', jwt.verify, stockTake.report);
 
 // Mobile API
-router.get('/stoktake',jwt.verify, stockTakeMobile.StockTake);
-router.post('/stoktake', jwt.verify, stockTakeMobile.addStockOpname);
+router.get('/stokopname/list', jwt.verify, stockTakeMobile.getListNoSprint);
+router.get('/stoktake',jwt.verify, stockTakeMobile.addStockOpname);
+router.post('/stoktake', jwt.verify, stockTakeMobile.addStockList);
 
 module.exports = router;

@@ -420,11 +420,38 @@ exports.hapusitem = function(req, res) {
 
 }
 
+exports.bulkDeleteItem = async (req, res) => {
+    try{
+        const tag_number = req.body.rfid_code;
+        koneksi.query('DELETE FROM items WHERE tag_number IN (?)', [tag_number],
+        function(error, rows, fields) {
+            if (error) {
+                console.log(error);
+                return res.status(500).json({
+                    status: 'error',
+                    message: error.sqlMessage
+                })
+            } else {
+                return res.send({
+                    status: 'success',
+                    message: req.t('item.success_delete_item')
+                })
+            }
+        });
+    }catch(error){
+        return res.status(400).json({
+            status: 'error',
+            message: error.message
+        }); 
+    }
+}
+
+
+
 //serach item
 exports.search = async function(req, res) {
     var id_Account = req.idaccount;
     var tag = req.query.tag_number;
-;
     const cekTag = await cektag(tag);
     if(cekTag.length < 1){
         return res.status(400).json({

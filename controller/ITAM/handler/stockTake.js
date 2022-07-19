@@ -46,7 +46,7 @@ exports.addStockList = async (req, res) => {
                 console.log(error);
             }
         })
-        const result = await koneksi.query('SELECT tag_number, flag FROM log_stock_opname WHERE no_sprint = ?', [sprint],
+        const result = await koneksi.query('SELECT tag_number, flag FROM log_stock_opname WHERE flag = 1 AND no_sprint = ?', [sprint],
         function (error, rows, fields){
             if(error){
                 console.log(error);
@@ -69,20 +69,6 @@ exports.addStockList = async (req, res) => {
 
 exports.addStockOpname = async (req, res) => {
     try{
-        // const no_sprint = req.body.no_sprint;
-        
-        // // Value to Insert to Database
-        // const value = req.body.asset_ids.map(item => ({
-        //     tag_number: item.asset_id,
-        //     flag: 0,
-        //     no_sprint: no_sprint,
-        //     created_at: new Date(),
-        //     updated_at: new Date()
-
-        // })
-        // );
-        const postData = req.body
-
         let sql = 'SELECT no_sprint, GROUP_CONCAT(tag_number) as rfid_code FROM log_stock_opname WHERE flag = 0 GROUP BY no_sprint;';
         let result = await koneksi.query(sql, function(error, rows, fields){
             if(error){
@@ -105,24 +91,7 @@ exports.addStockOpname = async (req, res) => {
                 });
             }
         });
-        // Post Data to ITAM 
-        // let post = await api.post('/api/stock_opname/stock_take', req.body);
-        // let data = post.data;
- 
-        // let values = value.map((item) => Object.values(item));  
-        // console.log(`values ${values}`);  
-        // const sql = `INSERT INTO log_stock_opname (tag_number, flag, no_sprint, created_at, updated_at) VALUES ? ON DUPLICATE KEY UPDATE flag= 0`;
-        // const result = await koneksi.query(sql, [values], function(error, rows, fields){
-        //     if(error){
-        //         //console.log(error);
-        //         throw error;
-        //     }
-        //     return res.status(200).json({
-        //         status: 'success',
-        //         message: 'succes add stock opname',
-        //         data: rows
-        //     });
-        // });
+
     }catch(error){
         res.status(400).json({
             status: 'error',

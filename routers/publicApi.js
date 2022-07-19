@@ -5,7 +5,7 @@ const user = require('../controller/users');
 const items = require('../controller/items');
 const stocktake = require('../controller/StockTake');
 const putaway = require('../controller/ITAM/handler/Putway');
-const gateout = require('../controller/ITAM/handler/GateOutCek');
+const gateout = require('../controller/ITAM/handler/GateCek');
 const logTagNumber = require('../controller/logTagNumber');
 const alarm = require('../controller/alarm');
 
